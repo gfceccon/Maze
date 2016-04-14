@@ -13,10 +13,114 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\audio">
+      <UniqueIdentifier>{94ec039f-4af3-476a-8a24-58d58e554868}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\util">
+      <UniqueIdentifier>{8aeefa8d-69b6-4198-a5cd-086de5f86a42}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\graphics">
+      <UniqueIdentifier>{79a73548-dfdc-426a-aa58-3bc6c386b08d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\audio">
+      <UniqueIdentifier>{f6f18524-73e6-4c95-87a6-e99301c38fac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\util">
+      <UniqueIdentifier>{f435c38e-b10c-4c82-a3aa-d2c065f2b513}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\graphics\core">
+      <UniqueIdentifier>{c05eec4e-7980-419e-9e49-805b8861bfb6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\graphics\model">
+      <UniqueIdentifier>{425b698e-e76c-445c-8f31-280c46061ed4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\graphics\shader">
+      <UniqueIdentifier>{1a83a5df-3ba1-4878-a57a-07b15101f3a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\graphics">
+      <UniqueIdentifier>{1f3fd639-439e-41ad-b0d4-f3d68c4b4d07}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\graphics\core">
+      <UniqueIdentifier>{b42bd6dc-6ea5-432d-8015-4b16e7efea08}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\graphics\model">
+      <UniqueIdentifier>{dab22299-97ef-438f-bd31-a5f6b419ed8d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\graphics\shader">
+      <UniqueIdentifier>{f5ad2c66-e865-4bf7-a4f9-37e0586cc935}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="framework\graphics\model\simple_model.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="framework\graphics\core\material.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="framework\graphics\core\light.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="framework\graphics\core\texture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="framework\graphics\model\obj\wave_object.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="util\matrix4f.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="util\vector3f.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="util\vector2f.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="framework\audio\audio_system.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="framework\audio\audio.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="framework\graphics\shader\Shader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="framework\graphics\model\simple_model.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="framework\graphics\core\material.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="framework\graphics\core\light.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="framework\graphics\core\texture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="framework\graphics\model\obj\wave_object.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="util\matrix4f.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="util\vector3f.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="util\vector2f.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="framework\audio\audio_system.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="framework\audio\audio.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="framework\graphics\shader\shader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
