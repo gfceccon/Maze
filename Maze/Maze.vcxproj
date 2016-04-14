@@ -45,10 +45,12 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>glew\include;glfw\include;openal\include;$(IncludePath)</IncludePath>
-    <LibraryPath>glfw\lib-vc2015;glew\lib\Release\Win32;openal\libs\Win32;$(LibraryPath)</LibraryPath>
+    <LibraryPath>glfw\lib-vc2015;glew\lib\Win32;openal\libs\Win32;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
+    <LibraryPath>glfw\lib-vc2015;glew\lib\Win32;openal\libs\Win32;$(LibraryPath)</LibraryPath>
+    <IncludePath>glew\include;glfw\include;openal\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -89,7 +91,7 @@
     <ClCompile Include="framework\graphics\core\light.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="framework\graphics\core\texture.cpp" />
-    <ClCompile Include="framework\graphics\model\obj\wave_object.cpp" />
+    <ClCompile Include="framework\graphics\model\wave\wave_object.cpp" />
     <ClCompile Include="framework\graphics\shader\shader.cpp" />
     <ClCompile Include="util\matrix4f.cpp" />
     <ClCompile Include="util\vector3f.cpp" />
@@ -102,7 +104,7 @@
     <ClInclude Include="framework\graphics\core\material.h" />
     <ClInclude Include="framework\graphics\core\light.h" />
     <ClInclude Include="framework\graphics\core\texture.h" />
-    <ClInclude Include="framework\graphics\model\obj\wave_object.h" />
+    <ClInclude Include="framework\graphics\model\wave\wave_object.h" />
     <ClInclude Include="framework\graphics\shader\shader.h" />
     <ClInclude Include="util\matrix4f.h" />
     <ClInclude Include="util\vector3f.h" />
