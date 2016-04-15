@@ -84,31 +84,41 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="framework\audio\audio.cpp" />
-    <ClCompile Include="framework\audio\audio_system.cpp" />
-    <ClCompile Include="framework\graphics\model\simple_model.cpp" />
-    <ClCompile Include="framework\graphics\core\material.cpp" />
-    <ClCompile Include="framework\graphics\core\light.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="framework\graphics\core\texture.cpp" />
-    <ClCompile Include="framework\graphics\model\wave\wave_object.cpp" />
-    <ClCompile Include="framework\graphics\shader\shader.cpp" />
-    <ClCompile Include="util\matrix4f.cpp" />
-    <ClCompile Include="util\vector3f.cpp" />
-    <ClCompile Include="util\vector2f.cpp" />
+    <ClCompile Include="src\framework\audio\audio.cpp" />
+    <ClCompile Include="src\framework\audio\audio_system.cpp" />
+    <ClCompile Include="src\framework\graphics\model\simple_model.cpp" />
+    <ClCompile Include="src\framework\graphics\core\material.cpp" />
+    <ClCompile Include="src\framework\graphics\core\light.cpp" />
+    <ClCompile Include="src\maze\path_light.cpp" />
+    <ClCompile Include="src\maze\path.cpp" />
+    <ClCompile Include="src\maze\player.cpp" />
+    <ClCompile Include="src\maze\maze.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\framework\graphics\core\texture.cpp" />
+    <ClCompile Include="src\framework\graphics\model\wave\wave_object.cpp" />
+    <ClCompile Include="src\framework\graphics\shader\shader.cpp" />
+    <ClCompile Include="src\util\matrix4f.cpp" />
+    <ClCompile Include="src\util\vector3f.cpp" />
+    <ClCompile Include="src\util\vector2f.cpp" />
+    <ClCompile Include="src\util\vector2i.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="framework\audio\audio.h" />
-    <ClInclude Include="framework\audio\audio_system.h" />
-    <ClInclude Include="framework\graphics\model\simple_model.h" />
-    <ClInclude Include="framework\graphics\core\material.h" />
-    <ClInclude Include="framework\graphics\core\light.h" />
-    <ClInclude Include="framework\graphics\core\texture.h" />
-    <ClInclude Include="framework\graphics\model\wave\wave_object.h" />
-    <ClInclude Include="framework\graphics\shader\shader.h" />
-    <ClInclude Include="util\matrix4f.h" />
-    <ClInclude Include="util\vector3f.h" />
-    <ClInclude Include="util\vector2f.h" />
+    <ClInclude Include="src\framework\audio\audio.h" />
+    <ClInclude Include="src\framework\audio\audio_system.h" />
+    <ClInclude Include="src\framework\graphics\model\simple_model.h" />
+    <ClInclude Include="src\framework\graphics\core\material.h" />
+    <ClInclude Include="src\framework\graphics\core\light.h" />
+    <ClInclude Include="src\framework\graphics\core\texture.h" />
+    <ClInclude Include="src\framework\graphics\model\wave\wave_object.h" />
+    <ClInclude Include="src\framework\graphics\shader\shader.h" />
+    <ClInclude Include="src\maze\path_light.h" />
+    <ClInclude Include="src\maze\path.h" />
+    <ClInclude Include="src\maze\player.h" />
+    <ClInclude Include="src\maze\maze.h" />
+    <ClInclude Include="src\util\matrix4f.h" />
+    <ClInclude Include="src\util\vector3f.h" />
+    <ClInclude Include="src\util\vector2f.h" />
+    <ClInclude Include="src\util\vector2i.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
