@@ -84,6 +84,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\util\color.cpp" />
+    <ClCompile Include="src\util\log.cpp" />
+    <ClCompile Include="src\framework\game.cpp" />
     <ClCompile Include="src\framework\audio\audio.cpp" />
     <ClCompile Include="src\framework\audio\audio_system.cpp" />
     <ClCompile Include="src\framework\graphics\model\simple_model.cpp" />
@@ -101,8 +104,12 @@
     <ClCompile Include="src\util\vector3f.cpp" />
     <ClCompile Include="src\util\vector2f.cpp" />
     <ClCompile Include="src\util\vector2i.cpp" />
+    <ClCompile Include="src\framework\window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\util\color.h" />
+    <ClInclude Include="src\util\log.h" />
+    <ClInclude Include="src\framework\game.h" />
     <ClInclude Include="src\framework\audio\audio.h" />
     <ClInclude Include="src\framework\audio\audio_system.h" />
     <ClInclude Include="src\framework\graphics\model\simple_model.h" />
@@ -119,6 +126,7 @@
     <ClInclude Include="src\util\vector3f.h" />
     <ClInclude Include="src\util\vector2f.h" />
     <ClInclude Include="src\util\vector2i.h" />
+    <ClInclude Include="src\framework\window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
