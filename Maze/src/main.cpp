@@ -1,5 +1,5 @@
-#include "framework\window.h"
-#include "framework\game.h"
+#include <framework\window.h>
+#include <framework\game.h>
 
 int main(void)
 { 

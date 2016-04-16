@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../util/vector3f.h"
+#include <util/vector3f.h>
 
 class Player
 {

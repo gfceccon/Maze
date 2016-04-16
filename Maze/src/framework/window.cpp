@@ -4,7 +4,7 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 #include <cstdlib>
-#include "../util/log.h"
+#include <util/log.h>
 
 
 Window::Window(const char* title, int width, int height)

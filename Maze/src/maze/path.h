@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../util/vector2i.h"
-#include "maze.h"
+#include <util/vector2i.h>
+#include <maze/maze.h>
 #include <vector>
 #include <queue>
 
