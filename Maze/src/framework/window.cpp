@@ -58,6 +58,7 @@ Window::~Window()
 void Window::start(Game* game)
 {
 	glfwSetKeyCallback(window, keyCallback);
+	glViewport(0, 0, width, height);
 
 	do
 	{

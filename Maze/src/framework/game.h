@@ -4,10 +4,16 @@
 #include <GLFW/glfw3.h>
 
 #include <util/color.h>
+#include <framework/graphics/model/obj/square.h>
+#include <framework/graphics/shader/shader.h>
 
 class Game
 {
 	Color clear;
+	Square* square;
+	GLuint program;
+	Shader* vertex_shader;
+	Shader* frag_shader;
 public:
 	Game();
 	~Game();
