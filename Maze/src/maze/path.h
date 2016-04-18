@@ -1,17 +1,16 @@
 #pragma once
 
-#include <util/vector2i.h>
 #include <maze/maze.h>
 #include <vector>
 #include <queue>
+#include <vec2.hpp>
 
 
 class Path
 {
-	std::vector<Vector2i> path;
 public:
 	Path();
 	~Path();
-	static Path getClosestPath(Maze* maze, Vector2i begin, Vector2i end);
+	static Path getClosestPath(Maze* maze, glm::ivec2 begin, glm::ivec2 end);
 };
 

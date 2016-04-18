@@ -44,13 +44,13 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>glew\include;glfw\include;openal\include;src;$(IncludePath)</IncludePath>
+    <IncludePath>glew\include;glfw\include;openal\include;src;src\util\glm;$(IncludePath)</IncludePath>
     <LibraryPath>glfw\lib-vc2015;glew\lib\Win32;openal\libs\Win32;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <LibraryPath>glfw\lib-vc2015;glew\lib\Win32;openal\libs\Win32;$(LibraryPath)</LibraryPath>
-    <IncludePath>glew\include;glfw\include;openal\include;$(IncludePath)</IncludePath>
+    <IncludePath>glew\include;glfw\include;openal\include;src;src\util\glm;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -84,8 +84,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\framework\graphics\model\obj\cube.cpp" />
+    <ClCompile Include="src\framework\graphics\core\camera.cpp" />
     <ClCompile Include="src\framework\graphics\model\obj\square.cpp" />
-    <ClCompile Include="src\framework\graphics\model\obj\wave_object.cpp" />
     <ClCompile Include="src\util\color.cpp" />
     <ClCompile Include="src\util\log.cpp" />
     <ClCompile Include="src\framework\game.cpp" />
@@ -102,15 +103,12 @@
     <ClCompile Include="src\framework\graphics\core\texture.cpp" />
     <ClCompile Include="src\framework\graphics\model\wave\wave_object.cpp" />
     <ClCompile Include="src\framework\graphics\shader\shader.cpp" />
-    <ClCompile Include="src\util\matrix4f.cpp" />
-    <ClCompile Include="src\util\vector3f.cpp" />
-    <ClCompile Include="src\util\vector2f.cpp" />
-    <ClCompile Include="src\util\vector2i.cpp" />
     <ClCompile Include="src\framework\window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\framework\graphics\model\obj\cube.h" />
+    <ClInclude Include="src\framework\graphics\core\camera.h" />
     <ClInclude Include="src\framework\graphics\model\obj\square.h" />
-    <ClInclude Include="src\framework\graphics\model\obj\wave_object.h" />
     <ClInclude Include="src\util\color.h" />
     <ClInclude Include="src\util\log.h" />
     <ClInclude Include="src\framework\game.h" />
@@ -126,10 +124,6 @@
     <ClInclude Include="src\maze\path.h" />
     <ClInclude Include="src\maze\player.h" />
     <ClInclude Include="src\maze\maze.h" />
-    <ClInclude Include="src\util\matrix4f.h" />
-    <ClInclude Include="src\util\vector3f.h" />
-    <ClInclude Include="src\util\vector2f.h" />
-    <ClInclude Include="src\util\vector2i.h" />
     <ClInclude Include="src\framework\window.h" />
   </ItemGroup>
   <ItemGroup>

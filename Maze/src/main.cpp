@@ -3,8 +3,9 @@
 
 int main(void)
 { 
-	Window* window = new Window("Maze", 800, 600);
-	Game* game = new Game();
+	const int width = 800, height = 600;
+	Window* window = new Window("Maze", width, height);
+	Game* game = new Game(width, height);
 	game->setClearColor(Color(1.0f, 1.0f, 1.0f, 1.0f));
 
 	window->start(game);

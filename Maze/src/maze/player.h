@@ -1,12 +1,12 @@
 #pragma once
 
-#include <util/vector3f.h>
+#include <vec3.hpp>
 
 class Player
 {
 	friend class Audio;
-	Vector3f position;
-	Vector3f front;
+	glm::mediump_vec3 position;
+	glm::mediump_vec3 front;
 public:
 	Player();
 	~Player();

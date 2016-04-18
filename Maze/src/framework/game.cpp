@@ -2,14 +2,15 @@
 
 #include <util/log.h>
 
-Game::Game()
+Game::Game(int width, int height)
 {
-	square = new Square();
+	cube = new Cube();
+	camera = new Camera(width, height);
 
 	program = glCreateProgram();
 
 	vertex_shader = new	Shader("simple_vertex.glsl", GL_VERTEX_SHADER, program);
-	frag_shader = new	Shader("simple_fragment.glsl", GL_FRAGMENT_SHADER, program);
+	frag_shader = new Shader("simple_fragment.glsl", GL_FRAGMENT_SHADER, program);
 
 	glLinkProgram(program);
 
@@ -22,7 +23,8 @@ Game::Game()
 		Log::error(info);
 	}
 
-	square->bind();
+	cube->bind();
+	camera->translate(0.0f, 0.0f, -3.0f);
 }
 
 
@@ -31,7 +33,8 @@ Game::~Game()
 	glDeleteProgram(program);
 	delete vertex_shader;
 	delete frag_shader;
-	delete square;
+	delete cube;
+	delete camera;
 }
 
 
@@ -43,16 +46,22 @@ void Game::setClearColor(Color& color)
 
 
 
-void Game::update()
+void Game::update(float delta)
 {
 
 }
 
-void Game::draw()
+void Game::draw(float delta)
 {
-	glClear(GL_COLOR_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glUseProgram(program);
-	square->draw();
+
+	camera->bind(program, vertex_shader);
+
+	glm::vec3 axis(0.0f, 1.0f, 1.0f);
+	cube_transf = glm::rotate(cube_transf, glm::radians(20.0f * delta), axis);
+	vertex_shader->setMat4(cube_transf, "transform");
+	cube->draw();
 }
 
 

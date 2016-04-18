@@ -16,6 +16,11 @@ class Maze
 {
 	int width, height;
 	Tile* tiles;
+
+	size_t i(size_t x, size_t y)
+	{
+		return y * width + x;
+	}
 public:
 	Maze(int width, int height);
 	~Maze();

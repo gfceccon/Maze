@@ -90,18 +90,6 @@
     <ClCompile Include="src\framework\graphics\shader\shader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\util\matrix4f.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\util\vector2f.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\util\vector3f.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\util\vector2i.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\framework\window.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -114,10 +102,13 @@
     <ClCompile Include="src\util\color.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\framework\graphics\model\obj\wave_object.cpp">
+    <ClCompile Include="src\framework\graphics\model\obj\square.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\framework\graphics\model\obj\square.cpp">
+    <ClCompile Include="src\framework\graphics\core\camera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\graphics\model\obj\cube.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -158,18 +149,6 @@
     <ClInclude Include="src\framework\graphics\shader\shader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\util\matrix4f.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\util\vector2f.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\util\vector3f.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\util\vector2i.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\framework\window.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -182,10 +161,13 @@
     <ClInclude Include="src\util\color.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\framework\graphics\model\obj\wave_object.h">
+    <ClInclude Include="src\framework\graphics\model\obj\square.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\framework\graphics\model\obj\square.h">
+    <ClInclude Include="src\framework\graphics\core\camera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\graphics\model\obj\cube.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -13,11 +13,7 @@ class Window
 public:
 	Window(const char* title, int width, int height);
 	~Window();
-	bool init();
-	void quit();
+
 	void start(Game* game);
 	friend void errorCallback(int error, const char* description);
-
-	int getWith();
-	int getHeight();
 };

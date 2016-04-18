@@ -5,6 +5,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <util/log.h>
+#include <ctime>
 
 
 Window::Window(const char* title, int width, int height)
@@ -59,15 +60,24 @@ void Window::start(Game* game)
 {
 	glfwSetKeyCallback(window, keyCallback);
 	glViewport(0, 0, width, height);
+	glEnable(GL_DEPTH_TEST);
+
+	double time;
+	double delta = glfwGetTime();
 
 	do
 	{
 		glfwPollEvents();
 
-		game->update();
-		game->draw();
+		time = glfwGetTime();
+
+		game->update(static_cast<float>(delta));
+		game->draw(static_cast<float>(delta));
 
 		glfwSwapBuffers(window);
+
+		delta = glfwGetTime() - time;
+		time = glfwGetTime();
 
 	} while (!glfwWindowShouldClose(window));
 }

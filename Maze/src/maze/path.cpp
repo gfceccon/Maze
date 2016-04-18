@@ -17,7 +17,7 @@ struct Node
 	
 };
 
-Path Path::getClosestPath(Maze * maze, Vector2i begin, Vector2i end)
+Path Path::getClosestPath(Maze * maze, glm::ivec2 begin, glm::ivec2 end)
 {
 	return Path();
 }

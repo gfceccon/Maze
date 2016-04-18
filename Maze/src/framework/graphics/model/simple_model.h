@@ -15,7 +15,7 @@ public:
 	~SimpleModel();
 	void bind(GLenum drawing);
 	void draw(GLenum mode);
-	virtual void draw() { };
-	virtual void bind() { };
+	virtual void draw() { bind(GL_TRIANGLES); };
+	virtual void bind() { draw(GL_STATIC_DRAW); };
 };
 
