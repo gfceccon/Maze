@@ -38,36 +38,3 @@ Shader::~Shader()
 {
 	glDeleteShader(shader);
 }
-
-void Shader::setFloat(const GLfloat& value, const char* uniform)
-{
-	GLint location = glGetUniformLocation(program, uniform);
-	if (location != -1)
-		glUniform1f(location, value);
-}
-
-void Shader::setVec3(const glm::vec3& value, const char* uniform)
-{
-	GLint location = glGetUniformLocation(program, uniform);
-	if (location != -1)
-		glUniform3f(location, value.x, value.y, value.z);
-}
-void Shader::setVec4(const glm::vec4& value, const char* uniform)
-{
-
-	GLint location = glGetUniformLocation(program, uniform);
-	if (location != -1)
-		glUniform4f(location, value.x, value.y, value.z, value.w);
-}
-void Shader::setMat3(const glm::mat3& value, const char* uniform)
-{
-	GLint location = glGetUniformLocation(program, uniform);
-	if (location != -1)
-		glUniformMatrix3fv(location, 1, GL_FALSE, glm::value_ptr(value));
-}
-void Shader::setMat4(const glm::mat4& value, const char* uniform)
-{
-	GLint location = glGetUniformLocation(program, uniform);
-	if (location != -1)
-		glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(value));
-}

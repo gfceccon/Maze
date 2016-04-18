@@ -4,36 +4,22 @@
 
 Game::Game(int width, int height)
 {
-	cube = new Cube();
+	maze = new Maze("maze.bmp");
 	camera = new Camera(width, height);
+	program = new Program();
 
-	program = glCreateProgram();
+	program->addShader("simple_vertex.glsl", GL_VERTEX_SHADER)
+		->addShader("simple_fragment.glsl", GL_FRAGMENT_SHADER);
+	program->link();
 
-	vertex_shader = new	Shader("simple_vertex.glsl", GL_VERTEX_SHADER, program);
-	frag_shader = new Shader("simple_fragment.glsl", GL_FRAGMENT_SHADER, program);
-
-	glLinkProgram(program);
-
-	GLint status;
-	glGetProgramiv(program, GL_LINK_STATUS, &status);
-	if (!status)
-	{
-		GLchar info[512];
-		glGetProgramInfoLog(program, 512, nullptr, info);
-		Log::error(info);
-	}
-
-	cube->bind();
-	camera->translate(0.0f, 0.0f, -3.0f);
+	camera->translate(-10.5f, -10.5f, -25.0f);
 }
 
 
 Game::~Game()
 {
-	glDeleteProgram(program);
-	delete vertex_shader;
-	delete frag_shader;
-	delete cube;
+	delete program;
+	delete maze;
 	delete camera;
 }
 
@@ -54,14 +40,11 @@ void Game::update(float delta)
 void Game::draw(float delta)
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glUseProgram(program);
+	program->use();
 
-	camera->bind(program, vertex_shader);
+	camera->bind(program);
 
-	glm::vec3 axis(0.0f, 1.0f, 1.0f);
-	cube_transf = glm::rotate(cube_transf, glm::radians(20.0f * delta), axis);
-	vertex_shader->setMat4(cube_transf, "transform");
-	cube->draw();
+	maze->draw(program);
 }
 
 

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <GL/glew.h>
+#include <framework/graphics/shader/program.h>
 #include <framework/graphics/shader/shader.h>
 #include <matrix.hpp>
 #include <gtc/matrix_transform.hpp>
@@ -29,7 +30,7 @@ public:
 
 	void setProjectionPersp(float fov, float near, float far);
 	void setProjectionOrtho();
-	void bind(GLuint program, Shader* shader);
+	void bind(Program* program);
 
 	void translate(float x, float y, float z);
 	void rotate(Axis axis, float degrees);

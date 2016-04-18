@@ -31,10 +31,10 @@ void Camera::setProjectionPersp(float fov, float near, float far)
 	projection = glm::perspective(glm::radians(fov), aspect, near, far);
 }
 
-void Camera::bind(GLuint program, Shader* shader)
+void Camera::bind(Program* program)
 {
-	shader->setMat4(projection, projection_name);
-	shader->setMat4(view, view_name);
+	program->setMat4(projection, projection_name);
+	program->setMat4(view, view_name);
 }
 
 

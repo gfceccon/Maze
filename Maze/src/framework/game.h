@@ -7,20 +7,19 @@
 #include <mat4x4.hpp>
 #include <gtc/matrix_transform.hpp>
 
+#include <maze/maze.h>
 #include <framework/graphics/core/camera.h>
 #include <util/color.h>
 #include <framework/graphics/model/obj/cube.h>
+#include <framework/graphics/shader/program.h>
 #include <framework/graphics/shader/shader.h>
 
 class Game
 {
 	Camera* camera;
+	Program* program;
+	Maze* maze;
 	Color clear;
-	GLuint program;
-	Cube* cube;
-	glm::mat4 cube_transf;
-	Shader* vertex_shader;
-	Shader* frag_shader;
 public:
 	Game(int width, int height);
 	~Game();
