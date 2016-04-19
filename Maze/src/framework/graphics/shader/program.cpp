@@ -15,7 +15,7 @@ Program::~Program()
 	glDeleteProgram(program);
 }
 
-void Program::link()
+void Program::Link()
 {
 	glLinkProgram(program);
 
@@ -25,49 +25,49 @@ void Program::link()
 	{
 		GLchar info[512];
 		glGetProgramInfoLog(program, 512, nullptr, info);
-		Log::error(info);
+		Log::Error(info);
 	}
 }
 
-void Program::use()
+void Program::Use()
 {
 	glUseProgram(program);
 }
 
-Program* Program::addShader(const char* fname, GLenum type)
+Program* Program::AddShader(const char* fname, GLenum type)
 {
 	shaders.push_back(new Shader(fname, type, program));
 	return this;
 }
 
 
-void Program::setFloat(const GLfloat& value, const char* uniform)
+void Program::SetFloat(const GLfloat& value, const char* uniform)
 {
 	GLint location = glGetUniformLocation(program, uniform);
 	if (location != -1)
 		glUniform1f(location, value);
 }
 
-void Program::setVec3(const glm::vec3& value, const char* uniform)
+void Program::SetVec3(const glm::vec3& value, const char* uniform)
 {
 	GLint location = glGetUniformLocation(program, uniform);
 	if (location != -1)
 		glUniform3f(location, value.x, value.y, value.z);
 }
-void Program::setVec4(const glm::vec4& value, const char* uniform)
+void Program::SetVec4(const glm::vec4& value, const char* uniform)
 {
 
 	GLint location = glGetUniformLocation(program, uniform);
 	if (location != -1)
 		glUniform4f(location, value.x, value.y, value.z, value.w);
 }
-void Program::setMat3(const glm::mat3& value, const char* uniform)
+void Program::SetMat3(const glm::mat3& value, const char* uniform)
 {
 	GLint location = glGetUniformLocation(program, uniform);
 	if (location != -1)
 		glUniformMatrix3fv(location, 1, GL_FALSE, glm::value_ptr(value));
 }
-void Program::setMat4(const glm::mat4& value, const char* uniform)
+void Program::SetMat4(const glm::mat4& value, const char* uniform)
 {
 	GLint location = glGetUniformLocation(program, uniform);
 	if (location != -1)

@@ -3,13 +3,15 @@
 #include <cstdio>
 #include <string>
 #include <sstream>
+#include <cstdlib>
+#include <ctime>
 
 #include <util/bitmap.h>
 
 Maze::Maze(int width, int height, float size) : width(width), height(height), size(size)
 {
 	tiles = new Tile[width * height];
-	bind();
+	Bind();
 }
 
 Maze::Maze(const char* bmp, float size) : size(size)
@@ -34,48 +36,45 @@ Maze::Maze(const char* bmp, float size) : size(size)
 		if (!(r || g || b))
 		{
 			tiles[i] = Tile::WALL;
-			walls.push_back(glm::ivec3(x(i), y(i), 0));
+			walls.push_back(glm::ivec3(x(i) - width / 2, 0, y(i) - height / 2));
 		}
 		else if (r && g && b)
 			tiles[i] = Tile::EMPTY;
 		else if (!r && !g && b)
-		{
 			tiles[i] = Tile::ENTRY;
-			entry = glm::ivec3(x(i), y(i), 0);
-		}
 		else if (r && !g && !b)
-		{
 			tiles[i] = Tile::EXIT;
-			exit = glm::ivec3(x(i), y(i), 0);
-		}
 	}
-	bind();
+	Bind();
 }
 
 Maze::~Maze()
 {
 }
 
-void Maze::bind()
+void Maze::Bind()
 {
-	cube.bind();
+	//cube.Bind();
 }
 
-void Maze::draw(Program* program)
+void Maze::Draw(Program* program)
 {
-	cube.bind();
+	cube.Bind();
+	srand(time(NULL));
 	for (const glm::ivec3 pos : walls)
 	{
 		glm::mat4 transform;
+		glm::vec3 color((float)rand() / (float) RAND_MAX, (float)rand() / (float)RAND_MAX, (float)rand() / (float)RAND_MAX);
 		transform = glm::translate(transform, size * glm::vec3(pos));
-		transform = glm::scale(transform, size * glm::vec3(1.0f, 1.0f, 1.0f));
-		program->setMat4(transform, "transform");
-		cube.draw();
+		transform = glm::scale(transform, size * glm::vec3(0.999f, 0.999f, 0.999f));
+		program->SetMat4(transform, "transform");
+		program->SetVec3(color, "color");
+		cube.Draw();
 	}
 	
 }
 
-Tile * Maze::copyBoard()
+Tile * Maze::CopyBoard()
 {
 	Tile* cpy = new Tile[width * height];
 	std::memcpy(cpy, tiles, sizeof(Tile) * width * height);

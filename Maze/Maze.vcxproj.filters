@@ -120,6 +120,9 @@
     <ClCompile Include="src\util\endian.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\framework\event.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\maze\maze.h">
@@ -189,6 +192,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\util\endian.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\event.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

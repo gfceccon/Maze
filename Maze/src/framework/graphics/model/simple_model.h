@@ -9,13 +9,13 @@ protected:
 	GLfloat *vertices, *normals;
 	GLuint *indices;
 	GLsizei nvertices, nindices, nnormals;
-	void init();
+	void Init();
 public:
 	SimpleModel();
 	~SimpleModel();
-	void bind(GLenum drawing);
-	void draw(GLenum mode);
-	virtual void draw() { bind(GL_TRIANGLES); };
-	virtual void bind() { draw(GL_STATIC_DRAW); };
+	void Bind(GLenum drawing);
+	void Draw(GLenum mode);
+	virtual void Draw() { Bind(GL_TRIANGLES); };
+	virtual void Bind() { Draw(GL_STATIC_DRAW); };
 };
 

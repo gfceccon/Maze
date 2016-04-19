@@ -28,7 +28,7 @@ Shader::Shader(const char* fname, GLenum type, GLuint program) : program(program
 	{
 		GLchar info[512];
 		glGetShaderInfoLog(shader, 512, nullptr, info);
-		Log::error(info);
+		Log::Error(info);
 	}
 	else
 		glAttachShader(program, shader);

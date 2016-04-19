@@ -10,7 +10,7 @@
 
 Window::Window(const char* title, int width, int height)
 {
-	glfwSetErrorCallback(errorCallback);
+	glfwSetErrorCallback(ErrorCallback);
 	if (!glfwInit())
 		exit(EXIT_FAILURE);
 
@@ -24,7 +24,7 @@ Window::Window(const char* title, int width, int height)
 
 	if (!window)
 	{
-		Log::error("Failed to open GLFW window");
+		Log::Error("Failed to open GLFW window");
 		glfwTerminate();
 		exit(EXIT_FAILURE);
 	}
@@ -36,16 +36,16 @@ Window::Window(const char* title, int width, int height)
 	//If GLEW hasn't initialized  
 	if (err != GLEW_OK)
 	{
-		Log::error("Failed to open GLFW window");
-		Log::error(glewGetErrorString(err));
+		Log::Error("Failed to open GLFW window");
+		Log::Error(glewGetErrorString(err));
 		glfwTerminate();
 		exit(EXIT_FAILURE);
 	}
 
-	Log::print("OpenGL version: ");
-	Log::print(glGetString(GL_VERSION));
-	Log::print("GLSL version: ");
-	Log::print(glGetString(GL_SHADING_LANGUAGE_VERSION));
+	Log::Print("OpenGL version: ");
+	Log::Print(glGetString(GL_VERSION));
+	Log::Print("GLSL version: ");
+	Log::Print(glGetString(GL_SHADING_LANGUAGE_VERSION));
 }
 
 Window::~Window()
@@ -56,9 +56,13 @@ Window::~Window()
 	exit(EXIT_SUCCESS);
 }
 
-void Window::start(Game* game)
+void Window::Start(Game* game)
 {
-	glfwSetKeyCallback(window, keyCallback);
+	glfwSetKeyCallback(window, KeyCallback);
+	glfwSetCursorPosCallback(window , MouseCallback);
+	glfwSetScrollCallback(window, ScrollCallback);
+	glfwSetWindowPos(window, 50, 50);
+	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	glViewport(0, 0, width, height);
 	glEnable(GL_DEPTH_TEST);
 
@@ -71,19 +75,21 @@ void Window::start(Game* game)
 
 		time = glfwGetTime();
 
-		game->update(static_cast<float>(delta));
-		game->draw(static_cast<float>(delta));
+		game->Update(static_cast<float>(delta));
+		game->Draw(static_cast<float>(delta));
 
 		glfwSwapBuffers(window);
 
 		delta = glfwGetTime() - time;
 		time = glfwGetTime();
 
+		Log::Print(1.0f / (float)delta);
+
 	} while (!glfwWindowShouldClose(window));
 }
 
 
-void errorCallback(int error, const char* description)
+void ErrorCallback(int error, const char* description)
 {
-	Log::error(description);
+	Log::Error(description);
 }

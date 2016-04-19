@@ -40,12 +40,12 @@ class Maze
 	{
 		return i / width;
 	}
-	void bind();
+	void Bind();
 public:
 	Maze(int width, int height, float size = 1.0f);
 	Maze(const char* bmp, float size = 1.0f);
 	~Maze();
-	void draw(Program* program);
-	Tile* copyBoard();
+	void Draw(Program* program);
+	Tile* CopyBoard();
 };
 

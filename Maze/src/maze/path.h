@@ -11,6 +11,6 @@ class Path
 public:
 	Path();
 	~Path();
-	static Path getClosestPath(Maze* maze, glm::ivec2 begin, glm::ivec2 end);
+	static Path GetClosestPath(Maze* maze, glm::ivec2 begin, glm::ivec2 end);
 };
 
