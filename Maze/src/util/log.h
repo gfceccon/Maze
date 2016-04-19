@@ -6,13 +6,13 @@
 class Log
 {
 public:
-	static void Print(const char* msg);
-	static void Print(const int msg);
-	static void Print(const float msg);
-	static void Print(const GLubyte* msg);
+	static void print(const char* msg);
+	static void print(const int msg);
+	static void print(const float msg);
+	static void print(const GLubyte* msg);
 
-	static void Error(const char* err);
-	static void Error(const int msg);
-	static void Error(const float msg);
-	static void Error(const GLubyte* err);
+	static void error(const char* err);
+	static void error(const int msg);
+	static void error(const float msg);
+	static void error(const GLubyte* err);
 };

@@ -10,7 +10,7 @@
 
 Window::Window(const char* title, int width, int height)
 {
-	glfwSetErrorCallback(ErrorCallback);
+	glfwSetErrorCallback(errorCallback);
 	if (!glfwInit())
 		exit(EXIT_FAILURE);
 
@@ -24,7 +24,7 @@ Window::Window(const char* title, int width, int height)
 
 	if (!window)
 	{
-		Log::Error("Failed to open GLFW window");
+		Log::error("Failed to open GLFW window");
 		glfwTerminate();
 		exit(EXIT_FAILURE);
 	}
@@ -36,16 +36,16 @@ Window::Window(const char* title, int width, int height)
 	//If GLEW hasn't initialized  
 	if (err != GLEW_OK)
 	{
-		Log::Error("Failed to open GLFW window");
-		Log::Error(glewGetErrorString(err));
+		Log::error("Failed to open GLFW window");
+		Log::error(glewGetErrorString(err));
 		glfwTerminate();
 		exit(EXIT_FAILURE);
 	}
 
-	Log::Print("OpenGL version: ");
-	Log::Print(glGetString(GL_VERSION));
-	Log::Print("GLSL version: ");
-	Log::Print(glGetString(GL_SHADING_LANGUAGE_VERSION));
+	Log::print("OpenGL version: ");
+	Log::print(glGetString(GL_VERSION));
+	Log::print("GLSL version: ");
+	Log::print(glGetString(GL_SHADING_LANGUAGE_VERSION));
 }
 
 Window::~Window()
@@ -56,11 +56,11 @@ Window::~Window()
 	exit(EXIT_SUCCESS);
 }
 
-void Window::Start(Game* game)
+void Window::start(Game* game)
 {
-	glfwSetKeyCallback(window, KeyCallback);
-	glfwSetCursorPosCallback(window , MouseCallback);
-	glfwSetScrollCallback(window, ScrollCallback);
+	glfwSetKeyCallback(window, keyCallback);
+	glfwSetCursorPosCallback(window , mouseCallback);
+	glfwSetScrollCallback(window, scrollCallback);
 	glfwSetWindowPos(window, 50, 50);
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	glViewport(0, 0, width, height);
@@ -75,21 +75,21 @@ void Window::Start(Game* game)
 
 		time = glfwGetTime();
 
-		game->Update(static_cast<float>(delta));
-		game->Draw(static_cast<float>(delta));
+		game->update(static_cast<float>(delta));
+		game->draw(static_cast<float>(delta));
 
 		glfwSwapBuffers(window);
 
 		delta = glfwGetTime() - time;
 		time = glfwGetTime();
 
-		Log::Print(1.0f / (float)delta);
+		//Log::print(1.0f / (float)delta);
 
 	} while (!glfwWindowShouldClose(window));
 }
 
 
-void ErrorCallback(int error, const char* description)
+void errorCallback(int error, const char* description)
 {
-	Log::Error(description);
+	Log::error(description);
 }

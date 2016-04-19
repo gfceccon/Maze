@@ -9,6 +9,7 @@
 #include <gtc/matrix_transform.hpp>
 
 #include <maze/maze.h>
+#include <maze/player.h>
 #include <util/color.h>
 #include <framework/event.h>
 #include <framework/graphics/core/camera.h>
@@ -18,25 +19,26 @@
 
 class Game
 {
+	Player* player;
 	Camera* camera;
 	Program* program;
 	Maze* maze;
 	Color clear;
-	static Event* lastMouse;
+	static Event* last_mouse;
 	static std::queue<Event*> events;
-	static bool keyStates[1024];
-	float moveSensibility = 2.5f, zoomSensibility = .98f, rotationSensibility = 25.0f;
+	static bool key_states[1024];
+	float move_sensibility = 2.5f, zoom_sensibility = .98f, rotation_sensibility = 25.0f;
 public:
 	Game(int width, int height);
 	~Game();
 
-	void SetClearColor(Color& color);
+	void setClearColor(Color& color);
 
-	void Update(float delta);
-	void Draw(float delta);
+	void update(float delta);
+	void draw(float delta);
 
-	friend void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
-	friend void MouseCallback(GLFWwindow* window, double xpos, double ypos);
-	friend void ScrollCallback(GLFWwindow* window, double xoffset, double yoffset);
+	friend void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
+	friend void mouseCallback(GLFWwindow* window, double xpos, double ypos);
+	friend void scrollCallback(GLFWwindow* window, double xoffset, double yoffset);
 };
 

@@ -6,6 +6,7 @@
 #include <matrix.hpp>
 #include <gtc/matrix_transform.hpp>
 #include <gtc/type_ptr.hpp>
+#include <maze/player.h>
 
 #define MIN_FOV 15.0f
 #define MAX_FOV 120.0f
@@ -13,13 +14,11 @@
 #define MAX_FAR 100.0f
 #define LIMIT_PITCH 89.0f
 
-enum Axis
-{
-	X, Y, Z
-};
 
 class Camera
 {
+	friend class Player;
+
 	int width, height;
 	float aspect;
 	glm::mat4 projection;
@@ -32,22 +31,18 @@ class Camera
 	glm::vec3 front, up, right;
 	glm::vec3 position;
 
-	void Translate(float x, float y, float z);
-	void Rotate(Axis axis, float degrees);
-	void Scale(float x, float y, float z);
-
+	//void move(Axis direction, float amount);
+	//void move(float x, float y, float z);
 public:
 	Camera(int width, int height);
 	~Camera();
 
-	void SetProjectionPersp(float fov, float near, float far);
-	void SetProjectionOrtho();
-	void Bind(Program* program);
-	void Update();
+	void setProjectionPersp(float fov, float near, float far);
+	void setProjectionOrtho(float x, float y, float width, float height);
+	void bind(Program* program);
+	void update(Player* player);
 
-	void Move(Axis direction, float amount);
-	void Move(float x, float y, float z);
-	void Zoom(float amount);
-	void AddEuler(float pitch, float yaw, float roll);
+	void zoom(float amount);
+	void addEuler(float pitch, float yaw, float roll);
 };
 

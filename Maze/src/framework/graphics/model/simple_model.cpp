@@ -15,7 +15,7 @@ SimpleModel::~SimpleModel()
 	glDeleteBuffers(1, &nbo);
 }
 
-void SimpleModel::Init()
+void SimpleModel::init()
 {
 	if (!vertices)
 		return;
@@ -30,11 +30,11 @@ void SimpleModel::Init()
 
 	if ((err = glGetError()) != GL_NO_ERROR)
 	{
-		Log::Error(glewGetErrorString(err));
+		Log::error(glewGetErrorString(err));
 	}
 }
 
-void SimpleModel::Bind(GLenum drawing)
+void SimpleModel::bind(GLenum drawing)
 {
 	if (!vertices)
 		return;
@@ -57,7 +57,7 @@ void SimpleModel::Bind(GLenum drawing)
 	glBindVertexArray(0);
 }
 
-void SimpleModel::Draw(GLenum mode)
+void SimpleModel::draw(GLenum mode)
 {
 	if (!vertices)
 		return;

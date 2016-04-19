@@ -6,20 +6,19 @@
 Camera::Camera(int w, int h) : width(w), height(h)
 {
 	aspect = (float)w / (float)h;
-	SetProjectionPersp(fov, near, far);
-	//SetProjectionOrtho();
+	setProjectionPersp(fov, near, far);
 }
 
 Camera::~Camera()
 {
 }
 
-void Camera::SetProjectionOrtho()
+void Camera::setProjectionOrtho(float x, float y, float width, float height)
 {
-	projection = glm::ortho<float>(0.0f, width, 0.0f, height);
+	projection = glm::ortho<float>(x, x + width, y, y + height);
 }
 
-void Camera::SetProjectionPersp(float fov, float near, float far)
+void Camera::setProjectionPersp(float fov, float near, float far)
 {
 	if (fov < FLT_EPSILON || fov > MAX_FOV)
 		return;
@@ -33,82 +32,46 @@ void Camera::SetProjectionPersp(float fov, float near, float far)
 	projection = glm::perspective(glm::radians(fov), aspect, near, far);
 }
 
-void Camera::Bind(Program* program)
+void Camera::bind(Program* program)
 {
-	program->SetMat4(projection, projectionName);
-	program->SetMat4(view, viewName);
+	program->setMat4(projection, projectionName);
+	program->setMat4(view, viewName);
 }
 
+//void Camera::move(Axis direction, float amount)
+//{
+//	glm::vec3 right = this->right;
+//	right.y = 0.0f;
+//	glm::vec3 front = this->front;
+//	front.y = 0.0f;
+//	switch (direction)
+//	{
+//	case X:
+//		position = position + amount * right;
+//		break;
+//	case Y:
+//		position = position + amount * globalUp;
+//		break;
+//	case Z:
+//		position = position + amount * front;
+//	default:
+//		break;
+//	}
+//}
+//
+//void Camera::move(float x, float y, float z)
+//{
+//	glm::vec3 right = this->right;
+//	right.y = 0.0f;
+//	glm::vec3 front = this->front;
+//	front.y = 0.0f;
+//
+//	position = position + x * right;
+//	position = position + y * globalUp;
+//	position = position + z * front;
+//}
 
-void Camera::Translate(float x, float y, float z)
-{
-	glm::vec3 translation(x, y, z);
-	view = glm::translate(view, translation);
-}
-
-void Camera::Rotate(Axis axis, float degrees)
-{
-	glm::vec3 rot_axis;
-	switch (axis)
-	{
-	case X:
-		rot_axis.x = 1.0f;
-		break;
-	case Y:
-		rot_axis.y = 1.0f;
-		break;
-	case Z:
-		rot_axis.z = 1.0f;
-		break;
-	default:
-		break;
-	}
-	view = glm::rotate(view, glm::radians(degrees), rot_axis);
-}
-
-void Camera::Scale(float x, float y, float z)
-{
-	glm::vec3 scale(x, y, z);
-	view = glm::scale(view, scale);
-}
-
-
-void Camera::Move(Axis direction, float amount)
-{
-	glm::vec3 right = this->right;
-	right.y = 0.0f;
-	glm::vec3 front = this->front;
-	front.y = 0.0f;
-	switch (direction)
-	{
-	case X:
-		position = position + amount * right;
-		break;
-	case Y:
-		position = position + amount * globalUp;
-		break;
-	case Z:
-		position = position + amount * front;
-	default:
-		break;
-	}
-	Update();
-}
-
-void Camera::Move(float x, float y, float z)
-{
-	glm::vec3 right = this->right;
-	right.y = 0.0f;
-	glm::vec3 front = this->front;
-	front.y = 0.0f;
-
-	position = position + x * right;
-	position = position + y * globalUp;
-	position = position + z * front;
-	Update();
-}
-
-void Camera::Zoom(float amount)
+void Camera::zoom(float amount)
 {
 	float value = fov * amount;
 	if (fov > MAX_FOV)
@@ -117,10 +80,10 @@ void Camera::Zoom(float amount)
 		fov = MIN_FOV;
 	else
 		fov = value;
-	SetProjectionPersp(fov, near, far);
+	setProjectionPersp(fov, near, far);
 }
 
-void Camera::AddEuler(float pitch, float yaw, float roll)
+void Camera::addEuler(float pitch, float yaw, float roll)
 {
 	if (this->pitch + pitch > LIMIT_PITCH)
 		this->pitch = LIMIT_PITCH;
@@ -128,8 +91,6 @@ void Camera::AddEuler(float pitch, float yaw, float roll)
 		this->pitch = -LIMIT_PITCH;
 	else
 		this->pitch += pitch;
-
-	Log::Print(this->pitch);
 
 	this->yaw += yaw;
 	this->roll += roll;
@@ -142,10 +103,16 @@ void Camera::AddEuler(float pitch, float yaw, float roll)
 	this->front = glm::normalize(front);
 	this->right = glm::normalize(glm::cross(this->front, globalUp));
 	this->up = glm::normalize(glm::cross(this->right, this->front));
-	Update();
 }
 
-void Camera::Update()
+void Camera::update(Player* player)
 {
+	if (player)
+	{
+		player->front = this->front;
+		player->right = this->right;
+		player->up = this->up;
+		this->position = player->position;
+	}
 	view = glm::lookAt(position, position + front, up);
 }

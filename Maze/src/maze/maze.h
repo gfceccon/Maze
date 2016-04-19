@@ -7,6 +7,9 @@
 #include <framework/graphics/shader/program.h>
 #include <framework/graphics/model/obj/cube.h>
 
+#define PLAYER_OFFSET 0.011f
+#define PLAYER_HEIGHT 0.5f
+
 enum Tile
 {
 	EMPTY,
@@ -23,8 +26,8 @@ class Maze
 	Tile* tiles;
 	Cube cube;
 	float size;
-	glm::ivec3 entry, exit;
-	std::vector<glm::ivec3> walls;
+	glm::vec3 entry, exit;
+	std::vector<glm::vec3> walls;
 	const char* path = "resources/";
 
 
@@ -40,12 +43,14 @@ class Maze
 	{
 		return i / width;
 	}
-	void Bind();
+	void bind();
 public:
 	Maze(int width, int height, float size = 1.0f);
 	Maze(const char* bmp, float size = 1.0f);
 	~Maze();
-	void Draw(Program* program);
-	Tile* CopyBoard();
+	void draw(Program* program);
+	Tile* copyBoard();
+	glm::vec3 getEntryPosition();
+	bool checkCollision(glm::vec3 current, glm::vec3& position);
 };
 

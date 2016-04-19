@@ -14,6 +14,6 @@ public:
 	Window(const char* title, int width, int height);
 	~Window();
 
-	void Start(Game* game);
-	friend void ErrorCallback(int error, const char* description);
+	void start(Game* game);
+	friend void errorCallback(int error, const char* description);
 };

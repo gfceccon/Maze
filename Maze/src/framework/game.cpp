@@ -3,33 +3,33 @@
 #include <util/log.h>
 
 std::queue<Event*> Game::events;
-bool Game::keyStates[1024];
-Event* Game::lastMouse = nullptr;
+bool Game::key_states[1024];
+Event* Game::last_mouse = nullptr;
 
 Game::Game(int width, int height)
 {
 	maze = new Maze("maze.bmp");
+	player = new Player(maze->getEntryPosition());
 	camera = new Camera(width, height);
 	program = new Program();
 
-	program->AddShader("simple_vertex.glsl", GL_VERTEX_SHADER)
-		->AddShader("simple_fragment.glsl", GL_FRAGMENT_SHADER);
-	program->Link();
-	camera->Move(-24.0f, 0.5f, 1.0f);
+	program->addShader("simple_vertex.glsl", GL_VERTEX_SHADER)
+		->addShader("simple_fragment.glsl", GL_FRAGMENT_SHADER);
+	program->link();
 }
 
 
 Game::~Game()
 {
-	if (lastMouse)
-		delete lastMouse;
+	if (last_mouse)
+		delete last_mouse;
 	delete program;
 	delete maze;
 	delete camera;
 }
 
 
-void Game::SetClearColor(Color& color)
+void Game::setClearColor(Color& color)
 {
 	this->clear = color;
 	glClearColor(clear.r, clear.g, clear.b, clear.a);
@@ -37,16 +37,16 @@ void Game::SetClearColor(Color& color)
 
 
 
-void Game::Update(float delta)
+void Game::update(float delta)
 {
-	if (Game::keyStates[GLFW_KEY_D])
-		camera->Move(Axis::X, delta * moveSensibility);
-	if (Game::keyStates[GLFW_KEY_A])
-		camera->Move(Axis::X, delta * -moveSensibility);
-	if (Game::keyStates[GLFW_KEY_W])
-		camera->Move(Axis::Z, delta * moveSensibility);
-	if (Game::keyStates[GLFW_KEY_S])
-		camera->Move(Axis::Z, delta * -moveSensibility);
+	if (Game::key_states[GLFW_KEY_D])
+		player->move(maze, Axis::X, delta * move_sensibility);
+	if (Game::key_states[GLFW_KEY_A])
+		player->move(maze, Axis::X, delta * -move_sensibility);
+	if (Game::key_states[GLFW_KEY_W])
+		player->move(maze, Axis::Z, delta * move_sensibility);
+	if (Game::key_states[GLFW_KEY_S])
+		player->move(maze, Axis::Z, delta * -move_sensibility);
 
 	while (events.size() > 0)
 	{
@@ -57,16 +57,16 @@ void Game::Update(float delta)
 		//	switch (e->key)
 		//	{
 		//	case GLFW_KEY_D:
-		//		camera->Move(Axis::X, delta * moveSensibility);
+		//		camera->Move(Axis::X, delta * move_sensibility);
 		//		break;
 		//	case GLFW_KEY_A:
-		//		camera->Move(Axis::X, delta * -moveSensibility);
+		//		camera->Move(Axis::X, delta * -move_sensibility);
 		//			break;
 		//	case GLFW_KEY_W:
-		//		camera->Move(Axis::Y, delta * moveSensibility);
+		//		camera->Move(Axis::Y, delta * move_sensibility);
 		//		break;
 		//	case GLFW_KEY_S:
-		//		camera->Move(Axis::Y, delta * -moveSensibility);
+		//		camera->Move(Axis::Y, delta * -move_sensibility);
 		//		break;
 		//	}
 		//	delete e;
@@ -74,58 +74,57 @@ void Game::Update(float delta)
 		//else
 		if (e->type == EventType::MOUSE)
 		{
-			if (lastMouse == nullptr)
+			if (last_mouse == nullptr)
 			{
-				lastMouse = e;
+				last_mouse = e;
 				continue;
 			}
-			double deltaX = e->x - lastMouse->x;
-			double deltaY = lastMouse->y - e->y;
+			float deltaX = static_cast<float>(e->x - last_mouse->x);
+			float deltaY = static_cast<float>(last_mouse->y - e->y);
 
-			camera->AddEuler(delta * deltaY * rotationSensibility, delta * deltaX * rotationSensibility, 0.0f);
+			camera->addEuler(delta * deltaY * rotation_sensibility, delta * deltaX * rotation_sensibility, 0.0f);
 
-			delete lastMouse;
-			lastMouse = e;
+			delete last_mouse;
+			last_mouse = e;
 		}
 		else if (e->type == EventType::SCROLL)
 		{
 			if(e->y < 0.0f)
-				camera->Zoom(2.0f - zoomSensibility);
+				camera->zoom(2.0f - zoom_sensibility);
 			else
-				camera->Zoom(zoomSensibility);
+				camera->zoom(zoom_sensibility);
 
 			delete e;
 		}
 	}
 }
 
-void Game::Draw(float delta)
+void Game::draw(float delta)
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	program->Use();
+	program->use();
 
-	camera->Bind(program);
+	camera->update(player);
+	camera->bind(program);
 
-	maze->Draw(program);
+	maze->draw(program);
 }
 
 
-void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
+void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
 	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, GL_TRUE);
 	else if (key != GLFW_KEY_UNKNOWN)
-		Game::keyStates[key] = action != GLFW_RELEASE;
-	//else
-	//	Game::events.push(new Event(key, scancode, action, mods));
+		Game::key_states[key] = action != GLFW_RELEASE;
 }
 
-void MouseCallback(GLFWwindow* window, double xpos, double ypos)
+void mouseCallback(GLFWwindow* window, double xpos, double ypos)
 {
 	Game::events.push(new Event(xpos, ypos));
 }
 
-void ScrollCallback(GLFWwindow* window, double xoffset, double yoffset)
+void scrollCallback(GLFWwindow* window, double xoffset, double yoffset)
 {
 	Game::events.push(new Event(xoffset, yoffset, true));
 }
