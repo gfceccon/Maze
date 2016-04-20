@@ -3,9 +3,9 @@
 #include <GL/glew.h>
 #include "../shader/program.h"
 #include "../shader/shader.h"
-#include <glm/matrix.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
+#include "../../../util/glm/matrix.hpp"
+#include "../../../util/glm/gtc/matrix_transform.hpp"
+#include "../../../util/glm/gtc/type_ptr.hpp"
 #include "../../../maze/player.h"
 
 #define MIN_FOV 15.0f

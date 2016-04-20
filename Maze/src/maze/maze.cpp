@@ -54,7 +54,8 @@ Maze::Maze(const char* bmp, float size) : size(size)
 		}
 	}
 	fclose(f);
-	bind();
+
+	cube = new Cube();
 }
 
 Maze::~Maze()
@@ -63,14 +64,17 @@ Maze::~Maze()
 
 void Maze::bind()
 {
-	if (!cube) {
-		cube = new Cube();
-	}
+	cube->bind();
+}
+
+void Maze::drawSingle()
+{
+	cube->draw();
 }
 
 void Maze::draw(Program* program)
 {
-	cube->bind();
+	this->bind();
 	for (const glm::vec3 pos : walls)
 	{
 		glm::mat4 transform;
@@ -79,7 +83,7 @@ void Maze::draw(Program* program)
 		transform = glm::translate(transform, size * glm::vec3(pos));
 		program->setMat4(transform, "transform");
 		program->setVec3(color, "color");
-		cube->draw();
+		this->drawSingle();
 	}
 
 }
