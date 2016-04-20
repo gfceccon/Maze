@@ -24,25 +24,17 @@ class Maze
 {
 	int width, height;
 	Tile* tiles;
-	Cube cube;
+	Cube* cube;
 	float size;
 	glm::vec3 entry, exit;
 	std::vector<glm::vec3> walls;
 	const char* path = "resources/";
 
 
-	size_t i(size_t x, size_t y)
-	{
-		return y * width + x;
-	}
-	size_t x(size_t i)
-	{
-		return i % width;
-	}
-	size_t y(size_t i)
-	{
-		return i / width;
-	}
+	size_t i(size_t x, size_t y) { return y * width + x; }
+	size_t x(size_t i) { return i % width; }
+	size_t y(size_t i) { return i / width; }
+
 	void bind();
 public:
 	Maze(int width, int height, float size = 1.0f);

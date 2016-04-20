@@ -23,31 +23,27 @@ Maze::Maze(const char* bmp, float size) : size(size)
 	RGB* image;
 	UINT32 w, h;
 	FILE* f = fopen(str.c_str(), "rb");
-	if(readSingleImageBMP(f, &image, &w, &h))
+	if (readSingleImageBMP(f, &image, &w, &h)) {
 		return;
+	}
+
 	width = static_cast<int>(w);
 	height = static_cast<int>(h);
 	tiles = new Tile[width * height];
-	for (int i = 0; i < width * height; i++)
-	{
+	for (int i = 0; i < width * height; i++) {
 		bool r = image[i].red && 0xFF;
 		bool g = image[i].green && 0xFF;
 		bool b = image[i].blue && 0xFF;
 
-		if (!(r || g || b))
-		{
+		if (!(r || g || b)) {
 			tiles[i] = Tile::WALL;
 			walls.push_back(glm::vec3(x(i), 0, y(i)));
-		}
-		else if (r && g && b)
+		} else if (r && g && b) {
 			tiles[i] = Tile::EMPTY;
-		else if (!r && !g && b)
-		{
+		} else if (!r && !g && b) {
 			tiles[i] = Tile::ENTRY;
 			entry = glm::vec3(x(i), 0, y(i));
-		}
-		else if (r && !g && !b)
-		{
+		} else if (r && !g && !b) {
 			tiles[i] = Tile::EXIT;
 			exit = glm::vec3(x(i), 0, y(i));
 		}
@@ -67,7 +63,7 @@ void Maze::bind()
 
 void Maze::draw(Program* program)
 {
-	cube.bind();
+	cube->bind();
 	for (const glm::vec3 pos : walls)
 	{
 		glm::mat4 transform;
@@ -76,7 +72,7 @@ void Maze::draw(Program* program)
 		transform = glm::translate(transform, size * glm::vec3(pos));
 		program->setMat4(transform, "transform");
 		program->setVec3(color, "color");
-		cube.draw();
+		cube->draw();
 	}
 
 }

@@ -6,6 +6,24 @@ std::queue<Event*> Game::events;
 bool Game::key_states[1024];
 Event* Game::last_mouse = nullptr;
 
+void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
+{
+	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
+		glfwSetWindowShouldClose(window, GL_TRUE);
+	else if (key != GLFW_KEY_UNKNOWN)
+		Game::key_states[key] = action != GLFW_RELEASE;
+}
+
+void mouseCallback(GLFWwindow* window, double xpos, double ypos)
+{
+	Game::events.push(new Event(xpos, ypos));
+}
+
+void scrollCallback(GLFWwindow* window, double xoffset, double yoffset)
+{
+	Game::events.push(new Event(xoffset, yoffset, true));
+}
+
 Game::Game(int width, int height)
 {
 	maze = new Maze("maze.bmp");
@@ -18,7 +36,6 @@ Game::Game(int width, int height)
 	program->link();
 }
 
-
 Game::~Game()
 {
 	if (last_mouse)
@@ -29,7 +46,7 @@ Game::~Game()
 }
 
 
-void Game::setClearColor(Color& color)
+void Game::setClearColor(const Color& color)
 {
 	this->clear = color;
 	glClearColor(clear.r, clear.g, clear.b, clear.a);
@@ -108,23 +125,4 @@ void Game::draw(float delta)
 	camera->bind(program);
 
 	maze->draw(program);
-}
-
-
-void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
-{
-	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
-		glfwSetWindowShouldClose(window, GL_TRUE);
-	else if (key != GLFW_KEY_UNKNOWN)
-		Game::key_states[key] = action != GLFW_RELEASE;
-}
-
-void mouseCallback(GLFWwindow* window, double xpos, double ypos)
-{
-	Game::events.push(new Event(xpos, ypos));
-}
-
-void scrollCallback(GLFWwindow* window, double xoffset, double yoffset)
-{
-	Game::events.push(new Event(xoffset, yoffset, true));
 }

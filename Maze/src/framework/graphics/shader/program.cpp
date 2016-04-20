@@ -1,6 +1,6 @@
 #include "program.h"
 
-#include <util/log.h>
+#include "../../../util/log.h"
 
 Program::Program()
 {

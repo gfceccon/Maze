@@ -4,7 +4,7 @@
 #include <algorithm>
 #include <fstream>
 #include <sstream>
-#include <util/log.h>
+#include "../../../util/log.h"
 
 Shader::Shader(const char* fname, GLenum type, GLuint program) : program(program)
 {

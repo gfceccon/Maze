@@ -31,7 +31,7 @@ public:
 	Game(int width, int height);
 	~Game();
 
-	void setClearColor(Color& color);
+	void setClearColor(const Color& color);
 
 	void update(float delta);
 	void draw(float delta);
@@ -41,3 +41,6 @@ public:
 	friend void scrollCallback(GLFWwindow* window, double xoffset, double yoffset);
 };
 
+void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
+void mouseCallback(GLFWwindow* window, double xpos, double ypos);
+void scrollCallback(GLFWwindow* window, double xoffset, double yoffset);
