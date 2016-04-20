@@ -2,8 +2,8 @@
 
 
 
-Event::Event(int key, int scancode, int action, int mods) : 
-	key(key), scancode(scancode), action(action), mods(mods), type(EventType::KEY)
+Event::Event(int key, int scancode, int action, int mods) :
+	type(EventType::KEY), key(key), scancode(scancode), action(action), mods(mods)
 {
 }
 

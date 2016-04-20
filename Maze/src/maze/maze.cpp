@@ -6,8 +6,9 @@
 #include <cstdlib>
 #include <ctime>
 #include <cmath>
+#include <iostream>
 
-#include <util/bitmap.h>
+#include "../util/bitmap.h"
 
 Maze::Maze(int width, int height, float size) : width(width), height(height), size(size)
 {
@@ -23,37 +24,38 @@ Maze::Maze(const char* bmp, float size) : size(size)
 	RGB* image;
 	UINT32 w, h;
 	FILE* f = fopen(str.c_str(), "rb");
-	if(readSingleImageBMP(f, &image, &w, &h))
+	if (!f) {
+		throw std::runtime_error("File " + str + " does not exist");
+	}
+
+	if (readSingleImageBMP(f, &image, &w, &h)) {
 		return;
+	}
+
 	width = static_cast<int>(w);
 	height = static_cast<int>(h);
 	tiles = new Tile[width * height];
-	for (int i = 0; i < width * height; i++)
-	{
+	for (int i = 0; i < width * height; i++) {
 		bool r = image[i].red && 0xFF;
 		bool g = image[i].green && 0xFF;
 		bool b = image[i].blue && 0xFF;
 
-		if (!(r || g || b))
-		{
+		if (!(r || g || b)) {
 			tiles[i] = Tile::WALL;
 			walls.push_back(glm::vec3(x(i), 0, y(i)));
-		}
-		else if (r && g && b)
+		} else if (r && g && b) {
 			tiles[i] = Tile::EMPTY;
-		else if (!r && !g && b)
-		{
+		} else if (!r && !g && b) {
 			tiles[i] = Tile::ENTRY;
 			entry = glm::vec3(x(i), 0, y(i));
-		}
-		else if (r && !g && !b)
-		{
+		} else if (r && !g && !b) {
 			tiles[i] = Tile::EXIT;
 			exit = glm::vec3(x(i), 0, y(i));
 		}
 	}
 	fclose(f);
-	bind();
+
+	cube = new Cube();
 }
 
 Maze::~Maze()
@@ -62,12 +64,17 @@ Maze::~Maze()
 
 void Maze::bind()
 {
-	//cube.Bind();
+	cube->bind();
+}
+
+void Maze::drawSingle()
+{
+	cube->draw();
 }
 
 void Maze::draw(Program* program)
 {
-	cube.bind();
+	this->bind();
 	for (const glm::vec3 pos : walls)
 	{
 		glm::mat4 transform;
@@ -76,9 +83,9 @@ void Maze::draw(Program* program)
 		transform = glm::translate(transform, size * glm::vec3(pos));
 		program->setMat4(transform, "transform");
 		program->setVec3(color, "color");
-		cube.draw();
+		this->drawSingle();
 	}
-	
+
 }
 
 Tile * Maze::copyBoard()
@@ -101,7 +108,7 @@ bool Maze::checkCollision(glm::vec3 current, glm::vec3& position)
 
 	int pos_x = static_cast<int>(floorf(position.x / size));
 	int pos_y = static_cast<int>(floorf(position.z / size));
-	
+
 	if (pos_x - cur_x > 0 && tiles[i(cur_x + 1, cur_y)])
 	{
 		position.x = (cur_x + 1) * size - PLAYER_OFFSET;
