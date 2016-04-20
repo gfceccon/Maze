@@ -1,8 +1,7 @@
 #pragma once
 
-#include <vec3.hpp>
-#include <framework/graphics/core/camera.h>
-#include <maze/maze.h>
+#include "../util/glm/vec3.hpp"
+#include "maze.h"
 
 enum Axis
 {
