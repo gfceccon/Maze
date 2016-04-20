@@ -1,13 +1,13 @@
 #pragma once
 
 #include <GL/glew.h>
-#include <framework/graphics/shader/shader.h>
+#include "shader.h"
 #include <vector>
-#include <gtc/type_ptr.hpp>
-#include <vec3.hpp>
-#include <vec4.hpp>
-#include <mat3x3.hpp>
-#include <mat4x4.hpp>
+#include <glm/gtc/type_ptr.hpp>
+#include <glm/vec3.hpp>
+#include <glm/vec4.hpp>
+#include <glm/mat3x3.hpp>
+#include <glm/mat4x4.hpp>
 
 class Program
 {

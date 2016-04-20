@@ -4,9 +4,13 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 #include <cstdlib>
-#include <util/log.h>
+#include "../util/log.h"
 #include <ctime>
 
+void errorCallback(int error, const char* description)
+{
+	Log::error(description);
+}
 
 Window::Window(const char* title, int width, int height)
 {
@@ -33,7 +37,7 @@ Window::Window(const char* title, int width, int height)
 
 	GLenum err = glewInit();
 
-	//If GLEW hasn't initialized  
+	//If GLEW hasn't initialized
 	if (err != GLEW_OK)
 	{
 		Log::error("Failed to open GLFW window");
@@ -86,10 +90,4 @@ void Window::start(Game* game)
 		//Log::print(1.0f / (float)delta);
 
 	} while (!glfwWindowShouldClose(window));
-}
-
-
-void errorCallback(int error, const char* description)
-{
-	Log::error(description);
 }

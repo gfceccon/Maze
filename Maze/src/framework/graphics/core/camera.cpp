@@ -1,7 +1,7 @@
 #include "camera.h"
 
 #include <cfloat>
-#include <util/log.h>
+#include "../../../util/log.h"
 
 Camera::Camera(int w, int h) : width(w), height(h)
 {

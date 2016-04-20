@@ -4,17 +4,17 @@
 #include <GLFW/glfw3.h>
 
 #include <queue>
-#include <vec3.hpp>
-#include <mat4x4.hpp>
-#include <gtc/matrix_transform.hpp>
+#include <glm/vec3.hpp>
+#include <glm/mat4x4.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
-#include <maze/maze.h>
-#include <maze/player.h>
-#include <util/color.h>
-#include <framework/event.h>
-#include <framework/graphics/core/camera.h>
-#include <framework/graphics/shader/program.h>
-#include <framework/graphics/shader/shader.h>
+#include "../maze/maze.h"
+#include "../maze/player.h"
+#include "../util/color.h"
+#include "event.h"
+#include "graphics/core/camera.h"
+#include "graphics/shader/program.h"
+#include "graphics/shader/shader.h"
 
 class Game
 {
@@ -31,7 +31,7 @@ public:
 	Game(int width, int height);
 	~Game();
 
-	void setClearColor(Color& color);
+	void setClearColor(const Color& color);
 
 	void update(float delta);
 	void draw(float delta);
@@ -41,3 +41,6 @@ public:
 	friend void scrollCallback(GLFWwindow* window, double xoffset, double yoffset);
 };
 
+void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
+void mouseCallback(GLFWwindow* window, double xpos, double ypos);
+void scrollCallback(GLFWwindow* window, double xoffset, double yoffset);

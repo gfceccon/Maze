@@ -248,3 +248,4 @@ _Pvt_Extensions
 # Executable and DLL
 *.dll
 *.exe
+build/

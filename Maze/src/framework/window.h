@@ -1,6 +1,6 @@
 #pragma once
 
-#include <framework/game.h>
+#include "game.h"
 
 #define MAJOR_VERSION 3
 #define MINOR_VERSION 1
