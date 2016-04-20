@@ -3,7 +3,9 @@ project(scramble)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -lGL -lglfw -lGLEW -lX11 -lpthread -lXrandr -lXi -g -Wall")
 
+include(src/CMakeLists.txt)
 set(SOURCE_FILES
-	main.cpp)
+	${maze_SRC}
+	)
 
 add_executable(main ${SOURCE_FILES})
