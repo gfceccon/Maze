@@ -1,6 +1,6 @@
 #pragma once
 
-#include <glm/vec3.hpp>
+#include "../util/glm/vec3.hpp"
 #include "maze.h"
 
 enum Axis

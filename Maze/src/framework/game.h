@@ -4,9 +4,9 @@
 #include <GLFW/glfw3.h>
 
 #include <queue>
-#include <glm/vec3.hpp>
-#include <glm/mat4x4.hpp>
-#include <glm/gtc/matrix_transform.hpp>
+#include "../util/glm/vec3.hpp"
+#include "../util/glm/mat4x4.hpp"
+#include "../util/glm/gtc/matrix_transform.hpp"
 
 #include "../maze/maze.h"
 #include "../maze/player.h"

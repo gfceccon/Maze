@@ -82,26 +82,6 @@ void Game::update(float delta)
 	while (events.size() > 0) {
 		Event* e = events.front();
 		events.pop();
-		//if (e->type == EventType::KEY)
-		//{
-		//	switch (e->key)
-		//	{
-		//	case GLFW_KEY_D:
-		//		camera->Move(Axis::X, delta * move_sensibility);
-		//		break;
-		//	case GLFW_KEY_A:
-		//		camera->Move(Axis::X, delta * -move_sensibility);
-		//			break;
-		//	case GLFW_KEY_W:
-		//		camera->Move(Axis::Y, delta * move_sensibility);
-		//		break;
-		//	case GLFW_KEY_S:
-		//		camera->Move(Axis::Y, delta * -move_sensibility);
-		//		break;
-		//	}
-		//	delete e;
-		//}
-		//else
 		if (e->type == EventType::MOUSE) {
 			if (last_mouse == nullptr) {
 				last_mouse = e;

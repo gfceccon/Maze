@@ -3,8 +3,7 @@
 #include "maze.h"
 #include <vector>
 #include <queue>
-#include <glm/vec2.hpp>
-
+#include "../util/glm/vec2.hpp"
 
 class Path
 {
