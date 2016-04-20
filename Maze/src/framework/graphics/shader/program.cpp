@@ -1,6 +1,7 @@
 #include "program.h"
-
 #include "../../../util/log.h"
+
+#include <iostream>
 
 Program::Program()
 {
@@ -36,7 +37,12 @@ void Program::use()
 
 Program* Program::addShader(const char* fname, GLenum type)
 {
-	shaders.push_back(new Shader(fname, type, program));
+	try {
+		shaders.push_back(new Shader(fname, type, program));
+	} catch (const std::runtime_error& e) {
+		throw;
+	}
+
 	return this;
 }
 

@@ -11,6 +11,9 @@ Shader::Shader(const char* fname, GLenum type, GLuint program) : program(program
 	std::string str(path);
 	str += fname;
 	std::ifstream file(str.c_str(), std::ios::in | std::ios::binary);
+	if (!file) {
+		throw std::runtime_error("File " + str + " does not exist.");
+	}
 
 	std::stringstream buffer;
 	buffer << file.rdbuf();

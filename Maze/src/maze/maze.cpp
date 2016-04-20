@@ -6,6 +6,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <cmath>
+#include <iostream>
 
 #include "../util/bitmap.h"
 
@@ -23,6 +24,10 @@ Maze::Maze(const char* bmp, float size) : size(size)
 	RGB* image;
 	UINT32 w, h;
 	FILE* f = fopen(str.c_str(), "rb");
+	if (!f) {
+		throw std::runtime_error("File " + str + " does not exist");
+	}
+
 	if (readSingleImageBMP(f, &image, &w, &h)) {
 		return;
 	}
@@ -58,7 +63,9 @@ Maze::~Maze()
 
 void Maze::bind()
 {
-	//cube.Bind();
+	if (!cube) {
+		cube = new Cube();
+	}
 }
 
 void Maze::draw(Program* program)

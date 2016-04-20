@@ -1,6 +1,6 @@
 #pragma once
 
-#include <framework/graphics/model/simple_model.h>
+#include "../simple_model.h"
 
 class Square : public SimpleModel
 {
