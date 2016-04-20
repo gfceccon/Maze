@@ -7,7 +7,7 @@
 #include <ctime>
 #include <cmath>
 
-#include <util/bitmap.h>
+#include "../util/bitmap.h"
 
 Maze::Maze(int width, int height, float size) : width(width), height(height), size(size)
 {
@@ -78,7 +78,7 @@ void Maze::draw(Program* program)
 		program->setVec3(color, "color");
 		cube.draw();
 	}
-	
+
 }
 
 Tile * Maze::copyBoard()
@@ -101,7 +101,7 @@ bool Maze::checkCollision(glm::vec3 current, glm::vec3& position)
 
 	int pos_x = static_cast<int>(floorf(position.x / size));
 	int pos_y = static_cast<int>(floorf(position.z / size));
-	
+
 	if (pos_x - cur_x > 0 && tiles[i(cur_x + 1, cur_y)])
 	{
 		position.x = (cur_x + 1) * size - PLAYER_OFFSET;

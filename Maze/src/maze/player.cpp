@@ -1,6 +1,6 @@
 #include "player.h"
 
-#include <util/log.h>
+#include "../util/log.h"
 
 Player::Player(glm::vec3 position)
 {

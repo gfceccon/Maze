@@ -1,12 +1,12 @@
 #pragma once
 
 #include <GL/glew.h>
-#include <framework/graphics/shader/program.h>
-#include <framework/graphics/shader/shader.h>
-#include <matrix.hpp>
-#include <gtc/matrix_transform.hpp>
-#include <gtc/type_ptr.hpp>
-#include <maze/player.h>
+#include "../shader/program.h"
+#include "../shader/shader.h"
+#include <glm/matrix.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+#include "../../../maze/player.h"
 
 #define MIN_FOV 15.0f
 #define MAX_FOV 120.0f

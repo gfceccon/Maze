@@ -1,9 +1,9 @@
 #pragma once
 
-#include <maze/maze.h>
+#include "maze.h"
 #include <vector>
 #include <queue>
-#include <vec2.hpp>
+#include <glm/vec2.hpp>
 
 
 class Path

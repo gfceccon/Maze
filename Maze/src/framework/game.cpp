@@ -1,6 +1,6 @@
 #include "game.h"
 
-#include <util/log.h>
+#include "../util/log.h"
 
 std::queue<Event*> Game::events;
 bool Game::key_states[1024];
