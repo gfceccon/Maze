@@ -13,7 +13,6 @@
 #include <util/color.h>
 #include <framework/event.h>
 #include <framework/graphics/core/camera.h>
-#include <framework/graphics/model/obj/cube.h>
 #include <framework/graphics/shader/program.h>
 #include <framework/graphics/shader/shader.h>
 

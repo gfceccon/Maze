@@ -22,8 +22,8 @@ Maze::Maze(const char* bmp, float size) : size(size)
 
 	RGB* image;
 	UINT32 w, h;
-	FILE* file = fopen(str.c_str(), "rb");
-	if(readSingleImageBMP(file, &image, &w, &h))
+	FILE* f = fopen(str.c_str(), "rb");
+	if(readSingleImageBMP(f, &image, &w, &h))
 		return;
 	width = static_cast<int>(w);
 	height = static_cast<int>(h);
@@ -52,6 +52,7 @@ Maze::Maze(const char* bmp, float size) : size(size)
 			exit = glm::vec3(x(i), 0, y(i));
 		}
 	}
+	fclose(f);
 	bind();
 }
 

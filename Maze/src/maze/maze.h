@@ -5,7 +5,7 @@
 #include <cstring>
 #include <vector>
 #include <framework/graphics/shader/program.h>
-#include <framework/graphics/model/obj/cube.h>
+#include <framework/graphics/model/primitive/cube.h>
 
 #define PLAYER_OFFSET 0.011f
 #define PLAYER_HEIGHT 0.5f

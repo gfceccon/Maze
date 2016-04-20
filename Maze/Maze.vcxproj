@@ -85,11 +85,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\framework\event.cpp" />
+    <ClCompile Include="src\framework\graphics\model\primitive\cube.cpp" />
+    <ClCompile Include="src\framework\graphics\model\primitive\square.cpp" />
     <ClCompile Include="src\framework\graphics\model\wave\tiny_obj_loader.cc" />
     <ClCompile Include="src\framework\graphics\shader\program.cpp" />
-    <ClCompile Include="src\framework\graphics\model\obj\cube.cpp" />
     <ClCompile Include="src\framework\graphics\core\camera.cpp" />
-    <ClCompile Include="src\framework\graphics\model\obj\square.cpp" />
     <ClCompile Include="src\util\bitmap.c" />
     <ClCompile Include="src\util\color.cpp" />
     <ClCompile Include="src\util\endian.c" />
@@ -108,11 +108,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\framework\event.h" />
+    <ClInclude Include="src\framework\graphics\model\primitive\cube.h" />
+    <ClInclude Include="src\framework\graphics\model\primitive\square.h" />
     <ClInclude Include="src\framework\graphics\model\wave\tiny_obj_loader.h" />
     <ClInclude Include="src\framework\graphics\shader\program.h" />
-    <ClInclude Include="src\framework\graphics\model\obj\cube.h" />
     <ClInclude Include="src\framework\graphics\core\camera.h" />
-    <ClInclude Include="src\framework\graphics\model\obj\square.h" />
     <ClInclude Include="src\util\bitmap.h" />
     <ClInclude Include="src\util\bmp_types.h" />
     <ClInclude Include="src\util\color.h" />
