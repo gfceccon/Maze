@@ -3,11 +3,11 @@
 #include <GL/glew.h>
 #include "shader.h"
 #include <vector>
-#include "../../util/glm/gtc/type_ptr.hpp"
-#include "../../util/glm/vec3.hpp"
-#include "../../util/glm/vec4.hpp"
-#include "../../util/glm/mat3x3.hpp"
-#include "../../util/glm/mat4x4.hpp"
+#include "../../../util/glm/gtc/type_ptr.hpp"
+#include "../../../util/glm/vec3.hpp"
+#include "../../../util/glm/vec4.hpp"
+#include "../../../util/glm/mat3x3.hpp"
+#include "../../../util/glm/mat4x4.hpp"
 
 class Program
 {
