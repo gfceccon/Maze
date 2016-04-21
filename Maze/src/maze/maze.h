@@ -10,6 +10,7 @@
 #define PLAYER_OFFSET 0.2f
 #define RESPONSE 0.6f
 #define PLAYER_HEIGHT 0.5f
+#define MIN_RESPONSE 1.0f
 
 enum Tile
 {
