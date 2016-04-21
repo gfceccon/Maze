@@ -21,7 +21,7 @@ Window::Window(const char* title, int width, int height)
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, MAJOR_VERSION);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, MINOR_VERSION);
 	glfwWindowHint(GLFW_SAMPLES, ANTIALIASING_SAMPLES);
-	//glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 	window = glfwCreateWindow(width, height, title, NULL, NULL);
 
@@ -35,6 +35,7 @@ Window::Window(const char* title, int width, int height)
 
 	glfwMakeContextCurrent(window);
 
+	glewExperimental = GL_TRUE;
 	GLenum err = glewInit();
 
 	//If GLEW hasn't initialized
