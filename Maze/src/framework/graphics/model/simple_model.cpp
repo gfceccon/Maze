@@ -23,7 +23,6 @@ void SimpleModel::init()
 {
 	if (!vertices)
 		return;
-	GLenum err;
 
 	glGenVertexArrays(1, &vao);
 	glGenBuffers(1, &vbo);
@@ -35,7 +34,8 @@ void SimpleModel::init()
 		glGenBuffers(1, &nbo);
 	}
 
-	if ((err = glGetError()) != GL_NO_ERROR) {
+	GLenum err;
+	if ((err = glGetError()) != GL_NO_ERROR && err != GL_INVALID_ENUM) {
 		Log::error(glewGetErrorString(err));
 	}
 }

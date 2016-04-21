@@ -76,8 +76,7 @@ void Maze::drawSingle()
 void Maze::draw(Program* program)
 {
 	this->bind();
-	for (const glm::vec3 pos : walls)
-	{
+	for (const glm::vec3 pos : walls) {
 		glm::mat4 transform;
 		glm::vec3 color(0.2f, 0.2f, 0.2f);
 		transform = glm::scale(transform, size * glm::vec3(0.9999f, 0.9999f, 0.9999f));
@@ -151,7 +150,7 @@ bool Maze::checkCollision(glm::vec3 current, glm::vec3& position)
 		x1 = ((cur_x + 1) * size - PLAYER_OFFSET * RESPONSE) - current.x;
 		z1 = ((position.z - current.z) * x1) / max (position.x - current.x, MIN_RESPONSE);
 		collide = true;
-		
+
 	}
 
 	else if (dir_x == Direction::WEST && pos_x - cur_x < 0 && tiles[i(cur_x - 1, cur_z)])
