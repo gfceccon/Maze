@@ -74,8 +74,7 @@ void Window::start(Game* game)
 	double time;
 	double delta = glfwGetTime();
 
-	do
-	{
+	do {
 		glfwPollEvents();
 
 		time = glfwGetTime();

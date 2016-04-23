@@ -6,7 +6,7 @@
 #include <sstream>
 #include "../../../util/log.h"
 
-Shader::Shader(const char* fname, GLenum type, GLuint program) : program(program)
+Shader::Shader(const char* fname, GLenum type, GLuint program)
 {
 	std::string str(path);
 	str += fname;
@@ -22,22 +22,17 @@ Shader::Shader(const char* fname, GLenum type, GLuint program) : program(program
 
 	const char* source = src.c_str();
 
-	shader = glCreateShader(type);
+	GLuint shader = glCreateShader(type);
 	glShaderSource(shader, 1, &source, nullptr);
 	glCompileShader(shader);
 	GLint status;
 	glGetShaderiv(shader, GL_COMPILE_STATUS, &status);
-	if (!status)
-	{
+	if (!status) {
 		GLchar info[512];
 		glGetShaderInfoLog(shader, 512, nullptr, info);
 		Log::error(info);
-	}
-	else
+	} else {
 		glAttachShader(program, shader);
-}
-
-Shader::~Shader()
-{
-	glDeleteShader(shader);
+		glDeleteShader(shader);
+	}
 }

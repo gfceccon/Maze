@@ -13,7 +13,7 @@ int main(int argc, char const *argv[]) {
 		return -1;
 	}
 
-	game->setClearColor(Color(1.0f, 1.0f, 1.0f, 1.0f));
+	game->setClearColor(Color(0.2f, 0.3f, 0.3f, 1.0f));
 
 	window->start(game);
 

@@ -20,12 +20,18 @@ void Camera::setProjectionOrtho(float x, float y, float width, float height)
 
 void Camera::setProjectionPersp(float fov, float near, float far)
 {
-	if (fov < FLT_EPSILON || fov > MAX_FOV)
+	if (fov < FLT_EPSILON || fov > MAX_FOV) {
 		return;
-	if (near < FLT_EPSILON || far < FLT_EPSILON)
+	}
+
+	if (near < FLT_EPSILON || far < FLT_EPSILON) {
 		return;
-	if (near < MIN_NEAR || far > MAX_FAR)
+	}
+
+	if (near < MIN_NEAR || far > MAX_FAR) {
 		return;
+	}
+
 	this->fov = fov;
 	this->near = near;
 	this->far = far;
@@ -74,23 +80,30 @@ void Camera::bind(Program* program)
 void Camera::zoom(float amount)
 {
 	float value = fov * amount;
-	if (fov > MAX_FOV)
+	if (fov > MAX_FOV) {
 		fov = MAX_FOV;
-	if (fov < MIN_FOV)
+	}
+
+	if (fov < MIN_FOV) {
 		fov = MIN_FOV;
-	else
+	} else {
 		fov = value;
+	}
+
 	setProjectionPersp(fov, near, far);
 }
 
 void Camera::addEuler(float pitch, float yaw, float roll)
 {
-	if (this->pitch + pitch > LIMIT_PITCH)
+	if (this->pitch + pitch > LIMIT_PITCH) {
 		this->pitch = LIMIT_PITCH;
-	if (this->pitch + pitch < -LIMIT_PITCH)
+	}
+
+	if (this->pitch + pitch < -LIMIT_PITCH) {
 		this->pitch = -LIMIT_PITCH;
-	else
+	} else {
 		this->pitch += pitch;
+	}
 
 	this->yaw += yaw;
 	this->roll += roll;
@@ -107,12 +120,12 @@ void Camera::addEuler(float pitch, float yaw, float roll)
 
 void Camera::update(Player* player)
 {
-	if (player)
-	{
+	if (player) {
 		player->front = this->front;
 		player->right = this->right;
 		player->up = this->up;
 		this->position = player->position;
 	}
+
 	view = glm::lookAt(position, position + front, up);
 }
