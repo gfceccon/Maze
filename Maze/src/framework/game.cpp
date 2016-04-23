@@ -8,10 +8,6 @@ Event* Game::last_mouse = nullptr;
 
 void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
-	std::cout << "Key: " << key << " ";
-	std::cout << "Scancode: " << scancode << " ";
-	std::cout << "Mode: " << mods << std::endl;
-
 	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) {
 		glfwSetWindowShouldClose(window, GL_TRUE);
 	} else if (key != GLFW_KEY_UNKNOWN) {
@@ -21,9 +17,6 @@ void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 
 void mouseCallback(GLFWwindow* window, double xpos, double ypos)
 {
-	std::cout << "xpos: " << xpos << " ";
-	std::cout << "ypos: " << ypos << std::endl;
-
 	Game::events.push(new Event(xpos, ypos));
 }
 
@@ -85,7 +78,6 @@ void Game::update(float delta)
 	if (Game::key_states[GLFW_KEY_S]){
 		player->move(maze, Axis::Z, delta * -move_sensibility);
 	}
-
 
 	while (events.size() > 0) {
 		Event* e = events.front();
