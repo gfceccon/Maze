@@ -11,6 +11,8 @@
 
 class Program
 {
+	private:
+		std::vector<Shader*> shaders;
 		GLuint program;
 	public:
 		Program();

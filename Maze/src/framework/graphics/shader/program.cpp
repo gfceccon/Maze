@@ -11,6 +11,9 @@ Program::Program()
 
 Program::~Program() {
 	glDeleteProgram(program);
+	for (const Shader* shader : shaders) {
+		delete shader;
+	}
 }
 
 void Program::link()
@@ -34,7 +37,7 @@ void Program::use()
 Program* Program::addShader(const char* fname, GLenum type)
 {
 	try {
-		new Shader(fname, type, program);
+		shaders.push_back(new Shader(fname, type, program));
 	} catch (std::runtime_error e) {
 		throw;
 	}
