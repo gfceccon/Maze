@@ -33,6 +33,11 @@ Shader::Shader(const char* fname, GLenum type, GLuint program)
 		Log::error(info);
 	} else {
 		glAttachShader(program, shader);
-		glDeleteShader(shader);
 	}
+
+	this->shader = shader;
+}
+
+Shader::~Shader() {
+	glDeleteShader(shader);
 }
