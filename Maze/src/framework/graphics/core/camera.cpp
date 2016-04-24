@@ -7,6 +7,10 @@ Camera::Camera(int w, int h) : width(w), height(h)
 {
 	aspect = (float)w / (float)h;
 	setProjectionPersp(fov, near, far);
+
+	up = glm::vec3();
+	front = glm::vec3();
+	right = glm::vec3();
 }
 
 Camera::~Camera()
