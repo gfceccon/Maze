@@ -3,7 +3,7 @@
 #include <iostream>
 
 int main(int argc, char const *argv[]) {
-	const int width = 800, height = 600;
+	const int width = 1280, height = 720;
 	Window* window = new Window("Maze", width, height);
 	Game* game = nullptr;
 	try {

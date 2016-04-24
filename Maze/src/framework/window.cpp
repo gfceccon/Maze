@@ -22,8 +22,21 @@ Window::Window(const char* title, int width, int height)
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, MINOR_VERSION);
 	glfwWindowHint(GLFW_SAMPLES, ANTIALIASING_SAMPLES);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
-	window = glfwCreateWindow(width, height, title, NULL, NULL);
+	int count;
+	GLFWmonitor** monitors;
+	monitors = glfwGetMonitors(&count);
+	if (count > 1)
+	{
+		int x, y;
+		glfwGetMonitorPos(monitors[1], &x, &y);
+		window = glfwCreateWindow(width, height, title, NULL, NULL);
+		glfwSetWindowPos(window, x + XOFFSET, y + YOFFSET);
+	}
+	else
+	{
+		window = glfwCreateWindow(width, height, title, NULL, NULL);
+		glfwSetWindowPos(window, XOFFSET, YOFFSET);
+	}
 
 
 	if (!window)
@@ -66,7 +79,6 @@ void Window::start(Game* game)
 	glfwSetKeyCallback(window, keyCallback);
 	glfwSetCursorPosCallback(window , mouseCallback);
 	glfwSetScrollCallback(window, scrollCallback);
-	glfwSetWindowPos(window, 50, 50);
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	glViewport(0, 0, width, height);
 	glEnable(GL_DEPTH_TEST);

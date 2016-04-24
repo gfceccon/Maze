@@ -5,6 +5,8 @@
 #define MAJOR_VERSION 3
 #define MINOR_VERSION 3
 #define ANTIALIASING_SAMPLES 4
+#define XOFFSET 50
+#define YOFFSET 50
 
 class Window
 {
