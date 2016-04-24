@@ -4,8 +4,8 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 #include <cstdlib>
-#include "../util/log.h"
 #include <ctime>
+#include "../util/log.h"
 
 void errorCallback(int error, const char* description)
 {
@@ -70,6 +70,7 @@ void Window::start(Game* game)
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	glViewport(0, 0, width, height);
 	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_TEXTURE_2D);
 
 	double time;
 	double delta = glfwGetTime();

@@ -42,6 +42,19 @@ Program* Program::addShader(const char* fname, GLenum type)
 	return this;
 }
 
+GLint Program::getAttr(const char* name)
+{
+	return glGetAttribLocation(program, name);
+}
+
+
+void Program::setInt(const GLint& value, const char* uniform)
+{
+	GLint location = glGetUniformLocation(program, uniform);
+	if (location != -1) {
+		glUniform1i(location, value);
+	}
+}
 
 void Program::setFloat(const GLfloat& value, const char* uniform)
 {

@@ -1,14 +1,13 @@
 #pragma once
 
 #include "../simple_model.h"
+#include "../../shader/program.h"
 
 class Square : public SimpleModel
 {
-	const GLsizei nvert = 12, nind = 6;
 public:
-	Square();
+	Square(Program* program);
 	~Square();
 	void draw() override;
-	void bind() override;
 };
 

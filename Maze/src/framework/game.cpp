@@ -28,12 +28,14 @@ void scrollCallback(GLFWwindow* window, double xoffset, double yoffset)
 Game::Game(int width, int height)
 {
 	try {
-		maze = new Maze("maze.bmp");
 		program = new Program();
 
-		program->addShader("simple_vertex.glsl", GL_VERTEX_SHADER)
-			->addShader("simple_fragment.glsl", GL_FRAGMENT_SHADER);
+		program->addShader("tex_vertex.glsl", GL_VERTEX_SHADER)
+			->addShader("tex_fragment.glsl", GL_FRAGMENT_SHADER);
 		program->link();
+
+		maze = new Maze("maze.bmp");
+		maze->init(program);
 	} catch (const std::runtime_error& e) {
 		std::cout << e.what() << std::endl;
 		throw;

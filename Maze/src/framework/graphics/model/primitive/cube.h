@@ -1,14 +1,13 @@
 #pragma once
 
 #include "../simple_model.h"
+#include "../../shader/program.h"
 
 class Cube : public SimpleModel
 {
-	const GLsizei nvert = 36;
 public:
-	Cube();
+	Cube(Program* program);
 	~Cube();
 	void draw() override;
-	void bind() override;
 };
 

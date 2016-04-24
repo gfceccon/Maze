@@ -183,5 +183,7 @@
   <ItemGroup>
     <None Include="resources\simple_vertex.glsl" />
     <None Include="resources\simple_fragment.glsl" />
+    <None Include="resources\tex_vertex.glsl" />
+    <None Include="resources\tex_fragment.glsl" />
   </ItemGroup>
 </Project>

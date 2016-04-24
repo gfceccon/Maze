@@ -20,6 +20,9 @@ class Program
 		void link();
 		void use();
 
+		GLint getAttr(const char* name);
+
+		void setInt(const GLint& value, const char* uniform);
 		void setFloat(const GLfloat& value, const char* uniform);
 		void setVec3(const glm::vec3& value, const char* uniform);
 		void setVec4(const glm::vec4& value, const char* uniform);

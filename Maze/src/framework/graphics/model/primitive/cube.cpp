@@ -1,41 +1,42 @@
 #include "cube.h"
 
-Cube::Cube()
+Cube::Cube(Program* program)
 {
-	SimpleModel::vertices = new GLfloat[nvert * 3]{
+	SimpleModel::nvertices = 36;
+	SimpleModel::vertices = new GLfloat[nvertices * 3]{
 		0.0f, 0.0f, 0.0f,
 		1.0f, 0.0f, 0.0f,
-		1.0f,  1.0f, 0.0f,
-		1.0f,  1.0f, 0.0f,
+		1.0f, 1.0f, 0.0f,
+		1.0f, 1.0f, 0.0f,
+		0.0f, 1.0f, 0.0f,
+		0.0f, 0.0f, 0.0f,
+
+		0.0f, 0.0f,  1.0f,
+		1.0f, 0.0f,  1.0f,
+		1.0f, 1.0f,  1.0f,
+		1.0f, 1.0f,  1.0f,
+		0.0f, 1.0f,  1.0f,
+		0.0f, 0.0f,  1.0f,
+
+		0.0f,  1.0f,  1.0f,
 		0.0f,  1.0f, 0.0f,
-		0.0f, 0.0f, 0.0f,
-
-		0.0f, 0.0f,  1.0f,
-		1.0f, 0.0f,  1.0f,
-		1.0f,  1.0f,  1.0f,
-		1.0f,  1.0f,  1.0f,
-		0.0f,  1.0f,  1.0f,
-		0.0f, 0.0f,  1.0f,
-
-		0.0f,  1.0f,  1.0f,
-		0.0f,  1.0f, 0.0f,
-		0.0f, 0.0f, 0.0f,
-		0.0f, 0.0f, 0.0f,
-		0.0f, 0.0f,  1.0f,
-		0.0f,  1.0f,  1.0f,
+		0.0f,  0.0f, 0.0f,
+		0.0f,  0.0f, 0.0f,
+		0.0f,  0.0f, 1.0f,
+		0.0f,  1.0f, 1.0f,
 
 		1.0f,  1.0f,  1.0f,
 		1.0f,  1.0f, 0.0f,
-		1.0f, 0.0f, 0.0f,
-		1.0f, 0.0f, 0.0f,
-		1.0f, 0.0f,  1.0f,
-		1.0f,  1.0f,  1.0f,
+		1.0f,  0.0f, 0.0f,
+		1.0f,  0.0f, 0.0f,
+		1.0f,  0.0f, 1.0f,
+		1.0f,  1.0f, 1.0f,
 
 		0.0f, 0.0f, 0.0f,
 		1.0f, 0.0f, 0.0f,
-		1.0f, 0.0f,  1.0f,
-		1.0f, 0.0f,  1.0f,
-		0.0f, 0.0f,  1.0f,
+		1.0f, 0.0f, 1.0f,
+		1.0f, 0.0f, 1.0f,
+		0.0f, 0.0f, 1.0f,
 		0.0f, 0.0f, 0.0f,
 
 		0.0f,  1.0f, 0.0f,
@@ -45,10 +46,53 @@ Cube::Cube()
 		0.0f,  1.0f,  1.0f,
 		0.0f,  1.0f, 0.0f
 	};
+	SimpleModel::uvs = new GLfloat[nvertices * 2]{
+		0.0f, 0.0f,
+		1.0f, 0.0f,
+		1.0f, 1.0f,
+		1.0f, 1.0f,
+		0.0f, 1.0f,
+		0.0f, 0.0f,
+
+		0.0f, 0.0f,
+		1.0f, 0.0f,
+		1.0f, 1.0f,
+		1.0f, 1.0f,
+		0.0f, 1.0f,
+		0.0f, 0.0f,
+
+		0.0f, 1.0f,
+		1.0f, 1.0f,
+		1.0f, 0.0f,
+		1.0f, 0.0f,
+		0.0f, 0.0f,
+		0.0f, 1.0f,
+
+		0.0f, 1.0f,
+		1.0f, 1.0f,
+		1.0f, 0.0f,
+		1.0f, 0.0f,
+		0.0f, 0.0f,
+		0.0f, 1.0f,
+
+		0.0f, 1.0f,
+		1.0f, 1.0f,
+		1.0f, 0.0f,
+		1.0f, 0.0f,
+		0.0f, 0.0f,
+		0.0f, 1.0f,
+
+		0.0f, 1.0f,
+		1.0f, 1.0f,
+		1.0f, 0.0f,
+		1.0f, 0.0f,
+		0.0f, 0.0f,
+		0.0f, 1.0f
+	};
 	SimpleModel::indices = nullptr;
-	SimpleModel::normals = nullptr;
-	SimpleModel::nvertices = nvert;
-	SimpleModel::init();
+	SimpleModel::colors = nullptr;
+	SimpleModel::initTexture(program, "resources/arrow.jpg");
+	SimpleModel::init(program, GL_STATIC_DRAW);
 }
 
 
@@ -59,9 +103,4 @@ Cube::~Cube()
 void Cube::draw()
 {
 	SimpleModel::draw(GL_TRIANGLES);
-}
-
-void Cube::bind()
-{
-	SimpleModel::bind(GL_STATIC_DRAW);
 }

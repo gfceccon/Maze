@@ -14,7 +14,6 @@
 Maze::Maze(int width, int height, float size) : width(width), height(height), size(size)
 {
 	tiles = new Tile[width * height];
-	bind();
 }
 
 Maze::Maze(const char* bmp, float size) : size(size)
@@ -60,35 +59,28 @@ Maze::Maze(const char* bmp, float size) : size(size)
 		}
 	}
 	fclose(f);
+}
 
-	cube = new Cube();
+void Maze::init(Program* program)
+{
+	cube = new Cube(program);
 }
 
 Maze::~Maze()
 {
 }
 
-void Maze::bind()
-{
-	cube->bind();
-}
-
-void Maze::drawSingle()
-{
-	cube->draw();
-}
-
 void Maze::draw(Program* program)
 {
-	this->bind();
+	cube->bind(program);
 	for (const glm::vec3 pos : walls) {
 		glm::mat4 transform;
-		glm::vec3 color(0.2f, 0.2f, 0.2f);
+		//glm::vec3 color(0.2f, 0.2f, 0.2f);
 		transform = glm::scale(transform, size * glm::vec3(0.9999f, 0.9999f, 0.9999f));
 		transform = glm::translate(transform, size * glm::vec3(pos));
 		program->setMat4(transform, "transform");
-		program->setVec3(color, "color");
-		this->drawSingle();
+		//program->setVec3(color, "color");
+		cube->draw();
 	}
 
 }

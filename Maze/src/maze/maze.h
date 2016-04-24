@@ -45,13 +45,11 @@ class Maze
 	size_t i(size_t x, size_t y) { return y * width + x; }
 	size_t x(size_t i) { return i % width; }
 	size_t y(size_t i) { return i / width; }
-
-	void bind();
-	void drawSingle();
 public:
 	Maze(int width, int height, float size = 1.0f);
 	Maze(const char* bmp, float size = 1.0f);
 	~Maze();
+	void init(Program* program);
 	void draw(Program* program);
 	Tile* copyBoard();
 	glm::vec3 getEntryPosition();
