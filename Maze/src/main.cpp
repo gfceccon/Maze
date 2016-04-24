@@ -8,7 +8,7 @@ int main(int argc, char const *argv[]) {
 	Game* game = nullptr;
 	try {
 		game = new Game(width, height);
-	} catch (const std::runtime_error& e) {
+	} catch (std::runtime_error e) {
 		delete window;
 		return -1;
 	}

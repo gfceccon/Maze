@@ -35,7 +35,7 @@ Program* Program::addShader(const char* fname, GLenum type)
 {
 	try {
 		new Shader(fname, type, program);
-	} catch (const std::runtime_error& e) {
+	} catch (std::runtime_error e) {
 		throw;
 	}
 

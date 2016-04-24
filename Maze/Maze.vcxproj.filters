@@ -152,13 +152,7 @@
     <ClInclude Include="src\util\color.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\framework\graphics\model\obj\square.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\framework\graphics\core\camera.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\framework\graphics\model\obj\cube.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\framework\graphics\shader\program.h">

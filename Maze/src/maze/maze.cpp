@@ -24,7 +24,12 @@ Maze::Maze(const char* bmp, float size) : size(size)
 
 	RGB* image;
 	UINT32 w, h;
-	FILE* f = fopen(str.c_str(), "rb");
+	FILE* f;
+#ifdef _MSC_VER 
+	fopen_s(&f, str.c_str(), "rb");
+#else
+	f = fopen(str.c_str(), "rb");
+#endif
 	if (!f) {
 		throw std::runtime_error("File " + str + " does not exist");
 	}
