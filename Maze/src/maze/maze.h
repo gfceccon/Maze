@@ -7,10 +7,12 @@
 #include "../framework/graphics/shader/program.h"
 #include "../framework/graphics/model/primitive/cube.h"
 
-#define PLAYER_OFFSET 0.2f
-#define RESPONSE 0.6f
+#define PLAYER_OFFSET 0.15f
+#define RESPONSE 1.0f
 #define PLAYER_HEIGHT 0.5f
-#define MIN_RESPONSE 1.0f
+#define MIN_DST 1.0f
+#define MIN_RESPONSE 0.01f
+#define MIN_COLLISION 7e-5
 
 enum Tile
 {
@@ -35,7 +37,8 @@ class Maze
 {
 	int width, height;
 	Tile* tiles;
-	Cube* cube = nullptr;
+	Cube* wall = nullptr;
+	Cube* floor = nullptr;
 	float size;
 	glm::vec3 entry, exit;
 	std::vector<glm::vec3> walls;

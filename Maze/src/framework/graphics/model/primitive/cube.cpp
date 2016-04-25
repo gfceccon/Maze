@@ -1,6 +1,6 @@
 #include "cube.h"
 
-Cube::Cube(Program* program)
+Cube::Cube(Program* program, const char* tex_fname)
 {
 	SimpleModel::nvertices = 36;
 	SimpleModel::vertices = new GLfloat[nvertices * 3]{
@@ -91,7 +91,7 @@ Cube::Cube(Program* program)
 	};
 	SimpleModel::indices = nullptr;
 	SimpleModel::colors = nullptr;
-	SimpleModel::initTexture(program, "resources/arrow.jpg");
+	SimpleModel::initTexture(program, tex_fname);
 	SimpleModel::init(program, GL_STATIC_DRAW);
 }
 

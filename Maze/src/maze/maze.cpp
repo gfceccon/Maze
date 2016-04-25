@@ -48,12 +48,15 @@ Maze::Maze(const char* bmp, float size) : size(size)
 		if (!(r || g || b)) {
 			tiles[i] = Tile::WALL;
 			walls.push_back(glm::vec3(x(i), 0, y(i)));
-		} else if (r && g && b) {
+		}
+		else if (r && g && b) {
 			tiles[i] = Tile::EMPTY;
-		} else if (!r && !g && b) {
+		}
+		else if (!r && !g && b) {
 			tiles[i] = Tile::ENTRY;
 			entry = glm::vec3(x(i), 0, y(i));
-		} else if (r && !g && !b) {
+		}
+		else if (r && !g && !b) {
 			tiles[i] = Tile::EXIT;
 			exit = glm::vec3(x(i), 0, y(i));
 		}
@@ -63,7 +66,8 @@ Maze::Maze(const char* bmp, float size) : size(size)
 
 void Maze::init(Program* program)
 {
-	cube = new Cube(program);
+	wall = new Cube(program, "resources/wall_brick.jpg");
+	floor = new Cube(program, "resources/floor_brick.jpg");
 }
 
 Maze::~Maze()
@@ -72,15 +76,22 @@ Maze::~Maze()
 
 void Maze::draw(Program* program)
 {
-	cube->bind(program);
+	wall->bind(program);
 	for (const glm::vec3 pos : walls) {
 		glm::mat4 transform;
-		//glm::vec3 color(0.2f, 0.2f, 0.2f);
 		transform = glm::scale(transform, size * glm::vec3(0.9999f, 0.9999f, 0.9999f));
 		transform = glm::translate(transform, size * glm::vec3(pos));
 		program->setMat4(transform, "transform");
-		//program->setVec3(color, "color");
-		cube->draw();
+		wall->draw();
+	}
+	floor->bind(program);
+	for (int i = 0; i < width * height; i++)
+	{
+		glm::mat4 transform;
+		transform = glm::scale(transform, size * glm::vec3(0.9999f, 0.9999f, 0.9999f));
+		transform = glm::translate(transform, size * glm::vec3(x(i), -size, y(i)));
+		program->setMat4(transform, "transform");
+		floor->draw();
 	}
 
 }
@@ -140,22 +151,40 @@ bool Maze::checkCollision(glm::vec3 current, glm::vec3& position)
 	float x2 = size, z2 = size;
 
 	if (dir_x == Direction::EAST && pos_x - cur_x > 0 && tiles[i(cur_x + 1, cur_z)]) {
-		x1 = ((cur_x + 1) * size - PLAYER_OFFSET * RESPONSE) - current.x;
-		z1 = ((position.z - current.z) * x1) / max (position.x - current.x, MIN_RESPONSE);
+		x1 = ((cur_x + 1) * size - PLAYER_OFFSET) - current.x;
+
+		if (x1 * x1 < MIN_RESPONSE && direction.x * direction.x < MIN_COLLISION)
+			z1 = direction.z * RESPONSE;
+		else
+			z1 = (x1 * (position.z - current.z)) / max(position.x - current.x, MIN_DST);
 		collide = true;
-	} else if (dir_x == Direction::WEST && pos_x - cur_x < 0 && tiles[i(cur_x - 1, cur_z)]) {
-		x1 = ((cur_x) * size + PLAYER_OFFSET * RESPONSE) - current.x;
-		z1 = (x1 * (position.z - current.z)) / max (position.x - current.x, MIN_RESPONSE);
+	}
+	else if (dir_x == Direction::WEST && pos_x - cur_x < 0 && tiles[i(cur_x - 1, cur_z)]) {
+		x1 = ((cur_x)* size + PLAYER_OFFSET) - current.x;
+
+		if (x1 * x1 < MIN_RESPONSE && direction.x * direction.x < MIN_COLLISION)
+			z1 = direction.z * RESPONSE;
+		else
+			z1 = (x1 * (position.z - current.z)) / max(position.x - current.x, MIN_DST);
 		collide = true;
 	}
 
 	if (dir_z == Direction::NORTH && pos_z - cur_z > 0 && tiles[i(cur_x, cur_z + 1)]) {
-		z2 = ((cur_z + 1) * size - PLAYER_OFFSET * RESPONSE) - current.z;
-		x2 = (z2 * (position.x - current.x)) / max (position.z - current.z, MIN_RESPONSE);
+		z2 = ((cur_z + 1) * size - PLAYER_OFFSET) - current.z;
+
+		if (z2 * z2 < MIN_RESPONSE && direction.z * direction.z < MIN_COLLISION * 0.75)
+			x2 = direction.x * RESPONSE;
+		else
+			x2 = (z2 * (position.x - current.x)) / max(position.z - current.z, MIN_DST);
 		collide = true;
-	} else if (dir_z == Direction::SOUTH && pos_z - cur_z < 0 && tiles[i(cur_x, cur_z - 1)]) {
-		z2 = ((cur_z) * size + PLAYER_OFFSET * RESPONSE) - current.z;
-		x2 = (z2 * (position.x - current.x)) / max (position.z - current.z, MIN_RESPONSE);
+	}
+	else if (dir_z == Direction::SOUTH && pos_z - cur_z < 0 && tiles[i(cur_x, cur_z - 1)]) {
+		z2 = ((cur_z)* size + PLAYER_OFFSET) - current.z;
+
+		if (z2 * z2 < MIN_RESPONSE && direction.z * direction.z < MIN_COLLISION)
+			x2 = direction.x * RESPONSE;
+		else
+			x2 = (z2 * (position.x - current.x)) / max(position.z - current.z, MIN_DST);
 		collide = true;
 	}
 
@@ -165,7 +194,8 @@ bool Maze::checkCollision(glm::vec3 current, glm::vec3& position)
 
 	if (x1 * x1 + z1 * z1 < x2 * x2 + z2 * z2) {
 		position = current + glm::vec3(x1, 0, z1);
-	} else {
+	}
+	else {
 		position = current + glm::vec3(x2, 0, z2);
 	}
 

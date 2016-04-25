@@ -26,7 +26,7 @@ class Game
 	static Event* last_mouse;
 	static std::queue<Event*> events;
 	static bool key_states[1024];
-	float move_sensibility = 2.5f, zoom_sensibility = .98f, rotation_sensibility = 25.0f;
+	float move_sensibility = 2.5f, zoom_sensibility = .98f, rotation_sensibility = 20.0f;
 public:
 	Game(int width, int height);
 	~Game();
