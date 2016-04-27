@@ -87,7 +87,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\framework\graphics\shader\post_process.cpp" />
+    <ClCompile Include="src\framework\graphics\effects\chrom_aberr.cpp" />
+    <ClCompile Include="src\framework\graphics\effects\post_process.cpp" />
     <ClCompile Include="src\framework\event.cpp" />
     <ClCompile Include="src\framework\graphics\model\primitive\cube.cpp" />
     <ClCompile Include="src\framework\graphics\model\primitive\square.cpp" />
@@ -109,9 +110,11 @@
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\framework\graphics\shader\shader.cpp" />
     <ClCompile Include="src\framework\window.cpp" />
+    <ClCompile Include="src\framework\graphics\effects\timed_effect.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\framework\graphics\shader\post_process.h" />
+    <ClInclude Include="src\framework\graphics\effects\chrom_aberr.h" />
+    <ClInclude Include="src\framework\graphics\effects\post_process.h" />
     <ClInclude Include="src\framework\event.h" />
     <ClInclude Include="src\framework\graphics\model\primitive\cube.h" />
     <ClInclude Include="src\framework\graphics\model\primitive\square.h" />
@@ -133,14 +136,7 @@
     <ClInclude Include="src\maze\player.h" />
     <ClInclude Include="src\maze\maze.h" />
     <ClInclude Include="src\framework\window.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="resources\inverse_fragment.glsl" />
-    <None Include="resources\screen_vertex.glsl" />
-    <None Include="resources\simple_fragment.glsl" />
-    <None Include="resources\simple_vertex.glsl" />
-    <None Include="resources\tex_fragment.glsl" />
-    <None Include="resources\tex_vertex.glsl" />
+    <ClInclude Include="src\framework\graphics\effects\timed_effectt.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

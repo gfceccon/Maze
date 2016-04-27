@@ -15,7 +15,7 @@
 #include "graphics/core/camera.h"
 #include "graphics/shader/program.h"
 #include "graphics/shader/shader.h"
-#include "graphics/shader/post_process.h"
+#include "graphics/effects/chrom_aberr.h"
 
 class Game
 {
@@ -23,7 +23,7 @@ class Game
 	Camera* camera;
 	Program* program, *pp_program;
 	Maze* maze;
-	PostProcess* pp;
+	ChromAberr* aberr;
 	Color clear;
 	static Event* last_mouse;
 	static std::queue<Event*> events;

@@ -67,6 +67,13 @@ void Program::setFloat(const GLfloat& value, const char* uniform)
 	}
 }
 
+void Program::setVec2(const glm::vec2& value, const char* uniform)
+{
+	GLint location = glGetUniformLocation(prog, uniform);
+	if (location != -1) {
+		glUniform2f(location, value.x, value.y);
+	}
+}
 void Program::setVec3(const glm::vec3& value, const char* uniform)
 {
 	GLint location = glGetUniformLocation(prog, uniform);

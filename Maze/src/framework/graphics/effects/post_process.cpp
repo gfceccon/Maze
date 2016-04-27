@@ -4,6 +4,7 @@
 
 PostProcess::PostProcess(int width, int height, Program* program, GLboolean depth, GLboolean stencil)
 {
+	this->program = program;
 	quad = new Square(program);
 	glGenFramebuffers(1, &fbo);
 	glBindFramebuffer(GL_FRAMEBUFFER, fbo);
@@ -54,7 +55,13 @@ void PostProcess::bind()
 	glBindFramebuffer(GL_FRAMEBUFFER, fbo);
 }
 
-void PostProcess::draw(Program* program)
+void PostProcess::draw()
+{
+	beginDraw();
+	endDraw();
+}
+
+void PostProcess::beginDraw()
 {
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
@@ -65,6 +72,10 @@ void PostProcess::draw(Program* program)
 	program->use();
 	quad->bind(program);
 	glBindTexture(GL_TEXTURE_2D, textureID);
+}
+
+void PostProcess::endDraw()
+{
 	quad->draw();
 	glBindVertexArray(0);
 }

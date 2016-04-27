@@ -114,7 +114,13 @@
     <ClCompile Include="src\framework\graphics\model\primitive\square.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\framework\graphics\shader\post_process.cpp">
+    <ClCompile Include="src\framework\graphics\effects\post_process.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\graphics\effects\timed_effect.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\graphics\effects\chrom_aberr.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -182,16 +188,14 @@
     <ClInclude Include="src\framework\graphics\model\primitive\square.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\framework\graphics\shader\post_process.h">
+    <ClInclude Include="src\framework\graphics\effects\post_process.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="resources\simple_vertex.glsl" />
-    <None Include="resources\simple_fragment.glsl" />
-    <None Include="resources\tex_vertex.glsl" />
-    <None Include="resources\tex_fragment.glsl" />
-    <None Include="resources\screen_vertex.glsl" />
-    <None Include="resources\inverse_fragment.glsl" />
+    <ClInclude Include="src\framework\graphics\effects\timed_effectt.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\graphics\effects\chrom_aberr.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -26,6 +26,7 @@ class Program
 
 		void setInt(const GLint& value, const char* uniform);
 		void setFloat(const GLfloat& value, const char* uniform);
+		void setVec2(const glm::vec2& value, const char* uniform);
 		void setVec3(const glm::vec3& value, const char* uniform);
 		void setVec4(const glm::vec4& value, const char* uniform);
 		void setMat3(const glm::mat3& value, const char* uniform);
