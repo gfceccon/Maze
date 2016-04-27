@@ -132,7 +132,7 @@ void SimpleModel::init(Program* program, GLenum drawing)
 
 	if (indices) {
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, nindices * sizeof(GLuint), indices, drawing);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, 3 * nindices * sizeof(GLuint), indices, drawing);
 	}
 
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
@@ -156,7 +156,7 @@ void SimpleModel::init(Program* program, GLenum drawing)
 
 	if (colors)
 	{
-		GLint index = program->getAttr("texCoord");
+		GLint index = program->getAttr("color");
 		glVertexAttribPointer(index, 3, GL_FLOAT, GL_FALSE, stride * sizeof(GLfloat), (GLvoid*)(5 *sizeof(GLfloat)));
 		glEnableVertexAttribArray(index);
 		delete colors;

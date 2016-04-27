@@ -33,9 +33,17 @@ Game::Game(int width, int height)
 		program->addShader("tex_vertex.glsl", GL_VERTEX_SHADER)
 			->addShader("tex_fragment.glsl", GL_FRAGMENT_SHADER);
 		program->link();
-
 		maze = new Maze("maze.bmp");
 		maze->init(program);
+
+		pp_program = new Program();
+
+		pp_program->addShader("screen_vertex.glsl", GL_VERTEX_SHADER)
+			->addShader("inverse_fragment.glsl", GL_FRAGMENT_SHADER);
+		pp_program->link();
+
+		pp = new PostProcess(width, height, pp_program);
+
 	} catch (const std::runtime_error& e) {
 		std::cout << e.what() << std::endl;
 		throw;
@@ -50,6 +58,8 @@ Game::~Game()
 	if (last_mouse)
 		delete last_mouse;
 	delete program;
+	delete pp_program;
+	delete pp;
 	delete maze;
 	delete camera;
 }
@@ -110,11 +120,17 @@ void Game::update(float delta)
 
 void Game::draw(float delta)
 {
+	pp->bind();
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glEnable(GL_DEPTH_TEST);
+
+
 	program->use();
 
 	camera->update(player);
 	camera->bind(program);
 
 	maze->draw(program);
+
+	pp->draw(pp_program);
 }

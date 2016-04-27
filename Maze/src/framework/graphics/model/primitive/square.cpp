@@ -2,24 +2,37 @@
 
 
 
-Square::Square(Program* program)
+Square::Square(Program* program, const char* tex_fname)
 {
-	SimpleModel::nvertices = 4;
-	SimpleModel::nindices = 2;
+	SimpleModel::nvertices = 6;
+	//SimpleModel::nindices = 2;
 	SimpleModel::vertices = new GLfloat[nvertices * 3]
 	{
-		0.5f,  0.5f, 0.0f,  // Top Right
-		0.5f, -0.5f, 0.0f,  // Bottom Right
-		-0.5f, -0.5f, 0.0f,  // Bottom Left
-		-0.5f,  0.5f, 0.0f   // Top Left 
+		 1.0f, -1.0f, 0.0f,  // Bottom Right
+		 1.0f,  1.0f, 0.0f,  // Top Right
+		-1.0f,  1.0f, 0.0f,  // Top Left 
+		-1.0f, -1.0f, 0.0f,  // Bottom Left
+		 1.0f, -1.0f, 0.0f,  // Bottom Right
+		-1.0f,  1.0f, 0.0f   // Top Left 
 	};
-	SimpleModel::indices = new GLuint[nindices * 3]
+	SimpleModel::indices = nullptr;
+	//SimpleModel::indices = new GLuint[nindices * 3]
+	//{
+	//	0, 1, 3,  // First Triangle
+	//	1, 2, 3   // Second Triangle
+	//};
+	SimpleModel::uvs = new GLfloat[nvertices * 2]
 	{
-		0, 1, 3,  // First Triangle
-		1, 2, 3   // Second Triangle
+		1, 0,
+		1, 1,
+		0, 1,
+		0, 0,
+		1, 0,
+		0, 1
 	};
-	SimpleModel::uvs = nullptr;
 	SimpleModel::colors = nullptr;
+	if (tex_fname)
+		SimpleModel::initTexture(program, tex_fname);
 	SimpleModel::init(program, GL_STATIC_DRAW);
 }
 

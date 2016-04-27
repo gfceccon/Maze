@@ -114,6 +114,9 @@
     <ClCompile Include="src\framework\graphics\model\primitive\square.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\framework\graphics\shader\post_process.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\maze\maze.h">
@@ -179,11 +182,16 @@
     <ClInclude Include="src\framework\graphics\model\primitive\square.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\framework\graphics\shader\post_process.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="resources\simple_vertex.glsl" />
     <None Include="resources\simple_fragment.glsl" />
     <None Include="resources\tex_vertex.glsl" />
     <None Include="resources\tex_fragment.glsl" />
+    <None Include="resources\screen_vertex.glsl" />
+    <None Include="resources\inverse_fragment.glsl" />
   </ItemGroup>
 </Project>

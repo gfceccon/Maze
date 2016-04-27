@@ -15,13 +15,15 @@
 #include "graphics/core/camera.h"
 #include "graphics/shader/program.h"
 #include "graphics/shader/shader.h"
+#include "graphics/shader/post_process.h"
 
 class Game
 {
 	Player* player;
 	Camera* camera;
-	Program* program;
+	Program* program, *pp_program;
 	Maze* maze;
+	PostProcess* pp;
 	Color clear;
 	static Event* last_mouse;
 	static std::queue<Event*> events;
