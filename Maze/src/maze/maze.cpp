@@ -89,7 +89,7 @@ void Maze::draw(Program* program)
 	{
 		glm::mat4 transform;
 		transform = glm::scale(transform, size * glm::vec3(0.9999f, 0.9999f, 0.9999f));
-		transform = glm::translate(transform, size * glm::vec3(x(i), -size, y(i)));
+		transform = glm::translate(transform, size * glm::vec3(x(i), -1.0f, y(i)));
 		program->setMat4(transform, "transform");
 		floor->draw();
 	}
