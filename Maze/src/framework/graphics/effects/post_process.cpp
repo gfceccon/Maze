@@ -47,6 +47,7 @@ PostProcess::~PostProcess()
 {
 	glDeleteFramebuffers(1, &fbo);
 	glDeleteRenderbuffers(1, &rbo);
+	glDeleteTextures(1, &textureID);
 	delete quad;
 }
 

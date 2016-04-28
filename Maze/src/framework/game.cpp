@@ -66,14 +66,6 @@ Game::~Game()
 }
 
 
-void Game::setClearColor(const Color& color)
-{
-	this->clear = color;
-	glClearColor(clear.r, clear.g, clear.b, clear.a);
-}
-
-
-
 void Game::update(float delta)
 {
 	if (Game::key_states[GLFW_KEY_D]){
@@ -122,8 +114,10 @@ void Game::update(float delta)
 void Game::draw(float delta)
 {
 	aberr->bind();
+	glClearColor(clear.r, clear.g, clear.b, clear.a);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_TEXTURE_2D);
 
 
 	program->use();

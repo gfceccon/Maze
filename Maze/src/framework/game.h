@@ -24,7 +24,7 @@ class Game
 	Program* program, *pp_program;
 	Maze* maze;
 	ChromAberr* aberr;
-	Color clear;
+	Color clear = Color(1.0f, 1.0f, 1.0f);
 	static Event* last_mouse;
 	static std::queue<Event*> events;
 	static bool key_states[1024];
@@ -32,8 +32,6 @@ class Game
 public:
 	Game(int width, int height);
 	~Game();
-
-	void setClearColor(const Color& color);
 
 	void update(float delta);
 	void draw(float delta);
