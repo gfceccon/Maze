@@ -4,14 +4,13 @@
 
 class TimedEffect : protected PostProcess
 {
-	char* uniform;
+	const char* uniform;
 	void draw() override;
 protected:
 	float time;
 	void beginDraw() override;
 public:
-	TimedEffect(char* uniform, int width, int height, Program* program);
-	~TimedEffect();
+	TimedEffect(const char* uniform, int width, int height, Program* program);
 	void bind();
 	virtual void draw(float delta);
 };

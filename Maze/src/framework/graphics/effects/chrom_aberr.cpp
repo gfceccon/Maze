@@ -9,7 +9,7 @@ ChromAberr::ChromAberr(int width, int height, Program* program) :
 	this->height = height;
 }
 
-void ChromAberr::init(char* red_uniform, glm::vec2 red_offset, char* green_uniform, glm::vec2 green_offset, char* blue_uniform, glm::vec2 blue_offset)
+void ChromAberr::init(const char* red_uniform, glm::vec2 red_offset, const char* green_uniform, glm::vec2 green_offset, const char* blue_uniform, glm::vec2 blue_offset)
 {
 	this->red_uniform = red_uniform;
 	this->green_uniform = green_uniform;
@@ -18,11 +18,6 @@ void ChromAberr::init(char* red_uniform, glm::vec2 red_offset, char* green_unifo
 	this->red_offset = red_offset;
 	this->green_offset = green_offset;
 	this->blue_offset = blue_offset;
-}
-
-
-ChromAberr::~ChromAberr()
-{
 }
 
 void ChromAberr::draw(float delta)

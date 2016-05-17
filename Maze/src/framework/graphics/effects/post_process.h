@@ -1,6 +1,6 @@
 #pragma once
 
-#include <gl/glew.h>
+#include <GL/glew.h>
 #include "../model/primitive/square.h"
 #include "../shader/program.h"
 
@@ -15,7 +15,7 @@ protected:
 	virtual void endDraw();
 public:
 	PostProcess(int width, int height, Program* program, GLboolean depth = GL_FALSE, GLboolean stencil = GL_FALSE);
-	~PostProcess();
+	virtual ~PostProcess();
 	void bind();
 	virtual void draw();
 };

@@ -18,7 +18,7 @@ protected:
 	void init(Program* program, GLenum drawing);
 public:
 	SimpleModel();
-	~SimpleModel();
+	virtual ~SimpleModel();
 	void bind(Program* program);
 	void draw(GLenum mode);
 	virtual void draw() { draw(GL_STATIC_DRAW); };

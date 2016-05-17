@@ -9,7 +9,7 @@ samples/
 docs/
 doc/
 *.db
-
+.vscode/
 
 
 # User-specific files
