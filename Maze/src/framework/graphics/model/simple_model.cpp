@@ -7,23 +7,6 @@
 
 SimpleModel::SimpleModel()
 {
-	if (!vertices)
-		throw std::runtime_error("Model loading fail, missing vertices!");
-
-	glGenVertexArrays(1, &vao);
-	glGenBuffers(1, &vbo);
-
-	if (indices) {
-		glGenBuffers(1, &ebo);
-	}
-
-	if (uvs) {
-		//glGenBuffers(1, &uvbo);
-	}
-
-	if (colors) {
-		//glGenBuffers(1, &nbo);
-	}
 }
 
 
@@ -95,6 +78,24 @@ void SimpleModel::initNormal(Program* program, const char* file_name)
 
 void SimpleModel::init(Program* program, GLenum drawing)
 {
+	if (!vertices)
+		throw std::runtime_error("Model loading fail, missing vertices!");
+
+	glGenVertexArrays(1, &vao);
+	glGenBuffers(1, &vbo);
+
+	if (indices) {
+		glGenBuffers(1, &ebo);
+	}
+
+	if (uvs) {
+		//glGenBuffers(1, &uvbo);
+	}
+
+	if (colors) {
+		//glGenBuffers(1, &nbo);
+	}
+	
 	GLsizei stride = 3;
 
 	if (uvs) {

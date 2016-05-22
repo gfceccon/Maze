@@ -91,9 +91,9 @@ Cube::Cube(Program* program, const char* tex_fname)
 	};
 	SimpleModel::indices = nullptr;
 	SimpleModel::colors = nullptr;
+	SimpleModel::init(program, GL_STATIC_DRAW);
 	if(tex_fname)
 		SimpleModel::initTexture(program, tex_fname);
-	SimpleModel::init(program, GL_STATIC_DRAW);
 }
 
 

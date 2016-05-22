@@ -21,6 +21,6 @@ public:
 	virtual ~SimpleModel();
 	void bind(Program* program);
 	void draw(GLenum mode);
-	virtual void draw() { draw(GL_STATIC_DRAW); };
+	virtual void draw() { draw(GL_TRIANGLES); };
 };
 
