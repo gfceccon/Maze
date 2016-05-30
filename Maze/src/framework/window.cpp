@@ -22,22 +22,24 @@ Window::Window(const char* title, int width, int height)
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, MINOR_VERSION);
 	glfwWindowHint(GLFW_SAMPLES, ANTIALIASING_SAMPLES);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	int count;
-	GLFWmonitor** monitors;
-	monitors = glfwGetMonitors(&count);
-	if (count > 1)
-	{
-		int x, y;
-		glfwGetMonitorPos(monitors[1], &x, &y);
-		window = glfwCreateWindow(width, height, title, NULL, NULL);
-		glfwSetWindowPos(window, x + XOFFSET, y + YOFFSET);
-	}
-	else
-	{
-		window = glfwCreateWindow(width, height, title, NULL, NULL);
-		glfwSetWindowPos(window, XOFFSET, YOFFSET);
-	}
 
+    GLFWmonitor* pmonitor = glfwGetPrimaryMonitor();
+    const GLFWvidmode* vidmode = glfwGetVideoMode(pmonitor);
+    window = glfwCreateWindow(width, height, title, NULL, NULL);
+    glfwSetWindowPos(window, (vidmode->width - width)/2, (vidmode->height - height)/2);
+
+	//if (count > 1)
+	//{
+	//	int x, y;
+	//	glfwGetMonitorPos(monitors[1], &x, &y);
+	//	window = glfwCreateWindow(width, height, title, NULL, NULL);
+	//	glfwSetWindowPos(window, x + XOFFSET, y + YOFFSET);
+	//}
+	//else
+	//{
+	//	window = glfwCreateWindow(width, height, title, NULL, NULL);
+	//	glfwSetWindowPos(window, XOFFSET, YOFFSET);
+	//}
 
 	if (!window)
 	{

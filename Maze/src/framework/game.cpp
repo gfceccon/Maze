@@ -65,22 +65,21 @@ Game::~Game()
 	delete camera;
 }
 
-
 void Game::update(float delta)
 {
-	if (Game::key_states[GLFW_KEY_D]){
+	if (Game::key_states[GLFW_KEY_D] || Game::key_states[GLFW_KEY_RIGHT]){
 		player->move(maze, Axis::X, delta * move_sensibility);
 	}
 
-	if (Game::key_states[GLFW_KEY_A]){
+	if (Game::key_states[GLFW_KEY_A] || Game::key_states[GLFW_KEY_LEFT]){
 		player->move(maze, Axis::X, delta * -move_sensibility);
 	}
 
-	if (Game::key_states[GLFW_KEY_W]){
+	if (Game::key_states[GLFW_KEY_W] || Game::key_states[GLFW_KEY_UP]){
 		player->move(maze, Axis::Z, delta * move_sensibility);
 	}
 
-	if (Game::key_states[GLFW_KEY_S]){
+	if (Game::key_states[GLFW_KEY_S] || Game::key_states[GLFW_KEY_DOWN]){
 		player->move(maze, Axis::Z, delta * -move_sensibility);
 	}
 
