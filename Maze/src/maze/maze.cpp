@@ -122,7 +122,7 @@ bool Maze::checkCollision(glm::vec3 current, glm::vec3& position)
 
 	glm::vec3 direction = position - current;
 
-	Direction dir_x = Direction::UNKNOW, dir_z = Direction::UNKNOW;
+	Direction dir_x = Direction::UNKNOWN, dir_z = Direction::UNKNOWN;
 
 	if (direction.x > 0) {
 		dir_x = Direction::EAST;
@@ -141,7 +141,7 @@ bool Maze::checkCollision(glm::vec3 current, glm::vec3& position)
 		pos_z = static_cast<int>(floorf((position.z - PLAYER_OFFSET) / size));
 	}
 
-	if (dir_x == Direction::UNKNOW && dir_z == Direction::UNKNOW) {
+	if (dir_x == Direction::UNKNOWN && dir_z == Direction::UNKNOWN) {
 		return false;
 	}
 

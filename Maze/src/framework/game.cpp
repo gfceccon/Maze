@@ -43,7 +43,7 @@ Game::Game(int width, int height)
 		pp_program->link();
 
 		aberr = new ChromAberr(width, height, pp_program);
-		aberr->init("rOffset", glm::vec2(-8.66f, 5.0f), "gOffset", glm::vec2(0.0f, -10.0f), "bOffset", glm::vec2(8.66f, 5.0f));
+		aberr->init("rOffset", glm::vec2(-2.0f, 1.0f), "gOffset", glm::vec2(0.0f, -2.0f), "bOffset", glm::vec2(2.0f, 1.0f));
 
 	} catch (const std::runtime_error& e) {
 		std::cout << e.what() << std::endl;
@@ -68,20 +68,26 @@ Game::~Game()
 void Game::update(float delta)
 {
 	if (Game::key_states[GLFW_KEY_D] || Game::key_states[GLFW_KEY_RIGHT]){
-		player->move(maze, Axis::X, delta * move_sensibility);
+        player->applyVelocity(Axis::X, move_sensibility);
 	}
 
 	if (Game::key_states[GLFW_KEY_A] || Game::key_states[GLFW_KEY_LEFT]){
-		player->move(maze, Axis::X, delta * -move_sensibility);
+        player->applyVelocity(Axis::X, -move_sensibility);
 	}
 
 	if (Game::key_states[GLFW_KEY_W] || Game::key_states[GLFW_KEY_UP]){
-		player->move(maze, Axis::Z, delta * move_sensibility);
+        player->applyVelocity(Axis::Z, move_sensibility);
 	}
 
 	if (Game::key_states[GLFW_KEY_S] || Game::key_states[GLFW_KEY_DOWN]){
-		player->move(maze, Axis::Z, delta * -move_sensibility);
+        player->applyVelocity(Axis::Z, -move_sensibility);
 	}
+
+    if (Game::key_states[GLFW_KEY_SPACE]) {
+        player->applyVelocity(Axis::Y, move_sensibility * 10);
+    }
+
+    player->move(maze, gravity, delta);
 
 	while (events.size() > 0) {
 		Event* e = events.front();
@@ -117,7 +123,6 @@ void Game::draw(float delta)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_TEXTURE_2D);
-
 
 	program->use();
 

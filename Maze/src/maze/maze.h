@@ -26,7 +26,7 @@ enum Tile
 
 enum Direction
 {
-	UNKNOW,
+	UNKNOWN,
 	NORTH,
 	SOUTH,
 	WEST,
