@@ -48,7 +48,7 @@ void ProceduralMaze::generate()
 		grid[std::make_tuple(passage_x, passage_y)] = Tile::EMPTY;
 		grid[cell_pos] = Tile::EMPTY;
 		for (auto value : getAdjCells(cell_pos, Tile::WALL)) {
-			if (std::find(frontiers.begin(), frontiers.end(), value) != frontiers.end()) {
+			if (std::find(frontiers.begin(), frontiers.end(), value) == frontiers.end()) {
 				frontiers.push_back(value);
 			}
 		}
@@ -75,26 +75,31 @@ std::vector<std::tuple<int,int>> ProceduralMaze::getAdjCells(std::tuple<int, int
 
 	std::vector<std::tuple<int, int>> result = std::vector<std::tuple<int, int>>();
 	for (auto adj_pos : pos) {
-		if (grid[adj_pos] == tile_state) {
-			result.push_back(adj_pos);
-		}
+		try {
+			if (grid.at(adj_pos) == tile_state) {
+				result.push_back(adj_pos);
+			}
+		} catch (std::out_of_range) {}
 	}
 
 	return result;
 }
 
-int main(void)
-{
-	ProceduralMaze* maze = new ProceduralMaze(10, 10);
-	maze->generate();
-	for (int y = 0; y < 10; ++y) {
-		for (int x = 0; x < 10; ++x) {
-			char c = maze->grid[std::make_tuple(x, y)] == Tile::EMPTY ? ' ' : '#';
+void ProceduralMaze::print() {
+	for (int y = 0; y < height; ++y) {
+		for (int x = 0; x < width; ++x) {
+			char c = grid[std::make_tuple(x, y)] == Tile::EMPTY ? '.' : '#';
 			std::cout << c;
 		}
 		std::cout << std::endl;
 	}
+}
 
+int main(void)
+{
+	ProceduralMaze* maze = new ProceduralMaze(11, 11);
+	maze->generate();
+	maze->print();
 
 	return 0;
 }
