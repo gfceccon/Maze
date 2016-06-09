@@ -1,5 +1,5 @@
 #include "player.h"
-
+#include <cmath>
 #include "../util/log.h"
 
 Player::Player(glm::vec3 position)
@@ -27,13 +27,13 @@ void Player::applyVelocity(Axis direction, float amount)
         break;
     }
 
-    if (abs(velocity.x) > topVelocity.x)
+    if (std::abs(velocity.x) > topVelocity.x)
         velocity.x = topVelocity.x * sgn(velocity.x);
 
-    if (abs(velocity.y) > topVelocity.y)
+    if (std::abs(velocity.y) > topVelocity.y)
         velocity.y = topVelocity.y * sgn(velocity.y);
 
-    if (abs(velocity.z) > topVelocity.z)
+    if (std::abs(velocity.z) > topVelocity.z)
         velocity.z = topVelocity.z * sgn(velocity.z);
 }
 
@@ -54,7 +54,7 @@ void Player::move(Maze* maze, glm::vec3 gravity, float delta)
         position.y = 2.0f;
 
     velocity += gravity * delta;
-    velocity -= abs(glm::length(velocity)) * friction * velocity;
+    velocity -= std::abs(glm::length(velocity)) * friction * velocity;
 
 	maze->checkCollision(this->position, position);
 	this->position = position;
