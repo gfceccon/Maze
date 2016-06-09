@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <cstdlib>
 #include <iostream>
 #include <ctime>
@@ -41,12 +42,16 @@ void ProceduralMaze::generate()
 
 		index = std::rand() % neighboors.size();
 		std::tuple<int, int> neighboor = neighboors[index];
-		int passage_x = (std::get<0>(neighboor) - std::get<0>(cell_pos)) + std::get<0>(cell_pos);
-		int passage_y = (std::get<1>(neighboor) - std::get<1>(cell_pos)) + std::get<1>(cell_pos);
+		int passage_x = (std::get<0>(neighboor) - std::get<0>(cell_pos))/2 + std::get<0>(cell_pos);
+		int passage_y = (std::get<1>(neighboor) - std::get<1>(cell_pos))/2 + std::get<1>(cell_pos);
 
 		grid[std::make_tuple(passage_x, passage_y)] = Tile::EMPTY;
-		grid[neighboor] = Tile::EMPTY;
 		grid[cell_pos] = Tile::EMPTY;
+		for (auto value : getAdjCells(cell_pos, Tile::WALL)) {
+			if (std::find(frontiers.begin(), frontiers.end(), value) != frontiers.end()) {
+				frontiers.push_back(value);
+			}
+		}
 	}
 }
 
