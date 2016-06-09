@@ -90,6 +90,7 @@ void Maze::draw(Program* program)
 		program->setMat4(transform, "transform");
 		wall->draw();
 	}
+
 	floor->bind(program);
 	for (int i = 0; i < width * height; i++)
 	{
@@ -134,14 +135,17 @@ bool Maze::checkCollision(glm::vec3 current, glm::vec3& position)
 		dir_x = Direction::EAST;
 		pos_x = static_cast<int>(floorf((position.x + PLAYER_OFFSET) / size));
 	}
+
 	if (direction.x < 0) {
 		dir_x = Direction::WEST;
 		pos_x = static_cast<int>(floorf((position.x - PLAYER_OFFSET) / size));
 	}
+
 	if (direction.z > 0) {
 		dir_z = Direction::NORTH;
 		pos_z = static_cast<int>(floorf((position.z + PLAYER_OFFSET) / size));
 	}
+
 	if (direction.z < 0) {
 		dir_z = Direction::SOUTH;
 		pos_z = static_cast<int>(floorf((position.z - PLAYER_OFFSET) / size));
@@ -158,39 +162,41 @@ bool Maze::checkCollision(glm::vec3 current, glm::vec3& position)
 
 	if (dir_x == Direction::EAST && pos_x - cur_x > 0 && tiles[i(cur_x + 1, cur_z)]) {
 		x1 = ((cur_x + 1) * size - PLAYER_OFFSET) - current.x;
-
-		if (x1 * x1 < MIN_RESPONSE && direction.x * direction.x < MIN_COLLISION)
+		if (x1 * x1 < MIN_RESPONSE && direction.x * direction.x < MIN_COLLISION) {
 			z1 = direction.z * RESPONSE;
-		else
+		} else {
 			z1 = (x1 * (position.z - current.z)) / max(position.x - current.x, MIN_DST);
+		}
+
 		collide = true;
-	}
-	else if (dir_x == Direction::WEST && pos_x - cur_x < 0 && tiles[i(cur_x - 1, cur_z)]) {
+	} else if (dir_x == Direction::WEST && pos_x - cur_x < 0 && tiles[i(cur_x - 1, cur_z)]) {
 		x1 = ((cur_x)* size + PLAYER_OFFSET) - current.x;
-
-		if (x1 * x1 < MIN_RESPONSE && direction.x * direction.x < MIN_COLLISION)
+		if (x1 * x1 < MIN_RESPONSE && direction.x * direction.x < MIN_COLLISION) {
 			z1 = direction.z * RESPONSE;
-		else
+		} else {
 			z1 = (x1 * (position.z - current.z)) / max(position.x - current.x, MIN_DST);
+		}
+
 		collide = true;
 	}
 
 	if (dir_z == Direction::NORTH && pos_z - cur_z > 0 && tiles[i(cur_x, cur_z + 1)]) {
 		z2 = ((cur_z + 1) * size - PLAYER_OFFSET) - current.z;
-
-		if (z2 * z2 < MIN_RESPONSE && direction.z * direction.z < MIN_COLLISION * 0.75)
+		if (z2 * z2 < MIN_RESPONSE && direction.z * direction.z < MIN_COLLISION * 0.75) {
 			x2 = direction.x * RESPONSE;
-		else
+		} else {
 			x2 = (z2 * (position.x - current.x)) / max(position.z - current.z, MIN_DST);
+		}
+
 		collide = true;
-	}
-	else if (dir_z == Direction::SOUTH && pos_z - cur_z < 0 && tiles[i(cur_x, cur_z - 1)]) {
+	} else if (dir_z == Direction::SOUTH && pos_z - cur_z < 0 && tiles[i(cur_x, cur_z - 1)]) {
 		z2 = ((cur_z)* size + PLAYER_OFFSET) - current.z;
-
-		if (z2 * z2 < MIN_RESPONSE && direction.z * direction.z < MIN_COLLISION)
+		if (z2 * z2 < MIN_RESPONSE && direction.z * direction.z < MIN_COLLISION) {
 			x2 = direction.x * RESPONSE;
-		else
+		} else {
 			x2 = (z2 * (position.x - current.x)) / max(position.z - current.z, MIN_DST);
+		}
+
 		collide = true;
 	}
 
@@ -200,8 +206,7 @@ bool Maze::checkCollision(glm::vec3 current, glm::vec3& position)
 
 	if (x1 * x1 + z1 * z1 < x2 * x2 + z2 * z2) {
 		position = current + glm::vec3(x1, 0, z1);
-	}
-	else {
+	} else {
 		position = current + glm::vec3(x2, 0, z2);
 	}
 
