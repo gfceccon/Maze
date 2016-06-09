@@ -20,11 +20,11 @@ Maze::Maze(int width, int height, float size) : size(size)
 	procedural_maze->generate();
 
 	std::map<std::tuple<int, int>, Tile> grid = procedural_maze->getGrid();
-	tile = new Tile[this->height * this->width];
+	this->tiles = new Tile[this->height * this->width];
 	for (int x = 0; x < this->width; ++x) {
 		for (int y = 0; y < this->height; ++y) {
 			std::tuple<int, int> pos = std::make_tuple(x, y);
-			Tile[x + this->width*y] = grid[pos];
+			this->tiles[x + this->width*y] = grid[pos];
 		}
 	}
 }
