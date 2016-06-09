@@ -15,7 +15,7 @@ class ProceduralMaze
 		ProceduralMaze(int width, int height);
 
 		void generate();
-		void clear_grid();
+		void clearGrid();
 		std::vector<std::tuple<int, int>> getAdjCells(std::tuple<int, int> center, Tile tile_state);
 };
 
