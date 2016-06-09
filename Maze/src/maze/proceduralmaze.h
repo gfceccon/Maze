@@ -9,7 +9,7 @@ class ProceduralMaze
 	private:
 		int width;
 		int height;
-		std::map<std::tuple<int, int>, int> grid;
+		std::map<std::tuple<int, int>, Tile> grid;
 
 		void clearGrid();
 		std::vector<std::tuple<int, int>> getAdjCells(std::tuple<int, int> center, Tile tile_state);
@@ -19,7 +19,7 @@ class ProceduralMaze
 
 		void generate();
 		void print();
-		std::map<std::tuple<int, int>, int> getGrid() { return grid; }
+		std::map<std::tuple<int, int>, Tile> getGrid() { return grid; }
 };
 
 #endif

@@ -12,7 +12,7 @@ ProceduralMaze::ProceduralMaze(int width, int height)
 	this->height = height % 2 == 0 ? height + 1 : height;
 	this->width = width % 2 == 0 ? width + 1 : width;
 
-	this->grid = std::map<std::tuple<int, int>, int>();
+	this->grid = std::map<std::tuple<int, int>, Tile>();
 	clearGrid();
 }
 
@@ -79,7 +79,7 @@ std::vector<std::tuple<int,int>> ProceduralMaze::getAdjCells(std::tuple<int, int
 			if (grid.at(adj_pos) == tile_state) {
 				result.push_back(adj_pos);
 			}
-		} catch (std::out_of_range) {}
+		} catch (std::out_of_range) { }
 	}
 
 	return result;
@@ -93,13 +93,4 @@ void ProceduralMaze::print() {
 		}
 		std::cout << std::endl;
 	}
-}
-
-int main(void)
-{
-	ProceduralMaze* maze = new ProceduralMaze(11, 11);
-	maze->generate();
-	maze->print();
-
-	return 0;
 }
