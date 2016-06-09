@@ -1,4 +1,5 @@
 #include "maze.h"
+#include "proceduralmaze.h"
 
 #include <cstdio>
 #include <string>
@@ -11,9 +12,21 @@
 #include "../util/bitmap.h"
 #include "../util/log.h"
 
-Maze::Maze(int width, int height, float size) : width(width), height(height), size(size)
+Maze::Maze(int width, int height, float size) : size(size)
 {
-	tiles = new Tile[width * height];
+	this->height = height % 2 == 0 ? height + 1 : height;
+	this->width = width % 2 == 0 ? width + 1 : width;
+	ProceduralMaze* procedural_maze = new ProceduralMaze(this->width, this->height);
+	procedural_maze->generate();
+
+	std::map<std::tuple<int, int>, Tile> grid = procedural_maze->getGrid();
+	tile = new Tile[this->height * this->width];
+	for (int x = 0; x < this->width; ++x) {
+		for (int y = 0; y < this->height; ++y) {
+			std::tuple<int, int> pos = std::make_tuple(x, y);
+			Tile[x + this->width*y] = grid[pos];
+		}
+	}
 }
 
 Maze::Maze(const char* bmp, float size) : size(size)
@@ -23,12 +36,8 @@ Maze::Maze(const char* bmp, float size) : size(size)
 
 	RGB* image;
 	UINT32 w, h;
-	FILE* f;
-#ifdef _MSC_VER 
-	fopen_s(&f, str.c_str(), "rb");
-#else
-	f = fopen(str.c_str(), "rb");
-#endif
+	FILE* f = fopen(str.c_str(), "rb");
+
 	if (!f) {
 		throw std::runtime_error("File " + str + " does not exist");
 	}
@@ -48,15 +57,12 @@ Maze::Maze(const char* bmp, float size) : size(size)
 		if (!(r || g || b)) {
 			tiles[i] = Tile::WALL;
 			walls.push_back(glm::vec3(x(i), 0, y(i)));
-		}
-		else if (r && g && b) {
+		} else if (r && g && b) {
 			tiles[i] = Tile::EMPTY;
-		}
-		else if (!r && !g && b) {
+		} else if (!r && !g && b) {
 			tiles[i] = Tile::ENTRY;
 			entry = glm::vec3(x(i), 0, y(i));
-		}
-		else if (r && !g && !b) {
+		} else if (r && !g && !b) {
 			tiles[i] = Tile::EXIT;
 			exit = glm::vec3(x(i), 0, y(i));
 		}
@@ -96,7 +102,7 @@ void Maze::draw(Program* program)
 
 }
 
-Tile * Maze::copyBoard()
+Tile* Maze::copyBoard()
 {
 	Tile* cpy = new Tile[width * height];
 	std::memcpy(cpy, tiles, sizeof(Tile) * width * height);
