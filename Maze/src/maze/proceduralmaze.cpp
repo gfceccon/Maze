@@ -1,8 +1,13 @@
+#include <cstdlib>
 #include <iostream>
+#include <ctime>
 #include "proceduralmaze.h"
 
 ProceduralMaze::ProceduralMaze(int width, int height)
 {
+	std::srand(std::time(NULL));
+
+	// Odd width and height to make sure we have borders
 	this->height = height % 2 == 0 ? height + 1 : height;
 	this->width = width % 2 == 0 ? width + 1 : width;
 
@@ -13,48 +18,36 @@ ProceduralMaze::ProceduralMaze(int width, int height)
 void ProceduralMaze::generate()
 {
 	clearGrid();
-	/* Rust code
-	let x = rand::thread_rng().gen_range(1, self.width - 1);
-	let y = rand::thread_rng().gen_range(1, self.height - 1);
+	int x = std::rand() % (width - 1) + 1;
+	int y = std::rand() % (height - 1) + 1;
 
-	let x = if x % 2 == 0 { x + 1} else { x };
-	let y = if y % 2 == 0 { y + 1} else { y };
+	// Odd start numbers to make sure we have borders
+	x = x % 2 == 0 ? x + 1 : x;
+	y = y % 2 == 0 ? y + 1 : y;
 
-	// First frontier cell needs to be odd to guarantee borders
-	let cell = CellPos(x, y);
-	{
-		let entry = self.grid.get_mut(&cell).unwrap();
-		*entry = CellState::PASSAGE;
-	}
+	std::tuple<int, int> cell_pos = std::make_tuple(x, y);
+	grid[cell_pos] = Tile::EMPTY;
 
-	let mut frontiers = self.get_adjcells(cell, CellState::BLOCKED);
-	while !frontiers.is_empty() {
-		let index = rand::thread_rng().gen_range(0, frontiers.len());
-		let cell = frontiers.swap_remove(index);
-		let neighboors = self.get_adjcells(cell, CellState::PASSAGE);
+	std::vector<std::tuple<int, int>> frontiers = getAdjCells(cell_pos, Tile::WALL);
+	while (!frontiers.empty()) {
+		int index = std::rand() % frontiers.size();
+		cell_pos = frontiers[index];
+		frontiers.erase(frontiers.begin() + index);
 
-		if neighboors.len() == 0 {
+		std::vector<std::tuple<int, int>> neighboors = getAdjCells(cell_pos, Tile::EMPTY);
+		if (neighboors.empty()) {
 			continue;
 		}
 
-		let index = rand::thread_rng().gen_range(0, neighboors.len());
-		let neighboor = neighboors.get(index).unwrap();
-		let passage = cell - *neighboor;
-		{
-			let entry = self.grid.get_mut(&passage).unwrap();
-			*entry = CellState::PASSAGE;
-		}
-		{
-			let entry = self.grid.get_mut(&cell).unwrap();
-			*entry = CellState::PASSAGE;
-		}
+		index = std::rand() % neighboors.size();
+		std::tuple<int, int> neighboor = neighboors[index];
+		int passage_x = (std::get<0>(neighboor) - std::get<0>(cell_pos)) + std::get<0>(cell_pos);
+		int passage_y = (std::get<1>(neighboor) - std::get<1>(cell_pos)) + std::get<1>(cell_pos);
 
-		let v: Vec<CellPos> = self.get_adjcells(cell, CellState::BLOCKED)
-									.into_iter()
-									.filter(|value| !frontiers.contains(value))
-									.collect();
-		frontiers.extend(v.into_iter());
-	}*/
+		grid[std::make_tuple(passage_x, passage_y)] = Tile::EMPTY;
+		grid[neighboor] = Tile::EMPTY;
+		grid[cell_pos] = Tile::EMPTY;
+	}
 }
 
 void ProceduralMaze::clearGrid()
@@ -88,17 +81,15 @@ std::vector<std::tuple<int,int>> ProceduralMaze::getAdjCells(std::tuple<int, int
 int main(void)
 {
 	ProceduralMaze* maze = new ProceduralMaze(10, 10);
-	std::tuple<int, int> center = std::make_tuple(5, 5);
-	std::cout << maze->grid[center] << std::endl;
-
-	for (auto pos : maze->getAdjCells(center, Tile::WALL)) {
-		std::cout << std::get<0>(pos) << " " << std::get<1>(pos) << std::endl;
+	maze->generate();
+	for (int y = 0; y < 10; ++y) {
+		for (int x = 0; x < 10; ++x) {
+			char c = maze->grid[std::make_tuple(x, y)] == Tile::EMPTY ? ' ' : '#';
+			std::cout << c;
+		}
+		std::cout << std::endl;
 	}
 
-	maze->grid[std::make_tuple(7, 5)] = Tile::EMPTY;
-	for (auto pos : maze->getAdjCells(center, Tile::EMPTY)) {
-		std::cout << std::get<0>(pos) << " " << std::get<1>(pos) << std::endl;
-	}
 
 	return 0;
 }
