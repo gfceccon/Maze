@@ -1,7 +1,5 @@
 #include "chrom_aberr.h"
 
-
-
 ChromAberr::ChromAberr(int width, int height, Program* program) :
 	TimedEffect("time", width, height, program)
 {
