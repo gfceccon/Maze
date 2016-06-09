@@ -33,7 +33,7 @@ Game::Game(int width, int height)
 		program->addShader("vert_texture.glsl", GL_VERTEX_SHADER)
 			->addShader("frag_texture.glsl", GL_FRAGMENT_SHADER);
 		program->link();
-		maze = new Maze("maze.bmp");
+		maze = new Maze(50, 50);
 		maze->init(program);
 
 		pp_program = new Program();
