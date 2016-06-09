@@ -30,20 +30,20 @@ Game::Game(int width, int height)
 	try {
 		program = new Program();
 
-		program->addShader("vert_texture.glsl", GL_VERTEX_SHADER)
-			->addShader("frag_texture.glsl", GL_FRAGMENT_SHADER);
+		program->addShader("shaders/full_vertex.glsl", GL_VERTEX_SHADER)
+			->addShader("shaders/full_frag.glsl", GL_FRAGMENT_SHADER);
 		program->link();
 		maze = new Maze("maze.bmp");
 		maze->init(program);
 
-		pp_program = new Program();
+		//pp_program = new Program();
 
-		pp_program->addShader("vert_screen.glsl", GL_VERTEX_SHADER)
-			->addShader("frag_chrom_aber.glsl", GL_FRAGMENT_SHADER);
-		pp_program->link();
+		//pp_program->addShader("vert_screen.glsl", GL_VERTEX_SHADER)
+		//	->addShader("frag_chrom_aber.glsl", GL_FRAGMENT_SHADER);
+		//pp_program->link();
 
-		aberr = new ChromAberr(width, height, pp_program);
-		aberr->init("rOffset", glm::vec2(-8.66f, 5.0f), "gOffset", glm::vec2(0.0f, -10.0f), "bOffset", glm::vec2(8.66f, 5.0f));
+		//aberr = new ChromAberr(width, height, pp_program);
+		//aberr->init("rOffset", glm::vec2(-8.66f, 5.0f), "gOffset", glm::vec2(0.0f, -10.0f), "bOffset", glm::vec2(8.66f, 5.0f));
 
 	} catch (const std::runtime_error& e) {
 		std::cout << e.what() << std::endl;
@@ -59,8 +59,8 @@ Game::~Game()
 	if (last_mouse)
 		delete last_mouse;
 	delete program;
-	delete pp_program;
-	delete aberr;
+	//delete pp_program;
+	//delete aberr;
 	delete maze;
 	delete camera;
 }
@@ -112,7 +112,7 @@ void Game::update(float delta)
 
 void Game::draw(float delta)
 {
-	aberr->bind();
+	//aberr->bind();
 	glClearColor(clear.r, clear.g, clear.b, clear.a);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glEnable(GL_DEPTH_TEST);
@@ -126,5 +126,5 @@ void Game::draw(float delta)
 
 	maze->draw(program);
 
-	aberr->draw(delta);
+	//aberr->draw(delta);
 }

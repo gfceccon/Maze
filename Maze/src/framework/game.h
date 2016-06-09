@@ -21,9 +21,9 @@ class Game
 {
 	Player* player;
 	Camera* camera;
-	Program* program, *pp_program;
+	Program* program;//, *pp_program;
 	Maze* maze;
-	ChromAberr* aberr;
+	//ChromAberr* aberr;
 	Color clear = Color(1.0f, 1.0f, 1.0f);
 	static Event* last_mouse;
 	static std::queue<Event*> events;

@@ -3,6 +3,7 @@
 #include <GL/glew.h>
 #include "../shader/program.h"
 #include "../shader/shader.h"
+#include "../../../util/glm/vec3.hpp"
 #include "../../../util/glm/matrix.hpp"
 #include "../../../util/glm/gtc/matrix_transform.hpp"
 #include "../../../util/glm/gtc/type_ptr.hpp"
@@ -31,8 +32,6 @@ class Camera
 	glm::vec3 front, up, right;
 	glm::vec3 position;
 
-	//void move(Axis direction, float amount);
-	//void move(float x, float y, float z);
 public:
 	Camera(int width, int height);
 	~Camera();

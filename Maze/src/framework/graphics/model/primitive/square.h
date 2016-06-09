@@ -1,9 +1,9 @@
 #pragma once
 
-#include "../simple_model.h"
+#include "../model.h"
 #include "../../shader/program.h"
 
-class Square : public SimpleModel
+class Square : public Model
 {
 public:
 	Square(Program* program, const char* tex_fname = nullptr);

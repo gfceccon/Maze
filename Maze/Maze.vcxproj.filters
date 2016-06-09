@@ -60,19 +60,10 @@
     <ClCompile Include="src\maze\player.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\maze\path.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\maze\path_light.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\framework\audio\audio.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\framework\audio\audio_system.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\framework\graphics\model\simple_model.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\framework\graphics\shader\shader.cpp">
@@ -123,6 +114,21 @@
     <ClCompile Include="src\framework\graphics\effects\chrom_aberr.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\framework\graphics\model\primitive\advanced_cube.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\graphics\core\light.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\graphics\core\multiple_light.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\graphics\model\material.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\graphics\model\model.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\maze\maze.h">
@@ -131,19 +137,10 @@
     <ClInclude Include="src\maze\player.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\maze\path.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\maze\path_light.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\framework\audio\audio.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\framework\audio\audio_system.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\framework\graphics\model\simple_model.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\framework\graphics\shader\shader.h">
@@ -195,6 +192,21 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\framework\graphics\effects\chrom_aberr.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\graphics\model\primitive\advanced_cube.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\graphics\core\light.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\graphics\core\multiple_light.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\graphics\model\material.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\graphics\model\model.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
