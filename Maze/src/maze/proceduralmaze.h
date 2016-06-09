@@ -1,26 +1,22 @@
 #ifndef __PROCEDURALMAZE_H__
 #define __PROCEDURALMAZE_H__
 
-struct CellPos
+#include "maze.h"
+#include <map>
+
+class ProceduralMaze
 {
-	int x;
-	int y;
+	private:
+		int width;
+		int height;
 
-	CellPos(int x = 0, int y = 0) : x(x), y(y) {}
+	public:
+		std::map<std::tuple<int, int>, int> grid;
+		ProceduralMaze(int width, int height);
 
-	CellPos operator-(const CellPos& other)
-	{
-		CellPos result;
-		result.x = (other.x - x)/2 + x;
-		result.y = (other.y - y)/2 + y;
-
-		return result;
-	}
-
-	bool operator==(const CellPos& other)
-	{
-		return (x == other.x && y == other.y);
-	}
+		void generate();
+		void clear_grid();
+		std::vector<std::tuple<int, int>> getAdjCells(std::tuple<int, int> center, Tile tile_state);
 };
 
 #endif
