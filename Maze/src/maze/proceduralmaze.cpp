@@ -13,7 +13,7 @@ ProceduralMaze::ProceduralMaze(int width, int height)
 void ProceduralMaze::generate()
 {
 	clearGrid();
-	/*
+	/* Rust code
 	let x = rand::thread_rng().gen_range(1, self.width - 1);
 	let y = rand::thread_rng().gen_range(1, self.height - 1);
 
@@ -88,7 +88,17 @@ std::vector<std::tuple<int,int>> ProceduralMaze::getAdjCells(std::tuple<int, int
 int main(void)
 {
 	ProceduralMaze* maze = new ProceduralMaze(10, 10);
-	std::cout << maze->grid[std::make_tuple(5, 5)] << std::endl;
+	std::tuple<int, int> center = std::make_tuple(5, 5);
+	std::cout << maze->grid[center] << std::endl;
+
+	for (auto pos : maze->getAdjCells(center, Tile::WALL)) {
+		std::cout << std::get<0>(pos) << " " << std::get<1>(pos) << std::endl;
+	}
+
+	maze->grid[std::make_tuple(7, 5)] = Tile::EMPTY;
+	for (auto pos : maze->getAdjCells(center, Tile::EMPTY)) {
+		std::cout << std::get<0>(pos) << " " << std::get<1>(pos) << std::endl;
+	}
 
 	return 0;
 }
