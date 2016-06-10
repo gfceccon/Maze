@@ -27,6 +27,8 @@ Maze::Maze(int width, int height, float size) : size(size)
 			this->tiles[x + this->width*y] = grid[pos];
 		}
 	}
+
+	procedural_maze->print();
 }
 
 Maze::Maze(const char* bmp, float size) : size(size)

@@ -53,6 +53,12 @@ void ProceduralMaze::generate()
 			}
 		}
 	}
+
+	std::tuple<int, int> entry_pos = std::make_tuple(1, 1);
+	grid[entry_pos] = Tile::ENTRY;
+
+	std::tuple<int, int> exit_pos = std::make_tuple(width - 2, height - 2);
+	grid[exit_pos] = Tile::EXIT;
 }
 
 void ProceduralMaze::clearGrid()
@@ -88,7 +94,21 @@ std::vector<std::tuple<int,int>> ProceduralMaze::getAdjCells(std::tuple<int, int
 void ProceduralMaze::print() {
 	for (int y = 0; y < height; ++y) {
 		for (int x = 0; x < width; ++x) {
-			char c = grid[std::make_tuple(x, y)] == Tile::EMPTY ? '.' : '#';
+			char c = ' ';
+			switch (grid[std::make_tuple(x, y)]) {
+				case Tile::ENTRY:
+					c = 'S';
+					break;
+				case Tile::EXIT:
+					c = 'E';
+					break;
+				case Tile::WALL:
+					c = '#';
+					break;
+				default:
+					break;
+			}
+
 			std::cout << c;
 		}
 		std::cout << std::endl;
