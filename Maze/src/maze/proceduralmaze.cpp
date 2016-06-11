@@ -43,7 +43,7 @@ void ProceduralMaze::generate()
 
 		grid[std::make_tuple(passage_x, passage_y)] = Tile::EMPTY;
 		grid[cell_pos] = Tile::EMPTY;
-		for (auto value : getAdjCells(cell_pos, Tile::WALL)), 2 {
+		for (auto value : getAdjCells(cell_pos, Tile::WALL, 2)) {
 			if (std::find(frontiers.begin(), frontiers.end(), value) == frontiers.end()) {
 				frontiers.push_back(value);
 			}
@@ -72,7 +72,23 @@ void ProceduralMaze::clearGrid()
 	}
 }
 
-std::vector<std::tuple<int,int>> ProceduralMaze::getAdjCells(std::tuple<int, int> center, Tile tile_state, int dist)
+std::vector<std::tuple<int, int>> ProceduralMaze::getDiagCells(std::tuple<int, int> center) {
+	std::vector<std::tuple<int, int>> neighboors = std::vector<std::tuple<int, int>>();
+	for (int x = -1; x <= 1; x = x + 2) {
+		for (int y = -1; y <= 1; y = y + 2) {
+			try {
+				std::tuple<int, int> n_cell = std::make_tuple(std::get<0>(center) + x, std::get<1>(center) + y);
+				if (grid.at(n_cell) == Tile::EMPTY) {
+					neighboors.push_back(n_cell);
+				}
+			} catch (std::out_of_range) {}
+		}
+	}
+
+	return neighboors;
+}
+
+std::vector<std::tuple<int, int>> ProceduralMaze::getAdjCells(std::tuple<int, int> center, Tile tile_state, int dist)
 {
 	std::vector<std::tuple<int, int>> pos = {
 		std::make_tuple(std::get<0>(center) + dist, std::get<1>(center)),
