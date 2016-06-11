@@ -149,14 +149,14 @@ std::vector<std::pair<int, int>> ProceduralMaze::getDiagCells(std::pair<int, int
 
 std::vector<std::pair<int, int>> ProceduralMaze::getAdjCells(std::pair<int, int> center, Tile tile_state, int dist)
 {
-	std::vector<std::pair<int, int>> pos = {
+	const std::vector<std::pair<int, int>>& pos = {
 		std::make_pair(center.first, center.second - dist),
 		std::make_pair(center.first + dist, center.second),
 		std::make_pair(center.first, center.second + dist),
 		std::make_pair(center.first - dist, center.second),
 	};
 
-	std::vector<std::pair<int, int>> result = std::vector<std::pair<int, int>>();
+	std::vector<std::pair<int, int>> result;
 	for (auto adj_pos : pos) {
 		try {
 			switch (grid.at(adj_pos)) {
@@ -210,6 +210,8 @@ int main(int argc, char* argv[]) {
 	ProceduralMaze* maze = new ProceduralMaze(15, 15);
 	maze->generate();
 	maze->print();
+
+	delete maze;
 
 	return 0;
 }
