@@ -33,7 +33,7 @@ Game::Game(int width, int height)
 		program->addShader("shaders/full_vertex.glsl", GL_VERTEX_SHADER)
 			->addShader("shaders/full_frag.glsl", GL_FRAGMENT_SHADER);
 		program->link();
-		maze = new Maze("maze.bmp");
+		maze = new Maze(50, 50);
 		maze->init(program);
 
 		//pp_program = new Program();
@@ -68,20 +68,26 @@ Game::~Game()
 void Game::update(float delta)
 {
 	if (Game::key_states[GLFW_KEY_D] || Game::key_states[GLFW_KEY_RIGHT]){
-		player->move(maze, Axis::X, delta * move_sensibility);
+        player->applyVelocity(Axis::X, move_sensibility);
 	}
 
 	if (Game::key_states[GLFW_KEY_A] || Game::key_states[GLFW_KEY_LEFT]){
-		player->move(maze, Axis::X, delta * -move_sensibility);
+        player->applyVelocity(Axis::X, -move_sensibility);
 	}
 
 	if (Game::key_states[GLFW_KEY_W] || Game::key_states[GLFW_KEY_UP]){
-		player->move(maze, Axis::Z, delta * move_sensibility);
+        player->applyVelocity(Axis::Z, move_sensibility);
 	}
 
 	if (Game::key_states[GLFW_KEY_S] || Game::key_states[GLFW_KEY_DOWN]){
-		player->move(maze, Axis::Z, delta * -move_sensibility);
+        player->applyVelocity(Axis::Z, -move_sensibility);
 	}
+
+    if (Game::key_states[GLFW_KEY_SPACE]) {
+        player->applyVelocity(Axis::Y, move_sensibility * 10);
+    }
+
+    player->move(maze, gravity, delta);
 
 	while (events.size() > 0) {
 		Event* e = events.front();
@@ -117,7 +123,6 @@ void Game::draw(float delta)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_TEXTURE_2D);
-
 
 	program->use();
 

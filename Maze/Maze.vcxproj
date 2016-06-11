@@ -87,6 +87,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\framework\graphics\core\directional_light.cpp" />
     <ClCompile Include="src\framework\graphics\core\light.cpp" />
     <ClCompile Include="src\framework\graphics\model\material.cpp" />
     <ClCompile Include="src\framework\graphics\core\multiple_light.cpp" />
@@ -100,6 +101,7 @@
     <ClCompile Include="src\framework\graphics\model\wave\tiny_obj_loader.cc" />
     <ClCompile Include="src\framework\graphics\shader\program.cpp" />
     <ClCompile Include="src\framework\graphics\core\camera.cpp" />
+    <ClCompile Include="src\maze\proceduralmaze.cpp" />
     <ClCompile Include="src\util\bitmap.c" />
     <ClCompile Include="src\util\color.cpp" />
     <ClCompile Include="src\util\endian.c" />
@@ -116,6 +118,7 @@
     <ClCompile Include="src\framework\graphics\effects\timed_effect.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\framework\graphics\core\directional_light.h" />
     <ClInclude Include="src\framework\graphics\core\light.h" />
     <ClInclude Include="src\framework\graphics\model\material.h" />
     <ClInclude Include="src\framework\graphics\core\multiple_light.h" />
@@ -129,6 +132,7 @@
     <ClInclude Include="src\framework\graphics\model\wave\tiny_obj_loader.h" />
     <ClInclude Include="src\framework\graphics\shader\program.h" />
     <ClInclude Include="src\framework\graphics\core\camera.h" />
+    <ClInclude Include="src\maze\proceduralmaze.h" />
     <ClInclude Include="src\util\bitmap.h" />
     <ClInclude Include="src\util\bmp_types.h" />
     <ClInclude Include="src\util\color.h" />

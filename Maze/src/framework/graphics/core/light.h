@@ -12,17 +12,21 @@
 
 class Light
 {
+private:
+	const char* name;
+	std::string string;
 protected:
 
 	glm::vec3 ambient;
 	glm::vec3 diffuse;
 	glm::vec3 specular;
 
+
 	int index;
 
-	void getLightAttrString(const char* light_name, std::string& str);
+	const char* getAttribute(const char* attribute);
 public:
-	Light(int index = -1);
+	Light(int index = -1, const char* name = LIGHT_NAME);
 	~Light();
 
 	void setAmbient(float x, float y, float z);

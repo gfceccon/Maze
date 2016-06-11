@@ -22,17 +22,17 @@ Material::~Material()
 		glDeleteTextures(1, &depthTex);
 }
 
-const char* Material::getAttribute(const char* attr)
+const char* Material::getAttribute(const char* attribute)
 {
 	string = name;
-	if (index >= 0)
+	if (index != -1)
 	{
 		string += "[";
 		string += itoa(index, nullptr, 10);
 		string += "]";
 	}
 	string += ".";
-	string += attr;
+	string += attribute;
 
 	return string.c_str();
 }
