@@ -31,7 +31,7 @@ size(size), cube(nullptr), lights(new MultipleLight(MAX_LIGHTS)), pointLights(ne
 		tiles[x] = new Tile[height];
 		lightPositions[x] = new Tile[height];
 		killZones[x] = new Tile[height];
-		for (int y = 0; y < width; y++)
+		for (int y = 0; y < height; y++)
 		{
 			std::pair<int, int> pos = std::make_pair(x, y);
 
@@ -83,9 +83,13 @@ size(size), cube(nullptr), lights(new MultipleLight(MAX_LIGHTS)), pointLights(ne
 	width = static_cast<int>(w);
 	height = static_cast<int>(h);
 	tiles = new Tile*[width];
+	lightPositions = new Tile*[width];
+	killZones = new Tile*[width];
 	for (int x = 0; x < width; x++) {
 		tiles[x] = new Tile[height];
-		for (int y = 0; y < width; y++)
+		lightPositions[x] = new Tile[height];
+		killZones[x] = new Tile[height];
+		for (int y = 0; y < height; y++)
 		{
 			bool r = image[y * width + x].red && 0xFF;
 			bool g = image[y * width + x].green && 0xFF;
@@ -197,9 +201,10 @@ Maze::~Maze()
 	delete lights;
 	delete pointLights;
 }
-
+// Draw maze
 void Maze::draw(Program* program)
 {
+	// Bind object
 	cube->bind(program);
 	for (int y = 0; y < height; y++)
 	{
@@ -207,10 +212,11 @@ void Maze::draw(Program* program)
 		{
 			glm::mat4 transform;
 			glm::vec3 position;
+			// Scale size
 			transform = glm::scale(transform, size * glm::vec3(0.9999f, 0.9999f, 0.9999f));
+			// Bind materials and position (floor or wall)
 			switch (tiles[x][y])
 			{
-
 			case Tile::WALL:
 				wall->bind(program);
 				position = glm::vec3(x, 0.0f, y);
@@ -220,9 +226,16 @@ void Maze::draw(Program* program)
 				position = glm::vec3(x, -1.0f, y);
 				break;
 			}
+			// Translate to position and bind
 			transform = glm::translate(transform, size * glm::vec3(position));
 			program->setMat4(transform, "transform");
+
+			// Bind point lights and directional light
 			bindLights(x, y);
+			lights->bind(program);
+			
+
+			// Draw cube (floor or wall)
 			cube->draw();
 		}
 	}
@@ -233,12 +246,16 @@ glm::vec3 Maze::getEntryPosition()
 	return entry * size + glm::vec3(size / 2, PLAYER_HEIGHT, size / 2);
 }
 
+// Set light from multiple lights on index
 void Maze::setLightPosition(int& index, int x, int y)
 {
+	// Exit if out of bounds
 	if (x < 0 || x >= width)
 		return;
 	if (y < 0 || y >= height)
 		return;
+
+	// Select light position
 	switch (lightPositions[x][y])
 	{
 	case Tile::NORTH_LIGHT:
@@ -260,6 +277,7 @@ void Maze::setLightPosition(int& index, int x, int y)
 	index++;
 }
 
+// Bind multiple lights
 void Maze::bindLights(int x, int y)
 {
 	lights->clear();
@@ -276,13 +294,16 @@ inline float max(float x, float y)
 	return x > y ? x : y;
 }
 
+// Collision detection and response
 bool Maze::checkCollision(glm::vec3 current, glm::vec3& position)
 {
+	// Get current position
 	int cur_x = static_cast<int>(floorf(current.x / size));
 	int cur_z = static_cast<int>(floorf(current.z / size));
 
 	int pos_x = cur_x, pos_z = cur_z;
 
+	// Get direction
 	glm::vec3 direction = position - current;
 
 	Direction dir_x = Direction::UNKNOWN, dir_z = Direction::UNKNOWN;
@@ -306,17 +327,23 @@ bool Maze::checkCollision(glm::vec3 current, glm::vec3& position)
 		dir_z = Direction::SOUTH;
 		pos_z = static_cast<int>(floorf((position.z - PLAYER_OFFSET) / size));
 	}
-
+	
+	// If there is no change in position, quit
 	if (dir_x == Direction::UNKNOWN && dir_z == Direction::UNKNOWN) {
 		return false;
 	}
 
+	// Collision detection
 	bool collide = false;
 
 	float x1 = size, z1 = size;
 	float x2 = size, z2 = size;
 
-	if (dir_x == Direction::EAST && pos_x - cur_x > 0 && tiles[i(cur_x + 1, cur_z)]) {
+	// Calculate new X and Z based on collision
+	// Use similar triangles to calculate collision response
+	
+	// EAST COLLISION DETECTION
+	if (dir_x == Direction::EAST && pos_x - cur_x > 0 && tiles[cur_x + 1][cur_z] == Tile::WALL) {
 		x1 = ((cur_x + 1) * size - PLAYER_OFFSET) - current.x;
 		if (x1 * x1 < MIN_RESPONSE && direction.x * direction.x < MIN_COLLISION) {
 			z1 = direction.z * RESPONSE;
@@ -327,7 +354,8 @@ bool Maze::checkCollision(glm::vec3 current, glm::vec3& position)
 
 		collide = true;
 	}
-	else if (dir_x == Direction::WEST && pos_x - cur_x < 0 && tiles[i(cur_x - 1, cur_z)]) {
+	// WEST COLLISION DETECTION
+	else if (dir_x == Direction::WEST && pos_x - cur_x < 0 && tiles[cur_x - 1][cur_z] == Tile::WALL) {
 		x1 = ((cur_x)* size + PLAYER_OFFSET) - current.x;
 		if (x1 * x1 < MIN_RESPONSE && direction.x * direction.x < MIN_COLLISION) {
 			z1 = direction.z * RESPONSE;
@@ -339,7 +367,8 @@ bool Maze::checkCollision(glm::vec3 current, glm::vec3& position)
 		collide = true;
 	}
 
-	if (dir_z == Direction::NORTH && pos_z - cur_z > 0 && tiles[i(cur_x, cur_z + 1)]) {
+	// NORTH COLLISION DETECTION
+	if (dir_z == Direction::NORTH && pos_z - cur_z > 0 && tiles[cur_x][cur_z + 1] == Tile::WALL) {
 		z2 = ((cur_z + 1) * size - PLAYER_OFFSET) - current.z;
 		if (z2 * z2 < MIN_RESPONSE && direction.z * direction.z < MIN_COLLISION * 0.75) {
 			x2 = direction.x * RESPONSE;
@@ -350,7 +379,8 @@ bool Maze::checkCollision(glm::vec3 current, glm::vec3& position)
 
 		collide = true;
 	}
-	else if (dir_z == Direction::SOUTH && pos_z - cur_z < 0 && tiles[i(cur_x, cur_z - 1)]) {
+	// SOUTH COLLISION DETECTION
+	else if (dir_z == Direction::SOUTH && pos_z - cur_z < 0 && tiles[cur_x][cur_z - 1] == Tile::WALL) {
 		z2 = ((cur_z)* size + PLAYER_OFFSET) - current.z;
 		if (z2 * z2 < MIN_RESPONSE && direction.z * direction.z < MIN_COLLISION) {
 			x2 = direction.x * RESPONSE;
@@ -366,6 +396,7 @@ bool Maze::checkCollision(glm::vec3 current, glm::vec3& position)
 		return collide;
 	}
 
+	// Choose best collision between W-E, N-S
 	if (x1 * x1 + z1 * z1 < x2 * x2 + z2 * z2) {
 		position = current + glm::vec3(x1, 0, z1);
 	}

@@ -59,7 +59,7 @@ private:
 
 	AdvancedCube* cube;
 	Material *wall, *floor;
-	DirectionalLight* globalLight;
+	DirectionalLight* directionalLight;
 	PointLight* pointLights;
 	MultipleLight* lights;
 
