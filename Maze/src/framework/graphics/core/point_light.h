@@ -24,7 +24,7 @@ private:
 
 public:
 
-	PointLight(int index = -1);
+	PointLight(int index = -1, const char* name = POINTLIGHT_NAME);
 	~PointLight();
 
 	void setPosition(float x, float y, float z);

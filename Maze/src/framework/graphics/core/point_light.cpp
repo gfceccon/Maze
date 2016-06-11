@@ -2,7 +2,7 @@
 
 
 
-PointLight::PointLight(int index) : Light(index)
+PointLight::PointLight(int index, const char* name) : Light(index, name)
 {
 }
 
@@ -28,24 +28,12 @@ void PointLight::setAttenuation(float constant, float linear, float quadraditic)
 void PointLight::bind(Program * program)
 {
 	Light::bind(program);
-	std::string attribute;
+	
+	program->setVec3(position, getAttribute(POINTLIGHT_POSITION));
+	
+	program->setFloat(attConstant, getAttribute(POINTLIGHT_ATT_CONST));
+	
+	program->setFloat(attLinear, getAttribute(POINTLIGHT_ATT_LINEAR));
 
-	getLightAttrString(POINTLIGHT_NAME, attribute);
-	attribute += POINTLIGHT_POSITION;
-	program->setVec3(position, attribute.c_str());
-
-
-	getLightAttrString(POINTLIGHT_NAME, attribute);
-	attribute += POINTLIGHT_ATT_CONST;
-	program->setFloat(attConstant, attribute.c_str());
-
-
-	getLightAttrString(POINTLIGHT_NAME, attribute);
-	attribute += POINTLIGHT_ATT_LINEAR;
-	program->setFloat(attLinear, attribute.c_str());
-
-
-	getLightAttrString(POINTLIGHT_NAME, attribute);
-	attribute += POINTLIGHT_ATT_QUAD;
-	program->setFloat(attQuadratic, attribute.c_str());
+	program->setFloat(attQuadratic, getAttribute(POINTLIGHT_ATT_QUAD));
 }

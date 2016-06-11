@@ -1,9 +1,8 @@
 #include "light.h"
 
 
-Light::Light(int index)
+Light::Light(int index, const char* name) : name(name), index(index)
 {
-	this->index = index;
 }
 
 
@@ -35,26 +34,16 @@ void Light::setSpecular(float x, float y, float z)
 
 void Light::bind(Program * program)
 {
-	std::string attribute;
+	program->setVec3(ambient, getAttribute(LIGHT_AMBIENT));
 
-	getLightAttrString(LIGHT_NAME, attribute);
-	attribute += LIGHT_AMBIENT;
-	program->setVec3(ambient, attribute.c_str());
+	program->setVec3(diffuse, getAttribute(LIGHT_DIFFUSE));
 
-
-	getLightAttrString(LIGHT_NAME, attribute);
-	attribute += LIGHT_DIFFUSE;
-	program->setVec3(diffuse, attribute.c_str());
-
-
-	getLightAttrString(LIGHT_NAME, attribute);
-	attribute += LIGHT_SPECULAR;
-	program->setVec3(specular, attribute.c_str());
+	program->setVec3(specular, getAttribute(LIGHT_SPECULAR));
 }
 
-void inline Light::getLightAttrString(const char* light_name, std::string& string)
+const char* Light::getAttribute(const char* attribute)
 {
-	string = light_name;
+	string = name;
 	if (index != -1)
 	{
 		string += "[";
@@ -63,4 +52,7 @@ void inline Light::getLightAttrString(const char* light_name, std::string& strin
 	}
 
 	string += ".";
+	string += attribute;
+
+	return string.c_str();
 }
