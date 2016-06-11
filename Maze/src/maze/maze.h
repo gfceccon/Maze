@@ -21,7 +21,8 @@ enum Tile
 	ENTRY,
 	EXIT,
 	VISITED,
-	UNVISITED
+	UNVISITED,
+	LIGHT
 };
 
 enum Direction
