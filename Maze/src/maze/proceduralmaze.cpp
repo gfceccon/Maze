@@ -8,40 +8,43 @@ ProceduralMaze::ProceduralMaze(int width, int height)
 {
 	std::srand(std::time(NULL));
 
-	this->grid = std::map<std::tuple<int, int>, Tile>();
+	this->width = width % 2 == 0 ? width + 1 : width;
+	this->height = height % 2 == 0 ? height + 1 : height;
+
+	this->grid = std::map<std::pair<int, int>, Tile>();
 	clearGrid();
 }
 
 void ProceduralMaze::generate()
 {
 	clearGrid();
-	int x = std::rand() % (width - 1) + 1;
-	int y = std::rand() % (height - 1) + 1;
+	int x = std::rand() % (width - 2) + 1;
+	int y = std::rand() % (height - 2) + 1;
 
 	// Odd start numbers to make sure we have borders
 	x = x % 2 == 0 ? x + 1 : x;
 	y = y % 2 == 0 ? y + 1 : y;
 
-	std::tuple<int, int> cell_pos = std::make_tuple(x, y);
+	std::pair<int, int> cell_pos = std::make_pair(x, y);
 	grid[cell_pos] = Tile::EMPTY;
 
-	std::vector<std::tuple<int, int>> frontiers = getAdjCells(cell_pos, Tile::WALL, 2);
+	std::vector<std::pair<int, int>> frontiers = getAdjCells(cell_pos, Tile::WALL, 2);
 	while (!frontiers.empty()) {
 		int index = std::rand() % frontiers.size();
 		cell_pos = frontiers[index];
 		frontiers.erase(frontiers.begin() + index);
 
-		std::vector<std::tuple<int, int>> neighboors = getAdjCells(cell_pos, Tile::EMPTY, 2);
+		std::vector<std::pair<int, int>> neighboors = getAdjCells(cell_pos, Tile::EMPTY, 2);
 		if (neighboors.empty()) {
 			continue;
 		}
 
 		index = std::rand() % neighboors.size();
-		std::tuple<int, int> neighboor = neighboors[index];
-		int passage_x = (std::get<0>(neighboor) - std::get<0>(cell_pos))/2 + std::get<0>(cell_pos);
-		int passage_y = (std::get<1>(neighboor) - std::get<1>(cell_pos))/2 + std::get<1>(cell_pos);
+		std::pair<int, int> neighboor = neighboors[index];
+		int passage_x = (neighboor.first - cell_pos.first)/2 + cell_pos.first;
+		int passage_y = (neighboor.second - cell_pos.second)/2 + cell_pos.second;
 
-		grid[std::make_tuple(passage_x, passage_y)] = Tile::EMPTY;
+		grid[std::make_pair(passage_x, passage_y)] = Tile::EMPTY;
 		grid[cell_pos] = Tile::EMPTY;
 		for (auto value : getAdjCells(cell_pos, Tile::WALL, 2)) {
 			if (std::find(frontiers.begin(), frontiers.end(), value) == frontiers.end()) {
@@ -50,10 +53,10 @@ void ProceduralMaze::generate()
 		}
 	}
 
-	std::tuple<int, int> entry_pos = std::make_tuple(1, 0);
+	std::pair<int, int> entry_pos = std::make_pair(1, 0);
 	grid[entry_pos] = Tile::ENTRY;
 
-	std::tuple<int, int> exit_pos = std::make_tuple(width - 2, height - 1);
+	std::pair<int, int> exit_pos = std::make_pair(width - 2, height - 1);
 	grid[exit_pos] = Tile::EXIT;
 
 	generateLight();
@@ -67,17 +70,17 @@ void ProceduralMaze::clearGrid()
 {
 	for (int x = 0; x < width; ++x) {
 		for (int y = 0; y < height; ++y) {
-			grid[std::make_tuple(x, y)] = Tile::WALL;
+			grid[std::make_pair(x, y)] = Tile::WALL;
 		}
 	}
 }
 
-std::vector<std::tuple<int, int>> ProceduralMaze::getDiagCells(std::tuple<int, int> center) {
-	std::vector<std::tuple<int, int>> neighboors = std::vector<std::tuple<int, int>>();
+std::vector<std::pair<int, int>> ProceduralMaze::getDiagCells(std::pair<int, int> center) {
+	std::vector<std::pair<int, int>> neighboors = std::vector<std::pair<int, int>>();
 	for (int x = -1; x <= 1; x = x + 2) {
 		for (int y = -1; y <= 1; y = y + 2) {
 			try {
-				std::tuple<int, int> n_cell = std::make_tuple(std::get<0>(center) + x, std::get<1>(center) + y);
+				std::pair<int, int> n_cell = std::make_pair(center.first + x, center.second + y);
 				if (grid.at(n_cell) == Tile::EMPTY) {
 					neighboors.push_back(n_cell);
 				}
@@ -88,16 +91,16 @@ std::vector<std::tuple<int, int>> ProceduralMaze::getDiagCells(std::tuple<int, i
 	return neighboors;
 }
 
-std::vector<std::tuple<int, int>> ProceduralMaze::getAdjCells(std::tuple<int, int> center, Tile tile_state, int dist)
+std::vector<std::pair<int, int>> ProceduralMaze::getAdjCells(std::pair<int, int> center, Tile tile_state, int dist)
 {
-	std::vector<std::tuple<int, int>> pos = {
-		std::make_tuple(std::get<0>(center) + dist, std::get<1>(center)),
-		std::make_tuple(std::get<0>(center) - dist, std::get<1>(center)),
-		std::make_tuple(std::get<0>(center), std::get<1>(center) + dist),
-		std::make_tuple(std::get<0>(center), std::get<1>(center) - dist),
+	std::vector<std::pair<int, int>> pos = {
+		std::make_pair(center.first + dist, center.second),
+		std::make_pair(center.first - dist, center.second),
+		std::make_pair(center.first, center.second + dist),
+		std::make_pair(center.first, center.second - dist),
 	};
 
-	std::vector<std::tuple<int, int>> result = std::vector<std::tuple<int, int>>();
+	std::vector<std::pair<int, int>> result = std::vector<std::pair<int, int>>();
 	for (auto adj_pos : pos) {
 		try {
 			switch (grid.at(adj_pos)) {
@@ -121,7 +124,7 @@ void ProceduralMaze::print() {
 	for (int y = 0; y < height; ++y) {
 		for (int x = 0; x < width; ++x) {
 			char c = ' ';
-			switch (grid[std::make_tuple(x, y)]) {
+			switch (grid[std::make_pair(x, y)]) {
 				case Tile::ENTRY:
 					c = 'E';
 					break;
@@ -144,7 +147,7 @@ void ProceduralMaze::print() {
 	}
 }
 
-int main(void) {
+int main(int argc, char* argv[]) {
 	ProceduralMaze* maze = new ProceduralMaze(15, 15);
 	maze->generate();
 	maze->print();
