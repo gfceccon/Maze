@@ -11,7 +11,6 @@ ProceduralMaze::ProceduralMaze(int width, int height)
 	this->width = width % 2 == 0 ? width + 1 : width;
 	this->height = height % 2 == 0 ? height + 1 : height;
 
-	this->grid = std::map<std::pair<int, int>, Tile>();
 	clearGrid();
 }
 
@@ -63,7 +62,64 @@ void ProceduralMaze::generate()
 }
 
 void ProceduralMaze::generateLight() {
+	std::vector<std::pair<int, int>> check_stack;
+	std::vector<std::pair<int, int>> visited_cells;
+	std::vector<std::pair<int, int>> illuminated_cells;
 
+	check_stack.push_back(std::make_pair(1, 1));
+	int steps = 0;
+
+	while (!check_stack.empty()) {
+		std::pair<int, int> check_pos = check_stack.back();
+		check_stack.pop_back();
+
+		visited_cells.push_back(check_pos);
+
+		auto neighboors = getAdjCells(check_pos, Tile::EMPTY, 1);
+		for (auto n_pos : neighboors) {
+			if (std::find(visited_cells.begin(), visited_cells.end(), n_pos) == visited_cells.end()) {
+				check_stack.push_back(n_pos);
+			}
+		}
+
+		steps++;
+		if (steps < 4) {
+			continue;
+		}
+
+		if (std::find(illuminated_cells.begin(), illuminated_cells.end(), check_pos) == illuminated_cells.end()) {
+			auto diag_cells = getDiagCells(check_pos);
+			neighboors.insert(neighboors.end(), diag_cells.begin(), diag_cells.end());
+
+			auto far_neighboors = getAdjCells(check_pos, Tile::EMPTY, 2);
+			for (auto it = far_neighboors.rbegin(); it != far_neighboors.rend(); ++it) {
+				int passage_x = ((*it).first - check_pos.first)/2 + check_pos.first;
+				int passage_y = ((*it).second - check_pos.second)/2 + check_pos.second;
+				std::pair<int, int> passage = std::make_pair(passage_x, passage_y);
+
+				if (std::find(neighboors.begin(), neighboors.end(), passage) != neighboors.end()) {
+					neighboors.push_back(*it);
+				}
+			}
+
+			bool intersect_illuminated_cell = false;
+			for (auto neighboor : neighboors) {
+				if (std::find(illuminated_cells.begin(), illuminated_cells.end(), neighboor) != illuminated_cells.end()) {
+					intersect_illuminated_cell = true;
+				}
+			}
+
+			if (intersect_illuminated_cell) {
+				continue;
+			}
+
+			grid[check_pos] = Tile::LIGHT;
+			illuminated_cells.insert(illuminated_cells.end(), neighboors.begin(), neighboors.end());
+			illuminated_cells.push_back(check_pos);
+
+			steps = 0;
+		}
+	}
 }
 
 void ProceduralMaze::clearGrid()
@@ -76,7 +132,7 @@ void ProceduralMaze::clearGrid()
 }
 
 std::vector<std::pair<int, int>> ProceduralMaze::getDiagCells(std::pair<int, int> center) {
-	std::vector<std::pair<int, int>> neighboors = std::vector<std::pair<int, int>>();
+	std::vector<std::pair<int, int>> neighboors;
 	for (int x = -1; x <= 1; x = x + 2) {
 		for (int y = -1; y <= 1; y = y + 2) {
 			try {
@@ -94,10 +150,10 @@ std::vector<std::pair<int, int>> ProceduralMaze::getDiagCells(std::pair<int, int
 std::vector<std::pair<int, int>> ProceduralMaze::getAdjCells(std::pair<int, int> center, Tile tile_state, int dist)
 {
 	std::vector<std::pair<int, int>> pos = {
-		std::make_pair(center.first + dist, center.second),
-		std::make_pair(center.first - dist, center.second),
-		std::make_pair(center.first, center.second + dist),
 		std::make_pair(center.first, center.second - dist),
+		std::make_pair(center.first + dist, center.second),
+		std::make_pair(center.first, center.second + dist),
+		std::make_pair(center.first - dist, center.second),
 	};
 
 	std::vector<std::pair<int, int>> result = std::vector<std::pair<int, int>>();
@@ -134,8 +190,11 @@ void ProceduralMaze::print() {
 				case Tile::WALL:
 					c = '#';
 					break;
-				case Tile::LIGHT:
+				case Tile::EMPTY:
 					c = ' ';
+					break;
+				case Tile::LIGHT:
+					c = '.';
 					break;
 				default:
 					break;
