@@ -36,15 +36,6 @@ Game::Game(int width, int height)
 		maze = new Maze(50, 50);
 		maze->init(program);
 
-		//pp_program = new Program();
-
-		//pp_program->addShader("vert_screen.glsl", GL_VERTEX_SHADER)
-		//	->addShader("frag_chrom_aber.glsl", GL_FRAGMENT_SHADER);
-		//pp_program->link();
-
-		//aberr = new ChromAberr(width, height, pp_program);
-		//aberr->init("rOffset", glm::vec2(-8.66f, 5.0f), "gOffset", glm::vec2(0.0f, -10.0f), "bOffset", glm::vec2(8.66f, 5.0f));
-
 	} catch (const std::runtime_error& e) {
 		std::cout << e.what() << std::endl;
 		throw;

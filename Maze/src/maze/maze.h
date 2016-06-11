@@ -11,11 +11,16 @@
 #include "../framework/graphics/core/point_light.h"
 
 #define PLAYER_OFFSET 0.15f
-#define RESPONSE 1.0f
 #define PLAYER_HEIGHT 0.5f
+
+#define RESPONSE 1.0f
 #define MIN_DST 1.0f
 #define MIN_RESPONSE 0.01f
 #define MIN_COLLISION 7e-5
+
+#define LIGHT_HEIGHT 0.5f
+#define LIGHT_OFFSET 0.1f
+#define MAX_LIGHTS 4
 
 enum Tile
 {
@@ -24,7 +29,13 @@ enum Tile
 	ENTRY,
 	EXIT,
 	LIGTH,
-	DEATH_ZONE,
+
+	NORTH_LIGHT,
+	RIGHT_LIGHT,
+	SOUTH_LIGHT,
+	LEFT_LIGHT,
+
+	KILL_ZONE,
 	VISITED,
 	UNVISITED
 };
@@ -40,8 +51,9 @@ enum Direction
 
 class Maze
 {
+private:
 	int width, height;
-	Tile** tiles;
+	Tile** tiles, **lightPositions, **killZones;
 	glm::vec3 entry, exit;
 
 	AdvancedCube* cube;
@@ -57,6 +69,9 @@ class Maze
 	size_t i(size_t x, size_t y) { return y * width + x; }
 	size_t x(size_t i) { return i % width; }
 	size_t y(size_t i) { return i / width; }
+	void bindLights(int x, int y);
+	void setLightPosition(int& index, int x, int Y);
+	void placeLight(int x, int y);
 public:
 	Maze(int width, int height, float size = 1.0f);
 	Maze(const char* bmp, float size = 1.0f);

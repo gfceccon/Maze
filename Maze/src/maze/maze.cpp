@@ -12,7 +12,8 @@
 #include "../util/bitmap.h"
 #include "../util/log.h"
 
-Maze::Maze(int width, int height, float size) : size(size), cube(nullptr)
+Maze::Maze(int width, int height, float size) :
+size(size), cube(nullptr), lights(new MultipleLight(MAX_LIGHTS)), pointLights(new PointLight[MAX_LIGHTS])
 {
 	height = height + ((height + 1) % 2);
 	width = width + ((width + 1) % 2);
@@ -22,27 +23,47 @@ Maze::Maze(int width, int height, float size) : size(size), cube(nullptr)
 	ProceduralMaze procedural_maze = ProceduralMaze(width, height);
 	procedural_maze.generate();
 
-	std::map<std::tuple<int, int>, Tile> grid = procedural_maze.getGrid();
+	std::map<std::pair<int, int>, Tile> grid = procedural_maze.getGrid();
 	tiles = new Tile*[width];
+	lightPositions = new Tile*[width];
+	killZones = new Tile*[width];
 	for (int x = 0; x < width; x++) {
 		tiles[x] = new Tile[height];
+		lightPositions[x] = new Tile[height];
+		killZones[x] = new Tile[height];
 		for (int y = 0; y < width; y++)
 		{
-			std::tuple<int, int> pos = std::make_tuple(x, y);
+			std::pair<int, int> pos = std::make_pair(x, y);
+
 			tiles[x][y] = grid[pos];
-			if (tiles[x][y] == Tile::ENTRY) {
+			lightPositions[x][y] = Tile::EMPTY;
+			killZones[x][y] = Tile::EMPTY;
+
+			// If it's a wall or empty, jump
+			if (tiles[x][y] == Tile::EMPTY || tiles[x][y] == Tile::WALL)
+				continue;
+			// Otherwise, process tile
+			else if (tiles[x][y] == Tile::KILL_ZONE)
+				killZones[x][y] = Tile::KILL_ZONE;
+			else if (tiles[x][y] == Tile::LIGTH) {
+				placeLight(x, y);
+			}
+			else if (tiles[x][y] == Tile::ENTRY) {
 				entry = glm::vec3(x, 0.0f, y);
 			}
 			else if (tiles[x][y] == Tile::EXIT) {
 				exit = glm::vec3(x, 0.0f, y);
 			}
+			// Clear tile
+			tiles[x][y] = Tile::EMPTY;
 		}
 	}
 
 	procedural_maze.print();
 }
 
-Maze::Maze(const char* bmp, float size) : size(size), cube(nullptr)
+Maze::Maze(const char* bmp, float size) :
+size(size), cube(nullptr), lights(new MultipleLight(MAX_LIGHTS)), pointLights(new PointLight[MAX_LIGHTS])
 {
 	std::string str(path);
 	str += bmp;
@@ -70,23 +91,74 @@ Maze::Maze(const char* bmp, float size) : size(size), cube(nullptr)
 			bool g = image[y * width + x].green && 0xFF;
 			bool b = image[y * width + x].blue && 0xFF;
 
-			if (!(r || g || b)) {
+			// Default is empty
+			tiles[x][y] = Tile::EMPTY;
+
+			// BLACK - WALL
+			if (!r && !g && !b) {
 				tiles[x][y] = Tile::WALL;
 			}
-			else if (r && g && b) {
-				tiles[x][y] = Tile::EMPTY;
-			}
+			// BLUE - ENTRY
 			else if (!r && !g && b) {
-				tiles[x][y] = Tile::ENTRY;
 				entry = glm::vec3(x, 0.0f, y);
 			}
-			else if (r && !g && !b) {
-				tiles[x][y] = Tile::EXIT;
+			// GREEN - EXIT
+			else if (!r && g && !b) {
 				exit = glm::vec3(x, 0.0f, y);
+			}
+			// RED - KILL ZONE
+			else if (r && !g && !b) {
+				killZones[x][y] = Tile::KILL_ZONE;
+			}
+			// YELLOW - LIGHT
+			else if (r && g && !b) {
+				placeLight(x, y);
 			}
 		}
 	}
 	fclose(f);
+}
+
+void Maze::placeLight(int x, int y)
+{
+	int deltaX = (tiles[x + 1][y - 1] == Tile::WALL) ? 1 : 0
+		+ (tiles[x + 1][y] == Tile::WALL) ? 1 : 0
+		+ (tiles[x + 1][y + 1] == Tile::WALL) ? 1 : 0
+		- (tiles[x - 1][y - 1] == Tile::WALL) ? 1 : 0
+		- (tiles[x - 1][y] == Tile::WALL) ? 1 : 0
+		- (tiles[x - 1][y + 1] == Tile::WALL) ? 1 : 0;
+	int deltaY = (tiles[x - 1][y + 1] == Tile::WALL) ? 1 : 0
+		+ (tiles[x][y + 1] == Tile::WALL) ? 1 : 0
+		+ (tiles[x + 1][y + 1] == Tile::WALL) ? 1 : 0
+		- (tiles[x - 1][y + 1] == Tile::WALL) ? 1 : 0
+		- (tiles[x][y + 1] == Tile::WALL) ? 1 : 0
+		- (tiles[x + 1][y + 1] == Tile::WALL) ? 1 : 0;
+
+	// Try placing best wall
+	if (deltaY > 0 && tiles[x][y + 1] == Tile::WALL)
+		lightPositions[x][y] = Tile::NORTH_LIGHT;
+	else if (deltaY < 0 && tiles[x][y - 1] == Tile::WALL)
+		lightPositions[x][y] = Tile::SOUTH_LIGHT;
+	else if (deltaX > 0 && tiles[x + 1][y] == Tile::WALL)
+		lightPositions[x][y] = Tile::RIGHT_LIGHT;
+	else if (deltaX < 0 && tiles[x - 1][y] == Tile::WALL)
+		lightPositions[x][y] = Tile::LEFT_LIGHT;
+
+	// Can't place light, try others
+	else if (tiles[x][y - 1] == Tile::WALL)
+		lightPositions[x][y] = Tile::SOUTH_LIGHT;
+	else if (tiles[x + 1][y] == Tile::WALL)
+		lightPositions[x][y] = Tile::RIGHT_LIGHT;
+	else if (tiles[x][y + 1] == Tile::WALL)
+		lightPositions[x][y] = Tile::NORTH_LIGHT;
+	else if (tiles[x - 1][y] == Tile::WALL)
+		lightPositions[x][y] = Tile::LEFT_LIGHT;
+
+	// Place kill zone if there is any near
+	if (tiles[x - 1][y + 1] == Tile::KILL_ZONE || tiles[x][y + 1] == Tile::KILL_ZONE || tiles[x + 1][y + 1] == Tile::KILL_ZONE ||
+		tiles[x - 1][y] == Tile::KILL_ZONE || tiles[x][y] == Tile::KILL_ZONE || tiles[x + 1][y] == Tile::KILL_ZONE ||
+		tiles[x - 1][y - 1] == Tile::KILL_ZONE || tiles[x][y - 1] == Tile::KILL_ZONE || tiles[x + 1][y - 1] == Tile::KILL_ZONE)
+		killZones[x][y] = Tile::KILL_ZONE;
 }
 
 void Maze::init(Program* program)
@@ -110,9 +182,20 @@ Maze::~Maze()
 	for (int i = 0; i < width; i++)
 		delete tiles[i];
 	delete tiles;
+
+	for (int i = 0; i < width; i++)
+		delete lightPositions[i];
+	delete lightPositions;
+
+	for (int i = 0; i < width; i++)
+		delete killZones[i];
+	delete killZones;
+
 	delete cube;
 	delete floor;
 	delete wall;
+	delete lights;
+	delete pointLights;
 }
 
 void Maze::draw(Program* program)
@@ -139,6 +222,7 @@ void Maze::draw(Program* program)
 			}
 			transform = glm::translate(transform, size * glm::vec3(position));
 			program->setMat4(transform, "transform");
+			bindLights(x, y);
 			cube->draw();
 		}
 	}
@@ -146,7 +230,45 @@ void Maze::draw(Program* program)
 
 glm::vec3 Maze::getEntryPosition()
 {
-	return entry + glm::vec3(size / 2, PLAYER_HEIGHT, size / 2);
+	return entry * size + glm::vec3(size / 2, PLAYER_HEIGHT, size / 2);
+}
+
+void Maze::setLightPosition(int& index, int x, int y)
+{
+	if (x < 0 || x >= width)
+		return;
+	if (y < 0 || y >= height)
+		return;
+	switch (lightPositions[x][y])
+	{
+	case Tile::NORTH_LIGHT:
+		pointLights[index].setPosition((x + 0.5f) * size, LIGHT_HEIGHT, (y + 1) * size - LIGHT_OFFSET);
+		break;
+	case Tile::SOUTH_LIGHT:
+		pointLights[index].setPosition((x + 0.5f) * size, LIGHT_HEIGHT, y * size + LIGHT_OFFSET);
+		break;
+	case Tile::RIGHT_LIGHT:
+		pointLights[index].setPosition((x + 1) * size - LIGHT_OFFSET, LIGHT_HEIGHT, (y + 0.5f) * size);
+		break;
+	case Tile::LEFT_LIGHT:
+		pointLights[index].setPosition(x * size + LIGHT_OFFSET, LIGHT_HEIGHT, (y + 0.5f) * size);
+		break;
+	default:
+		break;
+	}
+	lights->addLight(&pointLights[index]);
+	index++;
+}
+
+void Maze::bindLights(int x, int y)
+{
+	lights->clear();
+	int index = 0;
+	int X = x - 1, Y = y - 1;
+	for (int X = x - 1; X <= x + 1; X++)
+		for (int Y = y - 1; Y <= y + 1; Y++)
+			if (lightPositions[X][Y] != Tile::EMPTY)
+				setLightPosition(index, X, Y);
 }
 
 inline float max(float x, float y)
