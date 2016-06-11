@@ -87,6 +87,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\framework\graphics\core\light.cpp" />
+    <ClCompile Include="src\framework\graphics\model\material.cpp" />
+    <ClCompile Include="src\framework\graphics\core\multiple_light.cpp" />
+    <ClCompile Include="src\framework\graphics\core\point_light.cpp" />
+    <ClCompile Include="src\framework\graphics\model\primitive\advanced_cube.cpp" />
     <ClCompile Include="src\framework\graphics\effects\chrom_aberr.cpp" />
     <ClCompile Include="src\framework\graphics\effects\post_process.cpp" />
     <ClCompile Include="src\framework\event.cpp" />
@@ -102,9 +107,7 @@
     <ClCompile Include="src\framework\game.cpp" />
     <ClCompile Include="src\framework\audio\audio.cpp" />
     <ClCompile Include="src\framework\audio\audio_system.cpp" />
-    <ClCompile Include="src\framework\graphics\model\simple_model.cpp" />
-    <ClCompile Include="src\maze\path_light.cpp" />
-    <ClCompile Include="src\maze\path.cpp" />
+    <ClCompile Include="src\framework\graphics\model\model.cpp" />
     <ClCompile Include="src\maze\player.cpp" />
     <ClCompile Include="src\maze\maze.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -113,6 +116,11 @@
     <ClCompile Include="src\framework\graphics\effects\timed_effect.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\framework\graphics\core\light.h" />
+    <ClInclude Include="src\framework\graphics\model\material.h" />
+    <ClInclude Include="src\framework\graphics\core\multiple_light.h" />
+    <ClInclude Include="src\framework\graphics\core\point_light.h" />
+    <ClInclude Include="src\framework\graphics\model\primitive\advanced_cube.h" />
     <ClInclude Include="src\framework\graphics\effects\chrom_aberr.h" />
     <ClInclude Include="src\framework\graphics\effects\post_process.h" />
     <ClInclude Include="src\framework\event.h" />
@@ -129,10 +137,8 @@
     <ClInclude Include="src\framework\game.h" />
     <ClInclude Include="src\framework\audio\audio.h" />
     <ClInclude Include="src\framework\audio\audio_system.h" />
-    <ClInclude Include="src\framework\graphics\model\simple_model.h" />
+    <ClInclude Include="src\framework\graphics\model\model.h" />
     <ClInclude Include="src\framework\graphics\shader\shader.h" />
-    <ClInclude Include="src\maze\path_light.h" />
-    <ClInclude Include="src\maze\path.h" />
     <ClInclude Include="src\maze\player.h" />
     <ClInclude Include="src\maze\maze.h" />
     <ClInclude Include="src\framework\window.h" />
