@@ -66,8 +66,8 @@ Maze::Maze(const char* bmp, float size) : size(size)
 
 void Maze::init(Program* program)
 {
-	wall = new Cube(program, "resources/wall.png");
-	floor = new Cube(program, "resources/floor.png");
+	wall = new Cube(program);
+	floor = new Cube(program);
 }
 
 Maze::~Maze()

@@ -87,9 +87,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\framework\graphics\core\light.cpp" />
     <ClCompile Include="src\framework\graphics\model\material.cpp" />
     <ClCompile Include="src\framework\graphics\core\multiple_light.cpp" />
-    <ClCompile Include="src\framework\graphics\core\light.cpp" />
+    <ClCompile Include="src\framework\graphics\core\point_light.cpp" />
     <ClCompile Include="src\framework\graphics\model\primitive\advanced_cube.cpp" />
     <ClCompile Include="src\framework\graphics\effects\chrom_aberr.cpp" />
     <ClCompile Include="src\framework\graphics\effects\post_process.cpp" />
@@ -115,9 +116,10 @@
     <ClCompile Include="src\framework\graphics\effects\timed_effect.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\framework\graphics\core\light.h" />
     <ClInclude Include="src\framework\graphics\model\material.h" />
     <ClInclude Include="src\framework\graphics\core\multiple_light.h" />
-    <ClInclude Include="src\framework\graphics\core\light.h" />
+    <ClInclude Include="src\framework\graphics\core\point_light.h" />
     <ClInclude Include="src\framework\graphics\model\primitive\advanced_cube.h" />
     <ClInclude Include="src\framework\graphics\effects\chrom_aberr.h" />
     <ClInclude Include="src\framework\graphics\effects\post_process.h" />

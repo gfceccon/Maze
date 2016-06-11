@@ -6,8 +6,7 @@
 class Cube : public Model
 {
 public:
-	Cube(Program* program, const char* tex_fname = nullptr);
+	Cube(Program* program);
 	~Cube();
-	void draw() override;
 };
 

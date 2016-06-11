@@ -6,9 +6,7 @@
 class AdvancedCube : public Model
 {
 public:
-	AdvancedCube(Program* program, const char* tex_fname = nullptr, const char* normalmap_fname = nullptr, const char* depthmap_fname = nullptr);
+	AdvancedCube(Program* program);
 	~AdvancedCube();
-
-	void draw() override;
 };
 

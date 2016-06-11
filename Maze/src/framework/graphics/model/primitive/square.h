@@ -6,8 +6,7 @@
 class Square : public Model
 {
 public:
-	Square(Program* program, const char* tex_fname = nullptr);
+	Square(Program* program);
 	~Square();
-	void draw() override;
 };
 

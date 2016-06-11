@@ -5,6 +5,14 @@
 
 Model::Model()
 {
+	vertices = nullptr;
+	indices = nullptr;
+	uvs = nullptr;
+	normals = nullptr;
+	tangents = nullptr;
+	biTangents = nullptr;
+	nvertices = 0;
+	nindices = 0;
 }
 
 Model::~Model()
@@ -15,70 +23,68 @@ Model::~Model()
 	if (vertex_buffer)
 		delete vertex_buffer;
 
-	if (vertices)
-		delete vertices;
-
 	if (indices)
 	{
 		glDeleteBuffers(1, &ebo);
 		delete indices;
 	}
+}
+
+GLsizei Model::initVertexBuffer()
+{
+	GLsizei stride = 3;
 
 	if (uvs)
-		delete uvs;
+		stride += 2;
 
 	if (normals)
-		delete normals;
+		stride += 3;
 
-	if (colors)
-		delete colors;
+	if (tangents)
+		stride += 3;
 
-	if (materials)
-		delete materials;
+	if (biTangents)
+		stride += 3;
 
-	if (hasTexture)
-		glDeleteTextures(1, &texture);
-	if (hasNormal)
-		glDeleteTextures(1, &normal);
-}
+	vertex_buffer = new GLfloat[stride * nvertices];
 
-void Model::initImage(GLuint location, Program* program, const char* file_name)
-{
-	glBindTexture(GL_TEXTURE_2D, location);
-	// Set our texture parameters
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	// Set texture filtering
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	// Load, create texture and generate mipmaps
-	int width, height;
-	unsigned char* image = SOIL_load_image(file_name, &width, &height, 0, SOIL_LOAD_RGB);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
-	glGenerateMipmap(GL_TEXTURE_2D);
-	SOIL_free_image_data(image);
-	glBindTexture(GL_TEXTURE_2D, 0);
-}
+	for (GLsizei i = 0; i < nvertices; i++)
+	{
+		int j = 0;
+		vertex_buffer[i * stride + j++] = vertices[i * 3];
+		vertex_buffer[i * stride + j++] = vertices[i * 3 + 1];
+		vertex_buffer[i * stride + j++] = vertices[i * 3 + 2];
 
-void Model::initTexture(Program* program, const char* file_name)
-{
-	glGenTextures(1, &texture);
-	hasTexture = true;
-	initImage(texture, program, file_name);
-}
 
-void Model::initNormalMap(Program* program, const char* file_name)
-{
-	glGenTextures(1, &normal);
-	hasNormal = true;
-	initImage(normal, program, file_name);
-}
+		if (uvs)
+		{
+			vertex_buffer[i * stride + j++] = uvs[i * 2];
+			vertex_buffer[i * stride + j++] = uvs[i * 2 + 1];
+		}
 
-void Model::initDepthMap(Program* program, const char* file_name)
-{
-	glGenTextures(1, &depth);
-	hasDepth = true;
-	initImage(depth, program, file_name);
+		if (normals)
+		{
+			vertex_buffer[i * stride + j++] = normals[i * 3];
+			vertex_buffer[i * stride + j++] = normals[i * 3 + 1];
+			vertex_buffer[i * stride + j++] = normals[i * 3 + 2];
+		}
+
+		if (tangents)
+		{
+			vertex_buffer[i * stride + j++] = tangents[i * 3];
+			vertex_buffer[i * stride + j++] = tangents[i * 3 + 1];
+			vertex_buffer[i * stride + j++] = tangents[i * 3 + 2];
+		}
+
+		if (biTangents)
+		{
+			vertex_buffer[i * stride + j++] = biTangents[i * 3];
+			vertex_buffer[i * stride + j++] = biTangents[i * 3 + 1];
+			vertex_buffer[i * stride + j++] = biTangents[i * 3 + 2];
+		}
+	}
+
+	return stride;
 }
 
 void Model::init(Program* program, GLenum drawing)
@@ -93,64 +99,7 @@ void Model::init(Program* program, GLenum drawing)
 		glGenBuffers(1, &ebo);
 	}
 
-	GLsizei stride = 3;
-
-	if (uvs)
-		stride += 2;
-
-	if (colors)
-		stride += 3;
-
-	if (materials)
-		stride += 1;
-
-	vertex_buffer = new GLfloat[stride * nvertices];
-
-	for (GLsizei i = 0; i < nvertices; i++)
-	{
-		int j = 0;
-		vertex_buffer[i * stride] = vertices[i * 3];
-		j++;
-		vertex_buffer[i * stride + j] = vertices[i * 3 + 1];
-		j++;
-		vertex_buffer[i * stride + j] = vertices[i * 3 + 2];
-		j++;
-
-
-		if (uvs)
-		{
-			vertex_buffer[i * stride + j] = uvs[i * 2];
-			j++;
-			vertex_buffer[i * stride + j] = uvs[i * 2 + 1];
-			j++;
-		}
-
-		if (normals)
-		{
-			vertex_buffer[i * stride + j] = normals[i * 3];
-			j++;
-			vertex_buffer[i * stride + j] = normals[i * 3 + 1];
-			j++;
-			vertex_buffer[i * stride + j] = normals[i * 3 + 2];
-			j++;
-		}
-
-		if (colors)
-		{
-			vertex_buffer[i * stride + j] = colors[i * 3];
-			j++;
-			vertex_buffer[i * stride + j] = colors[i * 3 + 1];
-			j++;
-			vertex_buffer[i * stride + j] = colors[i * 3 + 2];
-			j++;
-		}
-
-		if (materials)
-		{
-			vertex_buffer[i * stride + j] = materials[i];
-			j++;
-		}
-	}
+	GLsizei stride = initVertexBuffer();
 
 	glBindVertexArray(vao);
 
@@ -162,90 +111,39 @@ void Model::init(Program* program, GLenum drawing)
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glBufferData(GL_ARRAY_BUFFER, (GLsizeiptr)stride * nvertices * sizeof(GLfloat), vertex_buffer, drawing);
 
-	int offset = 0;
+	GLint offset = 0;
 
-	GLint index = program->getAttr("position");
-	glVertexAttribPointer(index, 3, GL_FLOAT, GL_FALSE, stride * sizeof(GLfloat), (GLvoid*)offset);
-	glEnableVertexAttribArray(index);
-	offset += 3;
-
-	delete vertices;
-	vertices = nullptr;
+	addVertexAttribute(program, "position", vertices, 3, stride, offset, sizeof(GLfloat));
 
 	if (uvs)
-	{
-		GLint index = program->getAttr("uv");
-		glVertexAttribPointer(index, 2, GL_FLOAT, GL_FALSE, stride * sizeof(GLfloat), (GLvoid*)(offset * sizeof(GLfloat)));
-		glEnableVertexAttribArray(index);
-		offset += 2;
-		delete uvs;
-		uvs = nullptr;
-	}
+		addVertexAttribute(program, "uv", uvs, 2, stride, offset, sizeof(GLfloat));
 
 	if (normals)
-	{
-		GLint index = program->getAttr("normal");
-		glVertexAttribPointer(index, 3, GL_FLOAT, GL_FALSE, stride * sizeof(GLfloat), (GLvoid*)(offset * sizeof(GLfloat)));
-		glEnableVertexAttribArray(index);
-		offset += 3;
-		delete colors;
-		colors = nullptr;
-	}
+		addVertexAttribute(program, "normals", uvs, 3, stride, offset, sizeof(GLfloat));
 
-	if (colors)
-	{
-		GLint index = program->getAttr("color");
-		glVertexAttribPointer(index, 3, GL_FLOAT, GL_FALSE, stride * sizeof(GLfloat), (GLvoid*)(offset * sizeof(GLfloat)));
-		glEnableVertexAttribArray(index);
-		offset += 3;
-		delete colors;
-		colors = nullptr;
-	}
+	if (tangents)
+		addVertexAttribute(program, "tangents", tangents, 3, stride, offset, sizeof(GLfloat));
 
-	if (materials)
-	{
-		GLint index = program->getAttr("materialIndex");
-		glVertexAttribPointer(index, 1, GL_FLOAT, GL_FALSE, stride * sizeof(GLfloat), (GLvoid*)(offset * sizeof(GLfloat)));
-		glEnableVertexAttribArray(index);
-		offset += 1;
-		delete colors;
-		colors = nullptr;
-	}
+	if (biTangents)
+		addVertexAttribute(program, "biTangents", biTangents, 3, stride, offset, sizeof(GLfloat));
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 }
 
-void Model::bind(Program* program, Material* material)
+void Model::addVertexAttribute(Program* program, const char * attribute, void* buffer, GLint size, GLsizei & stride, GLint & offset, GLsizei typeSize)
+{
+	GLint index = program->getAttr(attribute);
+	glVertexAttribPointer(index, size, GL_FLOAT, GL_FALSE, stride * sizeof(GLfloat), (GLvoid*)(offset * typeSize));
+	glEnableVertexAttribArray(index);
+	offset += size;
+
+	delete buffer;
+}
+
+void Model::bind(Program* program)
 {
 	glBindVertexArray(vao);
-	if (hasTexture)
-	{
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, texture);
-		if (material != nullptr)
-			program->setInt(0, material->getAttribute("diffuse2D"));
-		else
-			program->setInt(0, "texture2D");
-	}
-	if (hasNormal)
-	{
-		glActiveTexture(GL_TEXTURE1);
-		glBindTexture(GL_TEXTURE_2D, normal);
-		if (material != nullptr)
-			program->setInt(1, material->getAttribute("normal2D"));
-		else
-			program->setInt(1, "normal2D");
-	}
-	if (hasDepth)
-	{
-		glActiveTexture(GL_TEXTURE2);
-		glBindTexture(GL_TEXTURE_2D, depth);
-		if (material != nullptr)
-			program->setInt(2, material->getAttribute("depth2D"));
-		else
-			program->setInt(2, "depth2D");
-	}
 }
 
 void Model::draw(GLenum mode)

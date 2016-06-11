@@ -1,9 +1,9 @@
 #include "light.h"
 
 
-
-Light::Light(int index) : index(index)
+Light::Light(int index)
 {
+	this->index = index;
 }
 
 
@@ -11,12 +11,6 @@ Light::~Light()
 {
 }
 
-void Light::setPosition(float x, float y, float z)
-{
-	this->position.x = x;
-	this->position.y = y;
-	this->position.z = z;
-}
 
 void Light::setAmbient(float x, float y, float z)
 {
@@ -39,16 +33,28 @@ void Light::setSpecular(float x, float y, float z)
 	this->specular.z = z;
 }
 
-void Light::setAttenuation(float constant, float linear, float quadraditic)
+void Light::bind(Program * program)
 {
-	this->attConstant = constant;
-	this->attLinear = linear;
-	this->attQuadratic = quadraditic;
+	std::string attribute;
+
+	getLightAttrString(LIGHT_NAME, attribute);
+	attribute += LIGHT_AMBIENT;
+	program->setVec3(ambient, attribute.c_str());
+
+
+	getLightAttrString(LIGHT_NAME, attribute);
+	attribute += LIGHT_DIFFUSE;
+	program->setVec3(diffuse, attribute.c_str());
+
+
+	getLightAttrString(LIGHT_NAME, attribute);
+	attribute += LIGHT_SPECULAR;
+	program->setVec3(specular, attribute.c_str());
 }
 
-void inline Light::setLightAttrString(std::string& string)
+void inline Light::getLightAttrString(const char* light_name, std::string& string)
 {
-	string = LIGHT_NAME;
+	string = light_name;
 	if (index != -1)
 	{
 		string += "[";
@@ -57,43 +63,4 @@ void inline Light::setLightAttrString(std::string& string)
 	}
 
 	string += ".";
-}
-
-void Light::bind(Program * program)
-{
-	std::string string;
-
-	setLightAttrString(string);
-	string += LIGHT_POSITION;
-	program->setVec3(position, string.c_str());
-
-
-	setLightAttrString(string);
-	string += LIGHT_AMBIENT;
-	program->setVec3(ambient, string.c_str());
-
-
-	setLightAttrString(string);
-	string += LIGHT_DIFFUSE;
-	program->setVec3(diffuse, string.c_str());
-
-
-	setLightAttrString(string);
-	string += LIGHT_SPECULAR;
-	program->setVec3(specular, string.c_str());
-
-
-	setLightAttrString(string);
-	string += LIGHT_ATT_CONST;
-	program->setFloat(attConstant, string.c_str());
-
-
-	setLightAttrString(string);
-	string += LIGHT_ATT_LINEAR;
-	program->setFloat(attLinear, string.c_str());
-
-
-	setLightAttrString(string);
-	string += LIGHT_ATT_QUAD;
-	program->setFloat(attQuadratic, string.c_str());
 }
