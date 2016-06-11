@@ -8,10 +8,6 @@ ProceduralMaze::ProceduralMaze(int width, int height)
 {
 	std::srand(std::time(NULL));
 
-	// Odd width and height to make sure we have borders
-	this->height = height % 2 == 0 ? height + 1 : height;
-	this->width = width % 2 == 0 ? width + 1 : width;
-
 	this->grid = std::map<std::tuple<int, int>, Tile>();
 	clearGrid();
 }

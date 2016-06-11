@@ -1,6 +1,8 @@
-#include "cube.h"
+#include "advanced_cube.h"
 
-Cube::Cube(Program* program) : Model()
+
+
+AdvancedCube::AdvancedCube(Program* program)
 {
 	Model::nvertices = 36;
 	Model::vertices = new GLfloat[nvertices * 3]{
@@ -89,10 +91,9 @@ Cube::Cube(Program* program) : Model()
 		0.0f, 0.0f,
 		0.0f, 1.0f
 	};
-	Model::init(program, GL_STATIC_DRAW);
 }
 
 
-Cube::~Cube()
+AdvancedCube::~AdvancedCube()
 {
 }

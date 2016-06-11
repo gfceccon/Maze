@@ -1,11 +1,14 @@
 #pragma once
 
-#include "../util/glm/gtc/matrix_transform.hpp"
-#include "../util/glm/vec2.hpp"
 #include <cstring>
 #include <vector>
+#include "../util/glm/vec2.hpp"
+#include "../util/glm/gtc/matrix_transform.hpp"
 #include "../framework/graphics/shader/program.h"
-#include "../framework/graphics/model/primitive/cube.h"
+#include "../framework/graphics/model/primitive/advanced_cube.h"
+#include "../framework/graphics/core/directional_light.h"
+#include "../framework/graphics/core/multiple_light.h"
+#include "../framework/graphics/core/point_light.h"
 
 #define PLAYER_OFFSET 0.15f
 #define RESPONSE 1.0f
@@ -20,6 +23,8 @@ enum Tile
 	WALL,
 	ENTRY,
 	EXIT,
+	LIGTH,
+	DEATH_ZONE,
 	VISITED,
 	UNVISITED,
 	LIGHT
@@ -37,12 +42,16 @@ enum Direction
 class Maze
 {
 	int width, height;
-	Tile* tiles;
-	Cube* wall = nullptr;
-	Cube* floor = nullptr;
-	float size;
+	Tile** tiles;
 	glm::vec3 entry, exit;
-	std::vector<glm::vec3> walls;
+
+	AdvancedCube* cube;
+	Material *wall, *floor;
+	DirectionalLight* globalLight;
+	PointLight* pointLights;
+	MultipleLight* lights;
+
+	float size;
 	const char* path = "resources/";
 
 
@@ -55,7 +64,6 @@ public:
 	~Maze();
 	void init(Program* program);
 	void draw(Program* program);
-	Tile* copyBoard();
 	glm::vec3 getEntryPosition();
 	bool checkCollision(glm::vec3 current, glm::vec3& position);
 };

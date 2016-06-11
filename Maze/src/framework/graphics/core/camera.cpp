@@ -48,39 +48,6 @@ void Camera::bind(Program* program)
 	program->setMat4(view, viewName);
 }
 
-//void Camera::move(Axis direction, float amount)
-//{
-//	glm::vec3 right = this->right;
-//	right.y = 0.0f;
-//	glm::vec3 front = this->front;
-//	front.y = 0.0f;
-//	switch (direction)
-//	{
-//	case X:
-//		position = position + amount * right;
-//		break;
-//	case Y:
-//		position = position + amount * globalUp;
-//		break;
-//	case Z:
-//		position = position + amount * front;
-//	default:
-//		break;
-//	}
-//}
-//
-//void Camera::move(float x, float y, float z)
-//{
-//	glm::vec3 right = this->right;
-//	right.y = 0.0f;
-//	glm::vec3 front = this->front;
-//	front.y = 0.0f;
-//
-//	position = position + x * right;
-//	position = position + y * globalUp;
-//	position = position + z * front;
-//}
-
 void Camera::zoom(float amount)
 {
 	float value = fov * amount;
