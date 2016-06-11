@@ -37,7 +37,8 @@ enum Tile
 
 	KILL_ZONE,
 	VISITED,
-	UNVISITED
+	UNVISITED,
+	LIGHT
 };
 
 enum Direction

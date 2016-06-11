@@ -9,17 +9,19 @@ class ProceduralMaze
 	private:
 		int width;
 		int height;
-		std::map<std::tuple<int, int>, Tile> grid;
+		std::map<std::pair<int, int>, Tile> grid;
 
+		void generateLight();
 		void clearGrid();
-		std::vector<std::tuple<int, int>> getAdjCells(std::tuple<int, int> center, Tile tile_state);
+		std::vector<std::pair<int, int>> getAdjCells(std::pair<int, int> center, Tile tile_state, int dist);
+		std::vector<std::pair<int, int>> getDiagCells(std::pair<int, int> center);
 
 	public:
 		ProceduralMaze(int width, int height);
 
 		void generate();
 		void print();
-		std::map<std::tuple<int, int>, Tile> getGrid() { return grid; }
+		std::map<std::pair<int, int>, Tile> getGrid() { return grid; }
 };
 
 #endif
