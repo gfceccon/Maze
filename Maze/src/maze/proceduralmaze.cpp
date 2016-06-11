@@ -205,13 +205,3 @@ void ProceduralMaze::print() {
 		std::cout << std::endl;
 	}
 }
-
-int main(int argc, char* argv[]) {
-	ProceduralMaze* maze = new ProceduralMaze(15, 15);
-	maze->generate();
-	maze->print();
-
-	delete maze;
-
-	return 0;
-}
