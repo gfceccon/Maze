@@ -1,3 +1,4 @@
+#include <list>
 #include <algorithm>
 #include <cstdlib>
 #include <iostream>
@@ -66,20 +67,36 @@ void ProceduralMaze::generateLight() {
 	std::vector<std::pair<int, int>> visited_cells;
 	std::vector<std::pair<int, int>> illuminated_cells;
 
+	std::list<std::pair<int, int>> deathzone;
+
 	check_stack.push_back(std::make_pair(1, 1));
 	int steps = 0;
 
 	while (!check_stack.empty()) {
 		std::pair<int, int> check_pos = check_stack.back();
 		check_stack.pop_back();
+		if (deathzone.size() >= std::ceil(width * 0.05)) {
+			deathzone.pop_front();
+		}
 
+		deathzone.push_back(check_pos);
 		visited_cells.push_back(check_pos);
 
+		bool dead_end = true;
 		auto neighboors = getAdjCells(check_pos, Tile::EMPTY, 1);
 		for (auto n_pos : neighboors) {
 			if (std::find(visited_cells.begin(), visited_cells.end(), n_pos) == visited_cells.end()) {
 				check_stack.push_back(n_pos);
+				dead_end = false;
 			}
+		}
+
+		if (dead_end) {
+			for (auto it = deathzone.rbegin(); it != deathzone.rend() && grid[*it] != Tile::DEATH_ZONE; ++it) {
+				grid[*it] = Tile::DEATH_ZONE;
+			}
+
+			deathzone.clear();
 		}
 
 		steps++;
@@ -195,6 +212,9 @@ void ProceduralMaze::print() {
 					break;
 				case Tile::LIGHT:
 					c = '.';
+					break;
+				case Tile::DEATH_ZONE:
+					c = 'x';
 					break;
 				default:
 					break;
