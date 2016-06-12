@@ -5,7 +5,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
-#include "../util/log.h"
+#include "../../util/log.h"
 
 void errorCallback(int error, const char* description)
 {
@@ -27,19 +27,6 @@ Window::Window(const char* title, int width, int height)
     const GLFWvidmode* vidmode = glfwGetVideoMode(pmonitor);
     window = glfwCreateWindow(width, height, title, NULL, NULL);
     glfwSetWindowPos(window, (vidmode->width - width)/2, (vidmode->height - height)/2);
-
-	//if (count > 1)
-	//{
-	//	int x, y;
-	//	glfwGetMonitorPos(monitors[1], &x, &y);
-	//	window = glfwCreateWindow(width, height, title, NULL, NULL);
-	//	glfwSetWindowPos(window, x + XOFFSET, y + YOFFSET);
-	//}
-	//else
-	//{
-	//	window = glfwCreateWindow(width, height, title, NULL, NULL);
-	//	glfwSetWindowPos(window, XOFFSET, YOFFSET);
-	//}
 
 	if (!window)
 	{
@@ -76,7 +63,18 @@ Window::~Window()
 	exit(EXIT_SUCCESS);
 }
 
-void Window::start(Game* game)
+void Window::setScene(Scene* scene)
+{
+	if (this->scene == nullptr)
+		this->scene = scene;
+	else
+	{
+		this->nextScene = scene;
+		shouldQuit = true;
+	}
+}
+
+void Window::start()
 {
 	glfwSetKeyCallback(window, keyCallback);
 	glfwSetCursorPosCallback(window , mouseCallback);
@@ -86,21 +84,27 @@ void Window::start(Game* game)
 
 	double time;
 	double delta = glfwGetTime();
+	do
+	{
+		do {
+			glfwPollEvents();
 
-	do {
-		glfwPollEvents();
+			time = glfwGetTime();
 
-		time = glfwGetTime();
+			scene->update(static_cast<float>(delta));
+			scene->draw(static_cast<float>(delta));
 
-		game->update(static_cast<float>(delta));
-		game->draw(static_cast<float>(delta));
+			glfwSwapBuffers(window);
 
-		glfwSwapBuffers(window);
+			delta = glfwGetTime() - time;
+			time = glfwGetTime();
 
-		delta = glfwGetTime() - time;
-		time = glfwGetTime();
+		} while (!glfwWindowShouldClose(window) && !shouldQuit);
 
-		//Log::print(1.0f / (float)delta);
-
-	} while (!glfwWindowShouldClose(window));
+		if (nextScene != nullptr && !glfwWindowShouldClose(window))
+		{
+			scene = nextScene;
+			shouldQuit = false;
+		}
+	} while (!shouldQuit);
 }

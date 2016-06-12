@@ -228,7 +228,7 @@ void Maze::draw(Program* program)
 			}
 			// Translate to position and bind
 			transform = glm::translate(transform, size * glm::vec3(position));
-			program->setMat4(transform, "transform");
+			program->setMat4(transform, "model");
 
 			// Bind point lights and directional light
 			bindLights(x, y);

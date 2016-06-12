@@ -1,6 +1,6 @@
 #pragma once
 
-#include "game.h"
+#include "scene.h"
 
 #define MAJOR_VERSION 3
 #define MINOR_VERSION 3
@@ -8,12 +8,17 @@
 
 class Window
 {
+private:
 	int width, height;
 	GLFWwindow* window;
+	Scene* scene;
+	Scene* nextScene;
+	bool shouldQuit = false;
 public:
 	Window(const char* title, int width, int height);
 	~Window();
 
-	void start(Game* game);
+	void setScene(Scene* scene);
+	void start();
 	friend void errorCallback(int error, const char* description);
 };

@@ -69,12 +69,6 @@
     <ClCompile Include="src\framework\graphics\shader\shader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\framework\window.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\framework\game.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\util\log.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -91,9 +85,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\util\endian.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\framework\event.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\framework\graphics\model\wave\tiny_obj_loader.cc">
@@ -138,6 +129,18 @@
     <ClCompile Include="src\framework\graphics\core\directional_light.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\framework\game\window.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\game\event.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\framework\game\scene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\maze\game.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\maze\maze.h">
@@ -153,12 +156,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\framework\graphics\shader\shader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\framework\window.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\framework\game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\util\log.h">
@@ -180,9 +177,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\util\endian.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\framework\event.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\framework\graphics\model\wave\tiny_obj_loader.h">
@@ -225,6 +219,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\framework\graphics\core\directional_light.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\game\window.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\game\event.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\framework\game\scene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\maze\game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
