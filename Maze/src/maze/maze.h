@@ -5,10 +5,10 @@
 #include "../util/glm/vec2.hpp"
 #include "../util/glm/gtc/matrix_transform.hpp"
 #include "../framework/graphics/shader/program.h"
-#include "../framework/graphics/model/primitive/advanced_cube.h"
-#include "../framework/graphics/core/directional_light.h"
-#include "../framework/graphics/core/multiple_light.h"
 #include "../framework/graphics/core/point_light.h"
+#include "../framework/graphics/core/multiple_light.h"
+#include "../framework/graphics/core/directional_light.h"
+#include "../framework/graphics/model/primitive/advanced_cube.h"
 
 #define PLAYER_OFFSET 0.15f
 #define PLAYER_HEIGHT 0.5f
@@ -20,7 +20,7 @@
 
 #define LIGHT_HEIGHT 0.5f
 #define LIGHT_OFFSET 0.1f
-#define MAX_LIGHTS 4
+#define MAX_MAZE_LIGHTS 4
 
 enum Tile
 {
@@ -54,17 +54,16 @@ class Maze
 {
 private:
 	int width, height;
+	float size;
+
 	Tile** tiles, **lightPositions, **killZones;
 	glm::vec3 entry, exit;
 
 	AdvancedCube* cube;
 	Material *wall, *floor;
 	DirectionalLight* directionalLight;
-	PointLight* pointLights;
+	PointLight pointLights[MAX_MAZE_LIGHTS];
 	MultipleLight* lights;
-
-	float size;
-	const char* path = "resources/";
 
 
 	size_t i(size_t x, size_t y) { return y * width + x; }
@@ -73,6 +72,7 @@ private:
 	void bindLights(int x, int y);
 	void setLightPosition(int& index, int x, int Y);
 	void placeLight(int x, int y);
+	Maze(float size);
 public:
 	Maze(int width, int height, float size = 1.0f);
 	Maze(const char* bmp, float size = 1.0f);

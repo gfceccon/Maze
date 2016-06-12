@@ -19,27 +19,29 @@ void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 
 void mouseCallback(GLFWwindow* window, double xpos, double ypos)
 {
+	float x = static_cast<float>(xpos);
+	float y = static_cast<float>(ypos);
 	float deltaX = 0;
 	float deltaY = 0;
 
 	if (Scene::last_mouse)
 	{
-		deltaX = static_cast<float>(xpos - Scene::last_mouse->x);
-		deltaY = static_cast<float>(Scene::last_mouse->y - ypos);
-		Scene::last_mouse->x = xpos;
-		Scene::last_mouse->y = ypos;
+		deltaX = x - Scene::last_mouse->x;
+		deltaY = Scene::last_mouse->y - y;
+		Scene::last_mouse->x = x;
+		Scene::last_mouse->y = y;
 	}
 	else
-		Scene::last_mouse = new Event(xpos, ypos);
+		Scene::last_mouse = new Event(x, y);
 	Scene::events.push(new Event(deltaX, deltaY));
 }
 
 void scrollCallback(GLFWwindow* window, double xoffset, double yoffset)
 {
-	Scene::events.push(new Event(xoffset, yoffset, true));
+	Scene::events.push(new Event(static_cast<float>(xoffset), static_cast<float>(yoffset), true));
 }
 
-Scene::Scene()
+Scene::Scene() : shouldQuit(false), next(nullptr)
 {
 }
 
@@ -59,4 +61,20 @@ void Scene::draw(float delta)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_TEXTURE_2D);
+}
+
+void Scene::close(Scene* next)
+{
+	this->next = next;
+	shouldQuit = true;
+}
+
+bool Scene::shouldClose()
+{
+	return shouldQuit;
+}
+
+Scene* Scene::getNextScene()
+{
+	return next;
 }

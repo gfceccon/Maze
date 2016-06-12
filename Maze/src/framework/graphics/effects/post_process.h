@@ -1,14 +1,14 @@
 #pragma once
 
 #include <GL/glew.h>
-#include "../model/primitive/square.h"
+#include "../model/primitive/quad.h"
 #include "../shader/program.h"
 
 class PostProcess
 {
 	const glm::vec4 clear_color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
 	GLuint fbo, rbo, textureID;
-	Square* quad;
+	Quad* quad;
 protected:
 	Program* program;
 	virtual void beginDraw();

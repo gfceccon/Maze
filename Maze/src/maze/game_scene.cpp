@@ -1,8 +1,6 @@
-#include "game.h"
-#include <iostream>
-#include "../util/log.h"
+#include "game_scene.h"
 
-Game::Game(int width, int height) : Scene()
+Game::Game() : Scene()
 {
 	try {
 		program = new Program();
@@ -14,17 +12,18 @@ Game::Game(int width, int height) : Scene()
 		maze->init(program);
 
 	} catch (const std::runtime_error& e) {
-		std::cout << e.what() << std::endl;
+		std::cerr << e.what() << std::endl;
 		throw;
 	}
 
 	player = new Player(maze->getEntryPosition());
-	camera = new Camera(width, height);
+	camera = new Camera(Window::width, Window::height);
 }
 
 Game::~Game()
 {
 	delete program;
+	delete player;
 	delete maze;
 	delete camera;
 }

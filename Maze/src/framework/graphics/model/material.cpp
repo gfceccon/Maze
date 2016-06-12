@@ -2,7 +2,7 @@
 
 
 
-Material::Material(const char* name, int index) : name(name), index(index)
+Material::Material(int index, const char* name) : index(index), name(name)
 {
 	setDiffuse(1.0f, 1.0f, 1.0f);
 	setSpecular(1.0f, 1.0f, 1.0f);
@@ -28,7 +28,7 @@ const char* Material::getAttribute(const char* attribute)
 	if (index != -1)
 	{
 		string += "[";
-		string += itoa(index, nullptr, 10);
+		string += std::to_string(index);
 		string += "]";
 	}
 	string += ".";
@@ -61,20 +61,20 @@ void Material::bind(Program * program)
 	GLint textureIndex = 0;
 
 	if(hasDiffuse)
-		bindTexture(program, "diffuse2D", textureIndex, depthTex);
+		bindTexture(program, getAttribute(MATERIAL_DIFFUSE_TEXTURE), textureIndex, diffuseTex);
 	else
 		program->setVec3(diffuse, getAttribute(MATERIAL_DIFFUSE));
 
 	if(hasSpecular)
-		bindTexture(program, "specular2D", textureIndex, specularTex);
+		bindTexture(program, getAttribute(MATERIAL_SPECULAR_TEXTURE), textureIndex, specularTex);
 	else
 		program->setVec3(specular, getAttribute(MATERIAL_SPECULAR));
 
 	if(hasNormal)
-		bindTexture(program, "normal2D", textureIndex, normalTex);
+		bindTexture(program, getAttribute(MATERIAL_NORMAL_TEXTURE), textureIndex, normalTex);
 
 	if(hasDepth)
-		bindTexture(program, "depth2D", textureIndex, depthTex);
+		bindTexture(program, getAttribute(MATERIAL_DEPTH_TEXTURE), textureIndex, depthTex);
 
 	program->setFloat(shininess, getAttribute(MATERIAL_SHININESS));
 }
@@ -83,7 +83,7 @@ void Material::bindTexture(Program* program, const char * textureAttribute, GLin
 {
 	glActiveTexture(GL_TEXTURE0 + index);
 	glBindTexture(GL_TEXTURE_2D, textureId);
-	program->setInt(index, getAttribute(textureAttribute));
+	program->setInt(index, textureAttribute);
 	index++;
 }
 

@@ -20,7 +20,7 @@ void ChromAberr::init(const char* red_uniform, glm::vec2 red_offset, const char*
 
 void ChromAberr::draw(float delta)
 {
-	time += delta;
+	TimedEffect::draw(delta);
 	TimedEffect::beginDraw();
 	program->setVec2(red_offset, red_uniform);
 	program->setVec2(green_offset, green_uniform);

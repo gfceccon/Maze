@@ -3,7 +3,7 @@
 #include <vector>
 #include "light.h"
 
-#define LIGHTS_SIZE "lightsSize"
+#define LIGHTS_SIZE "NumberOfLights"
 
 class MultipleLight
 {

@@ -27,5 +27,4 @@ void TimedEffect::draw()
 void TimedEffect::draw(float delta)
 {
 	time += delta;
-	draw();
 }

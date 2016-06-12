@@ -21,6 +21,11 @@ void Log::print(const GLubyte* msg)
 	std::cout << msg << std::endl;
 }
 
+void Log::print(const glm::vec3 vector)
+{
+	std::cout << "(" << vector.x << "," << vector.y << "," << vector.z << ")" << std::endl;
+}
+
 
 void Log::error(const char* err)
 {
@@ -40,4 +45,9 @@ void Log::error(const float msg)
 void Log::error(const GLubyte* err)
 {
 	std::cerr << err << std::endl;
+}
+
+void Log::error(const glm::vec3 vector)
+{
+	std::cout << "(" << vector.x << "," << vector.y << "," << vector.z << ")" << std::endl;
 }

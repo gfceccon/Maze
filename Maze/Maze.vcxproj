@@ -87,6 +87,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\framework\graphics\model\primitive\advanced_quad.cpp" />
     <ClCompile Include="src\framework\game\scene.cpp" />
     <ClCompile Include="src\framework\game\event.cpp" />
     <ClCompile Include="src\framework\game\window.cpp" />
@@ -99,7 +100,7 @@
     <ClCompile Include="src\framework\graphics\effects\chrom_aberr.cpp" />
     <ClCompile Include="src\framework\graphics\effects\post_process.cpp" />
     <ClCompile Include="src\framework\graphics\model\primitive\cube.cpp" />
-    <ClCompile Include="src\framework\graphics\model\primitive\square.cpp" />
+    <ClCompile Include="src\framework\graphics\model\primitive\quad.cpp" />
     <ClCompile Include="src\framework\graphics\model\wave\tiny_obj_loader.cc" />
     <ClCompile Include="src\framework\graphics\shader\program.cpp" />
     <ClCompile Include="src\framework\graphics\core\camera.cpp" />
@@ -108,7 +109,7 @@
     <ClCompile Include="src\util\color.cpp" />
     <ClCompile Include="src\util\endian.c" />
     <ClCompile Include="src\util\log.cpp" />
-    <ClCompile Include="src\maze\game.cpp" />
+    <ClCompile Include="src\maze\game_scene.cpp" />
     <ClCompile Include="src\framework\audio\audio.cpp" />
     <ClCompile Include="src\framework\audio\audio_system.cpp" />
     <ClCompile Include="src\framework\graphics\model\model.cpp" />
@@ -117,8 +118,10 @@
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\framework\graphics\shader\shader.cpp" />
     <ClCompile Include="src\framework\graphics\effects\timed_effect.cpp" />
+    <ClCompile Include="src\test.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\framework\graphics\model\primitive\advanced_quad.h" />
     <ClInclude Include="src\framework\game\scene.h" />
     <ClInclude Include="src\framework\game\event.h" />
     <ClInclude Include="src\framework\game\window.h" />
@@ -131,7 +134,7 @@
     <ClInclude Include="src\framework\graphics\effects\chrom_aberr.h" />
     <ClInclude Include="src\framework\graphics\effects\post_process.h" />
     <ClInclude Include="src\framework\graphics\model\primitive\cube.h" />
-    <ClInclude Include="src\framework\graphics\model\primitive\square.h" />
+    <ClInclude Include="src\framework\graphics\model\primitive\quad.h" />
     <ClInclude Include="src\framework\graphics\model\wave\tiny_obj_loader.h" />
     <ClInclude Include="src\framework\graphics\shader\program.h" />
     <ClInclude Include="src\framework\graphics\core\camera.h" />
@@ -141,7 +144,7 @@
     <ClInclude Include="src\util\color.h" />
     <ClInclude Include="src\util\endian.h" />
     <ClInclude Include="src\util\log.h" />
-    <ClInclude Include="src\maze\game.h" />
+    <ClInclude Include="src\maze\game_scene.h" />
     <ClInclude Include="src\framework\audio\audio.h" />
     <ClInclude Include="src\framework\audio\audio_system.h" />
     <ClInclude Include="src\framework\graphics\model\model.h" />
@@ -149,6 +152,7 @@
     <ClInclude Include="src\maze\player.h" />
     <ClInclude Include="src\maze\maze.h" />
     <ClInclude Include="src\framework\graphics\effects\timed_effectt.h" />
+    <ClInclude Include="src\test.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

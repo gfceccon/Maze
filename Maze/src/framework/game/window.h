@@ -9,16 +9,17 @@
 class Window
 {
 private:
-	int width, height;
 	GLFWwindow* window;
 	Scene* scene;
-	Scene* nextScene;
-	bool shouldQuit = false;
 public:
-	Window(const char* title, int width, int height);
+	static int width;
+	static int height;
+	Window(const char* title);
 	~Window();
 
 	void setScene(Scene* scene);
+
 	void start();
 	friend void errorCallback(int error, const char* description);
 };
+void errorCallback(int error, const char* description);

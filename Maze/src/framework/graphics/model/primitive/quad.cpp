@@ -1,11 +1,10 @@
-#include "square.h"
+#include "quad.h"
 
 
 
-Square::Square(Program* program) : Model()
+Quad::Quad(Program* program) : Model()
 {
 	Model::nvertices = 6;
-	//Model::nindices = 2;
 	Model::vertices = new GLfloat[nvertices * 3]
 	{
 		 1.0f, -1.0f, 0.0f,  // Bottom Right
@@ -28,6 +27,6 @@ Square::Square(Program* program) : Model()
 }
 
 
-Square::~Square()
+Quad::~Quad()
 {
 }

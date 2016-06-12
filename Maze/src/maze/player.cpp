@@ -60,7 +60,7 @@ void Player::move(Maze* maze, glm::vec3 gravity, float delta)
 	this->position = position;
 }
 
-void Player::move(Maze* maze, float x, float y, float z)
+void Player::move(float x, float y, float z)
 {
 	glm::vec3 right = this->right;
 	right.y = 0.0f;
@@ -70,5 +70,7 @@ void Player::move(Maze* maze, float x, float y, float z)
 	position = position + x * right;
 	position = position + y * globalUp;
 	position = position + z * front;
+	Log::print(front);
+	Log::print(position);
 }
 

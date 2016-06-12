@@ -7,12 +7,15 @@
 #include <ctime>
 #include "../../util/log.h"
 
+int Window::width = 0;
+int Window::height = 0;
+
 void errorCallback(int error, const char* description)
 {
 	Log::error(description);
 }
 
-Window::Window(const char* title, int width, int height)
+Window::Window(const char* title) : scene(nullptr), window(nullptr)
 {
 	glfwSetErrorCallback(errorCallback);
 	if (!glfwInit())
@@ -23,10 +26,10 @@ Window::Window(const char* title, int width, int height)
 	glfwWindowHint(GLFW_SAMPLES, ANTIALIASING_SAMPLES);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    GLFWmonitor* pmonitor = glfwGetPrimaryMonitor();
-    const GLFWvidmode* vidmode = glfwGetVideoMode(pmonitor);
-    window = glfwCreateWindow(width, height, title, NULL, NULL);
-    glfwSetWindowPos(window, (vidmode->width - width)/2, (vidmode->height - height)/2);
+	GLFWmonitor* pmonitor = glfwGetPrimaryMonitor();
+	const GLFWvidmode* vidmode = glfwGetVideoMode(pmonitor);
+	window = glfwCreateWindow(width, height, title, NULL, NULL);
+	glfwSetWindowPos(window, (vidmode->width - width) / 2, (vidmode->height - height) / 2);
 
 	if (!window)
 	{
@@ -59,25 +62,18 @@ Window::~Window()
 {
 	glfwDestroyWindow(window);
 	glfwTerminate();
-
-	exit(EXIT_SUCCESS);
 }
 
 void Window::setScene(Scene* scene)
 {
-	if (this->scene == nullptr)
+	if(this->scene == nullptr)
 		this->scene = scene;
-	else
-	{
-		this->nextScene = scene;
-		shouldQuit = true;
-	}
 }
 
 void Window::start()
 {
 	glfwSetKeyCallback(window, keyCallback);
-	glfwSetCursorPosCallback(window , mouseCallback);
+	glfwSetCursorPosCallback(window, mouseCallback);
 	glfwSetScrollCallback(window, scrollCallback);
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	glViewport(0, 0, width, height);
@@ -99,12 +95,12 @@ void Window::start()
 			delta = glfwGetTime() - time;
 			time = glfwGetTime();
 
-		} while (!glfwWindowShouldClose(window) && !shouldQuit);
-
-		if (nextScene != nullptr && !glfwWindowShouldClose(window))
-		{
-			scene = nextScene;
-			shouldQuit = false;
-		}
-	} while (!shouldQuit);
+		} while (!glfwWindowShouldClose(window) && !scene->shouldClose());
+		Scene* current = scene;
+		if (glfwWindowShouldClose(window))
+			scene = nullptr;
+		else if (scene->getNextScene() != nullptr)
+			scene = scene->getNextScene();
+		delete current;
+	} while (scene != nullptr);
 }

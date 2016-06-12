@@ -1,6 +1,7 @@
 #pragma once
 
 #include <GL/glew.h>
+#include <string>
 #include "../shader/program.h"
 #include "../../../util/glm/vec3.hpp"
 

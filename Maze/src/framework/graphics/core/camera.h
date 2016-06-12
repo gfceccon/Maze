@@ -15,6 +15,10 @@
 #define MAX_FAR 100.0f
 #define LIMIT_PITCH 89.0f
 
+#define VIEW_POSITION_NAME "ViewPosition"
+#define VIEW_MATRIX_NAME "view"
+#define PROJECTION_MATRIX_NAME "projection"
+
 
 class Camera
 {
@@ -26,7 +30,6 @@ class Camera
 	glm::mat4 view;
 	float fov = 45.0f;
 	float near = 0.1f, far = 100.0f;
-	const char* viewName = "view", *projectionName = "projection";
 	float pitch = 0.0f, yaw = 0.0f, roll = 0.0f;
 	const glm::vec3 globalUp = glm::vec3(0.0f, 1.0f, 0.0f);
 	glm::vec3 front, up, right;

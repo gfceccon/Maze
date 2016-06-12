@@ -3,6 +3,9 @@
 
 Light::Light(int index, const char* name) : name(name), index(index)
 {
+	setAmbient(1.0f, 1.0f, 1.0f);
+	setDiffuse(1.0f, 1.0f, 1.0f);
+	setSpecular(1.0f, 1.0f, 1.0f);
 }
 
 
@@ -47,7 +50,7 @@ const char* Light::getAttribute(const char* attribute)
 	if (index != -1)
 	{
 		string += "[";
-		string += itoa(index, nullptr, 10);
+		string += std::to_string(index);
 		string += "]";
 	}
 

@@ -12,8 +12,14 @@
 #include "../util/bitmap.h"
 #include "../util/log.h"
 
-Maze::Maze(int width, int height, float size) :
-size(size), cube(nullptr), lights(new MultipleLight(MAX_LIGHTS)), pointLights(new PointLight[MAX_LIGHTS])
+Maze::Maze(float size) : size(size), cube(nullptr)
+{
+	lights = new MultipleLight(MAX_MAZE_LIGHTS);
+	for (int i = 0; i < MAX_MAZE_LIGHTS; i++)
+		pointLights[i] = PointLight(i);
+}
+
+Maze::Maze(int width, int height, float size) : Maze(size)
 {
 	height = height + ((height + 1) % 2);
 	width = width + ((width + 1) % 2);
@@ -62,18 +68,14 @@ size(size), cube(nullptr), lights(new MultipleLight(MAX_LIGHTS)), pointLights(ne
 	procedural_maze.print();
 }
 
-Maze::Maze(const char* bmp, float size) :
-size(size), cube(nullptr), lights(new MultipleLight(MAX_LIGHTS)), pointLights(new PointLight[MAX_LIGHTS])
+Maze::Maze(const char* bmp, float size) : Maze(size)
 {
-	std::string str(path);
-	str += bmp;
-
 	RGB* image;
 	UINT32 w, h;
-	FILE* f = fopen(str.c_str(), "rb");
+	FILE* f = fopen(bmp, "rb");
 
 	if (!f) {
-		throw std::runtime_error("File " + str + " does not exist");
+		throw std::runtime_error("Bitmap maze file does not exist");
 	}
 
 	if (readSingleImageBMP(f, &image, &w, &h)) {
@@ -167,18 +169,13 @@ void Maze::placeLight(int x, int y)
 
 void Maze::init(Program* program)
 {
-	std::string resource;
 	cube = new AdvancedCube(program);
 	floor = new Material();
 	wall = new Material();
 
-	resource = path;
-	resource += "wall.png";
-	wall->initTexture(program, resource.c_str(), Material::TextureType::Diffuse);
+	wall->initTexture(program, "resources/images/wall.png", Material::TextureType::Diffuse);
 
-	resource = path;
-	resource += "floor.png";
-	floor->initTexture(program, resource.c_str(), Material::TextureType::Diffuse);
+	floor->initTexture(program, "resources/images/floor.png", Material::TextureType::Diffuse);
 }
 
 Maze::~Maze()
@@ -199,42 +196,35 @@ Maze::~Maze()
 	delete floor;
 	delete wall;
 	delete lights;
-	delete pointLights;
 }
 // Draw maze
 void Maze::draw(Program* program)
 {
-	// Bind object
-	cube->bind(program);
 	for (int y = 0; y < height; y++)
 	{
 		for (int x = 0; x < width; x++)
 		{
-			glm::mat4 transform;
-			glm::vec3 position;
+			cube->loadIdentity();
 			// Scale size
-			transform = glm::scale(transform, size * glm::vec3(0.9999f, 0.9999f, 0.9999f));
+			cube->scale(size * 0.99999f, size * 0.99999f, size * 0.99999f);
 			// Bind materials and position (floor or wall)
 			switch (tiles[x][y])
 			{
 			case Tile::WALL:
 				wall->bind(program);
-				position = glm::vec3(x, 0.0f, y);
+				cube->translate(x * size, 0.0f, y * size);
 				break;
 			case Tile::EMPTY:
 				floor->bind(program);
-				position = glm::vec3(x, -1.0f, y);
+				cube->translate(x * size, -size, y * size);
 				break;
 			}
-			// Translate to position and bind
-			transform = glm::translate(transform, size * glm::vec3(position));
-			program->setMat4(transform, "model");
-
 			// Bind point lights and directional light
 			bindLights(x, y);
 			lights->bind(program);
-			
 
+			// Bind object
+			cube->bind(program);
 			// Draw cube (floor or wall)
 			cube->draw();
 		}

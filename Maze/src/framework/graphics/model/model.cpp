@@ -13,6 +13,7 @@ Model::Model()
 	biTangents = nullptr;
 	nvertices = 0;
 	nindices = 0;
+	loadIdentity();
 }
 
 Model::~Model()
@@ -28,6 +29,26 @@ Model::~Model()
 		glDeleteBuffers(1, &ebo);
 		delete indices;
 	}
+}
+
+void Model::loadIdentity()
+{
+	model = glm::mat4();
+}
+
+void Model::scale(float x, float y, float z)
+{
+	glm::scale(model, glm::vec3(x, y, z));
+}
+
+void Model::rotate(float angle, int x, int y, int z)
+{
+	glm::rotate(model, glm::radians(angle), glm::vec3(x, y, z));
+}
+
+void Model::translate(float x, float y, float z)
+{
+	glm::translate(model, glm::vec3(x, y, z));
 }
 
 GLsizei Model::initVertexBuffer()
@@ -113,37 +134,40 @@ void Model::init(Program* program, GLenum drawing)
 
 	GLint offset = 0;
 
-	addVertexAttribute(program, "position", vertices, 3, stride, offset, sizeof(GLfloat));
+	addVertexAttribute(program, POSITION_ATTRIBUTE, vertices, 3, stride, offset);
 
 	if (uvs)
-		addVertexAttribute(program, "uv", uvs, 2, stride, offset, sizeof(GLfloat));
+		addVertexAttribute(program, UV_ATTRIBUTE, uvs, 2, stride, offset);
 
 	if (normals)
-		addVertexAttribute(program, "normals", uvs, 3, stride, offset, sizeof(GLfloat));
+		addVertexAttribute(program, NORMAL_ATTRIBUTE, normals, 3, stride, offset);
 
 	if (tangents)
-		addVertexAttribute(program, "tangents", tangents, 3, stride, offset, sizeof(GLfloat));
+		addVertexAttribute(program, TANGENT_ATTRIBUTE, tangents, 3, stride, offset);
 
 	if (biTangents)
-		addVertexAttribute(program, "biTangents", biTangents, 3, stride, offset, sizeof(GLfloat));
+		addVertexAttribute(program, BITANGENT_ATTRIBUTE, biTangents, 3, stride, offset);
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 }
 
-void Model::addVertexAttribute(Program* program, const char * attribute, void* buffer, GLint size, GLsizei & stride, GLint & offset, GLsizei typeSize)
+void Model::addVertexAttribute(Program* program, const char * attribute, void* buffer, GLint size, GLsizei stride, GLint & offset)
 {
 	GLint index = program->getAttr(attribute);
-	glVertexAttribPointer(index, size, GL_FLOAT, GL_FALSE, stride * sizeof(GLfloat), (GLvoid*)(offset * typeSize));
-	glEnableVertexAttribArray(index);
-	offset += size;
-
+	if (index >= 0)
+	{
+		glVertexAttribPointer(index, size, GL_FLOAT, GL_FALSE, stride * sizeof(GLfloat), (GLvoid*)(offset * sizeof(GLfloat)));
+		glEnableVertexAttribArray(index);
+		offset += size;
+	}
 	delete buffer;
 }
 
 void Model::bind(Program* program)
 {
 	glBindVertexArray(vao);
+	program->setMat4(model, MODEL_MATRIX_NAME);
 }
 
 void Model::draw(GLenum mode)

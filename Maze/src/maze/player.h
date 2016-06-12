@@ -28,6 +28,6 @@ public:
     void applyVelocity(Axis direction, float amount);
 
 	void move(Maze* maze, glm::vec3 gravity, float delta);
-	void move(Maze* maze, float x, float y, float z);
+	void move(float x, float y, float z);
 };
 

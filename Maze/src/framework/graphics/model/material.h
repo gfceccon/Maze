@@ -1,6 +1,7 @@
 #pragma once
 
 #include <GL/glew.h>
+#include <string>
 #include "../shader/program.h"
 #include "../../../util/glm/vec3.hpp"
 #include "../../../../soil/src/SOIL.h"
@@ -9,6 +10,11 @@
 
 #define MATERIAL_DIFFUSE "diffuse"
 #define MATERIAL_SPECULAR "specular"
+
+#define MATERIAL_DIFFUSE_TEXTURE "diffuse2D"
+#define MATERIAL_SPECULAR_TEXTURE "specular2D"
+#define MATERIAL_NORMAL_TEXTURE "normal2D"
+#define MATERIAL_DEPTH_TEXTURE "depth2D"
 
 #define MATERIAL_SHININESS "shininess"
 
@@ -39,7 +45,7 @@ public:
 		Depth
 	};
 
-	Material(const char* name = MATERIAL_NAME, int index = -1);
+	Material(int index = -1, const char* name = MATERIAL_NAME);
 	~Material();
 
 	const char* getAttribute(const char* attr);

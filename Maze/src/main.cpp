@@ -1,24 +1,27 @@
 #include "framework/game/window.h"
-#include "maze/game.h"
+#include "maze/game_scene.h"
+#include "test.h"
 #include <iostream>
 
 int main(int argc, char const *argv[]) {
-	const int width = 1024, height = 576;
-	Window* window = new Window("Maze", width, height);
-	Game* game = nullptr;
+	Window::width = 1024;
+	Window::height = 576;
+	
+	Window window = Window("Maze");
+
+	//Game* game = nullptr;
+	Test* test = nullptr;
 
 	try {
-		game = new Game(width, height);
+		//game = new Game();
+		test = new Test();
 	} catch (std::runtime_error e) {
-		delete window;
-		return -1;
+		return EXIT_FAILURE;
 	}
 
-	window->setScene(game);
-	window->start();
+	//window.setScene(game);
+	window.setScene(test);
+	window.start();
 
-	delete game;
-	delete window;
-
-	return 0;
+	return EXIT_SUCCESS;
 }

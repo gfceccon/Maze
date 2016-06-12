@@ -1,9 +1,9 @@
 #version 330 core
 
-in vec2 tex_coord;
+in vec2 TexCoord;
 out vec4 color;
 
-uniform sampler2D texture2D;
+uniform sampler2D FrameBuffer;
 uniform float time;
 uniform vec2 rOffset;
 uniform vec2 gOffset;
@@ -23,9 +23,9 @@ void main()
 	bAbber = rotation * bAbber;
 
 	vec3 final;
-	final.x = texture(texture2D, tex_coord + rAbber).x;
-	final.y = texture(texture2D, tex_coord + gAbber).y;
-	final.z = texture(texture2D, tex_coord + bAbber).z;
-	final = clamp(final, vec3(0.0,0.0,0.0), vec3(1,1,1));
+	final.x = texture(FrameBuffer, TexCoord + rAbber).x;
+	final.y = texture(FrameBuffer, TexCoord + gAbber).y;
+	final.z = texture(FrameBuffer, TexCoord + bAbber).z;
+
     color = vec4(final, 1.0);
 }

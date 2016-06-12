@@ -5,7 +5,7 @@
 PostProcess::PostProcess(int width, int height, Program* program, GLboolean depth, GLboolean stencil)
 {
 	this->program = program;
-	quad = new Square(program);
+	quad = new Quad(program);
 	glGenFramebuffers(1, &fbo);
 	glBindFramebuffer(GL_FRAMEBUFFER, fbo);
 
@@ -78,5 +78,4 @@ void PostProcess::beginDraw()
 void PostProcess::endDraw()
 {
 	quad->draw();
-	glBindVertexArray(0);
 }

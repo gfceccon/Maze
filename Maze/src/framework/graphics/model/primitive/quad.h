@@ -3,10 +3,10 @@
 #include "../model.h"
 #include "../../shader/program.h"
 
-class Square : public Model
+class Quad : public Model
 {
 public:
-	Square(Program* program);
-	~Square();
+	Quad(Program* program);
+	~Quad();
 };
 

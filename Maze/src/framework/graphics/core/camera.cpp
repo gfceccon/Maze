@@ -44,8 +44,9 @@ void Camera::setProjectionPersp(float fov, float near, float far)
 
 void Camera::bind(Program* program)
 {
-	program->setMat4(projection, projectionName);
-	program->setMat4(view, viewName);
+	program->setMat4(projection, PROJECTION_MATRIX_NAME);
+	program->setMat4(view, VIEW_MATRIX_NAME);
+	program->setVec3(position, VIEW_POSITION_NAME);
 }
 
 void Camera::zoom(float amount)

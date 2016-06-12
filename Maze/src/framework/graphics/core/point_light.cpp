@@ -4,6 +4,7 @@
 
 PointLight::PointLight(int index, const char* name) : Light(index, name)
 {
+	setAttenuation(1.0f, 0.7f, 1.8f);
 }
 
 

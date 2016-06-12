@@ -7,7 +7,7 @@ Event::Event(int key, int scancode, int action, int mods) :
 {
 }
 
-Event::Event(double xpos, double ypos, bool isScroll) : x(xpos), y(ypos)
+Event::Event(float xpos, float ypos, bool isScroll) : x(xpos), y(ypos)
 {
 	if (isScroll)
 		type = EventType::SCROLL;
