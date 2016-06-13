@@ -11,7 +11,7 @@
 #define UV_ATTRIBUTE "uv"
 #define NORMAL_ATTRIBUTE "normal"
 #define TANGENT_ATTRIBUTE "tangent"
-#define BITANGENT_ATTRIBUTE "biTangent"
+#define BITANGENT_ATTRIBUTE "bitangent"
 
 #define MODEL_MATRIX_NAME "model"
 
@@ -23,7 +23,7 @@ class Model
 	GLsizei initVertexBuffer();
 	glm::mat4 model;
 protected:
-	GLfloat *vertices, *uvs, *normals, *tangents, *biTangents;
+	GLfloat *vertices, *uvs, *normals, *tangents, *bitangents;
 	GLuint *indices;
 	GLsizei nvertices, nindices;
 	void init(Program* program, GLenum drawing);

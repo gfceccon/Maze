@@ -3,16 +3,9 @@
 #include <string>
 #include <iostream>
 
-Model::Model()
+Model::Model() :
+vertices(nullptr), indices(nullptr), uvs(nullptr), normals(nullptr), tangents(nullptr), bitangents(nullptr), nvertices(0), nindices(0)
 {
-	vertices = nullptr;
-	indices = nullptr;
-	uvs = nullptr;
-	normals = nullptr;
-	tangents = nullptr;
-	biTangents = nullptr;
-	nvertices = 0;
-	nindices = 0;
 	loadIdentity();
 }
 
@@ -38,17 +31,17 @@ void Model::loadIdentity()
 
 void Model::scale(float x, float y, float z)
 {
-	glm::scale(model, glm::vec3(x, y, z));
+	model = glm::scale(model, glm::vec3(x, y, z));
 }
 
 void Model::rotate(float angle, int x, int y, int z)
 {
-	glm::rotate(model, glm::radians(angle), glm::vec3(x, y, z));
+	model = glm::rotate(model, glm::radians(angle), glm::vec3(x, y, z));
 }
 
 void Model::translate(float x, float y, float z)
 {
-	glm::translate(model, glm::vec3(x, y, z));
+	model = glm::translate(model, glm::vec3(x, y, z));
 }
 
 GLsizei Model::initVertexBuffer()
@@ -64,7 +57,7 @@ GLsizei Model::initVertexBuffer()
 	if (tangents)
 		stride += 3;
 
-	if (biTangents)
+	if (bitangents)
 		stride += 3;
 
 	vertex_buffer = new GLfloat[stride * nvertices];
@@ -97,11 +90,11 @@ GLsizei Model::initVertexBuffer()
 			vertex_buffer[i * stride + j++] = tangents[i * 3 + 2];
 		}
 
-		if (biTangents)
+		if (bitangents)
 		{
-			vertex_buffer[i * stride + j++] = biTangents[i * 3];
-			vertex_buffer[i * stride + j++] = biTangents[i * 3 + 1];
-			vertex_buffer[i * stride + j++] = biTangents[i * 3 + 2];
+			vertex_buffer[i * stride + j++] = bitangents[i * 3];
+			vertex_buffer[i * stride + j++] = bitangents[i * 3 + 1];
+			vertex_buffer[i * stride + j++] = bitangents[i * 3 + 2];
 		}
 	}
 
@@ -145,8 +138,8 @@ void Model::init(Program* program, GLenum drawing)
 	if (tangents)
 		addVertexAttribute(program, TANGENT_ATTRIBUTE, tangents, 3, stride, offset);
 
-	if (biTangents)
-		addVertexAttribute(program, BITANGENT_ATTRIBUTE, biTangents, 3, stride, offset);
+	if (bitangents)
+		addVertexAttribute(program, BITANGENT_ATTRIBUTE, bitangents, 3, stride, offset);
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
@@ -155,7 +148,7 @@ void Model::init(Program* program, GLenum drawing)
 void Model::addVertexAttribute(Program* program, const char * attribute, void* buffer, GLint size, GLsizei stride, GLint & offset)
 {
 	GLint index = program->getAttr(attribute);
-	if (index >= 0)
+	if (index != -1)
 	{
 		glVertexAttribPointer(index, size, GL_FLOAT, GL_FALSE, stride * sizeof(GLfloat), (GLvoid*)(offset * sizeof(GLfloat)));
 		glEnableVertexAttribArray(index);

@@ -70,7 +70,7 @@ void Player::move(float x, float y, float z)
 	position = position + x * right;
 	position = position + y * globalUp;
 	position = position + z * front;
-	Log::print(front);
-	Log::print(position);
+	//Log::print(front);
+	//Log::print(position);
 }
 

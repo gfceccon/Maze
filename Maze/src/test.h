@@ -24,7 +24,7 @@
 #include "util/glm/mat4x4.hpp"
 #include "util/glm/gtc/matrix_transform.hpp"
 
-#define MAX_TEST_LIGHTS 4
+#define MAX_TEST_LIGHTS 9
 
 class Test : public Scene
 {
@@ -40,9 +40,12 @@ private:
 	PointLight pointLights[MAX_TEST_LIGHTS];
 	MultipleLight* lights;
 	DirectionalLight* directional;
+	float size;
+	float angle;
+	float attConst, attLinear, attQuad;
 	
 
-	float move_sensibility = 0.083f, zoom_sensibility = .98f, rotation_sensibility = 20.0f;
+	float move_sensibility = 10.0f, zoom_sensibility = .98f, rotation_sensibility = 20.0f;
 public:
 	Test();
 	~Test();

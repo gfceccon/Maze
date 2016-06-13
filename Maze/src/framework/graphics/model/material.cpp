@@ -2,11 +2,12 @@
 
 
 
-Material::Material(int index, const char* name) : index(index), name(name)
+Material::Material(int index, const char* name) :
+index(index), name(name), hasDiffuse(false), hasSpecular(false), hasNormal(false), hasDepth(false), hasOcclusion(false)
 {
 	setDiffuse(1.0f, 1.0f, 1.0f);
 	setSpecular(1.0f, 1.0f, 1.0f);
-	setShininess(10.0f);
+	setShininess(32.0f);
 }
 
 
@@ -20,6 +21,8 @@ Material::~Material()
 		glDeleteTextures(1, &normalTex);
 	if (hasDepth)
 		glDeleteTextures(1, &depthTex);
+	if (hasOcclusion)
+		glDeleteTextures(1, &occlusionTex);
 }
 
 const char* Material::getAttribute(const char* attribute)
@@ -76,6 +79,9 @@ void Material::bind(Program * program)
 	if(hasDepth)
 		bindTexture(program, getAttribute(MATERIAL_DEPTH_TEXTURE), textureIndex, depthTex);
 
+	if (hasOcclusion)
+		bindTexture(program, getAttribute(MATERIAL_AO_TEXTURE), textureIndex, occlusionTex);
+
 	program->setFloat(shininess, getAttribute(MATERIAL_SHININESS));
 }
 
@@ -114,6 +120,12 @@ void Material::initTexture(Program* program, const char* file_name, Material::Te
 			glGenTextures(1, &depthTex);
 		initImage(depthTex, program, file_name);
 		hasDepth = true;
+		break;
+	case Material::AmbientOcclusion:
+		if (!hasOcclusion)
+			glGenTextures(1, &occlusionTex);
+		initImage(occlusionTex, program, file_name);
+		hasOcclusion = true;
 		break;
 	default:
 		break;

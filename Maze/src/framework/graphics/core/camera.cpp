@@ -11,6 +11,7 @@ Camera::Camera(int w, int h) : width(w), height(h)
 	up = glm::vec3();
 	front = glm::vec3();
 	right = glm::vec3();
+	addEuler(0.0f, 90.0f, 0.0f);
 }
 
 Camera::~Camera()
@@ -44,9 +45,9 @@ void Camera::setProjectionPersp(float fov, float near, float far)
 
 void Camera::bind(Program* program)
 {
+	program->setVec3(position, VIEW_POSITION_NAME);
 	program->setMat4(projection, PROJECTION_MATRIX_NAME);
 	program->setMat4(view, VIEW_MATRIX_NAME);
-	program->setVec3(position, VIEW_POSITION_NAME);
 }
 
 void Camera::zoom(float amount)

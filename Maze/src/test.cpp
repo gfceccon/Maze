@@ -1,16 +1,21 @@
 #include "test.h"
 
-
 Test::Test() : Scene()
 {
-	for (int i = 0; i < MAX_MAZE_LIGHTS; i++)
+	size = 3.0f;
+	angle = 0.0f;
+	attConst = 1.0f;
+	attLinear = 3.0f;
+	attQuad = 0.5f;
+
+	for (int i = 0; i < MAX_TEST_LIGHTS; i++)
 		pointLights[i] = PointLight(i, "lights");
 
 	try {
 		program = new Program();
 
-		program->addShader("resources/shaders/test_vertex.glsl", GL_VERTEX_SHADER)
-			->addShader("resources/shaders/test_frag.glsl", GL_FRAGMENT_SHADER);
+		program->addShader("resources/shaders/full_vertex.glsl", GL_VERTEX_SHADER)
+			->addShader("resources/shaders/full_frag.glsl", GL_FRAGMENT_SHADER);
 		program->link();
 
 	}
@@ -19,7 +24,7 @@ Test::Test() : Scene()
 		throw;
 	}
 
-	player = new Player(glm::vec3(5.0f, 5.0f, 5.0f));
+	player = new Player(glm::vec3(0.0f, 0.6 * size, size * 0.5f));
 	camera = new Camera(Window::width, Window::height);
 
 	cube = new AdvancedCube(program);
@@ -28,13 +33,25 @@ Test::Test() : Scene()
 	lights = new MultipleLight(MAX_TEST_LIGHTS);
 	directional = new DirectionalLight();
 
-	lights->clear();
-	lights->addLight(&pointLights[0]);
-
 	material->initTexture(program, "resources/images/wall.png", Material::TextureType::Diffuse);
+	material->initTexture(program, "resources/images/specular.png", Material::TextureType::Specular);
+	material->initTexture(program, "resources/images/normal.png", Material::TextureType::Normal);
+	//material->initTexture(program, "resources/images/displacementold.png", Material::TextureType::Depth);
+	material->initTexture(program, "resources/images/occlusion.png", Material::TextureType::AmbientOcclusion);
 	material->setShininess(64.0f);
-	pointLights[0].setPosition(0.0f, 0.0f, 5.0f);
-	directional->setDirection(-0.5f, -0.5f, 0.0f);
+
+	pointLights[0].setPosition(0.0f, 0.67f * size, 1.0f);
+	//pointLights[0].setPosition(0.0f, 0.0f, 0.0f);
+	pointLights[0].setAmbient(0.1f, 0.1f, 0.1f);
+	pointLights[0].setDiffuse(1.0f, 1.0f, 1.0f);
+	pointLights[0].setSpecular(0.3f, 0.3f, 0.3f);
+	pointLights[0].setAttenuation(attConst, attLinear, attQuad);
+
+	directional->setDirection(-1.0f, -1.0f, 0.0f);
+	directional->setAmbient(0.05f, 0.05f, 0.05f);
+	directional->setDiffuse(0.0f, 0.0f, 0.0f);
+	directional->setSpecular(0.0f, 0.0f, 0.0f);
+
 }
 
 Test::~Test()
@@ -49,20 +66,20 @@ Test::~Test()
 void Test::update(float delta)
 {
 	Scene::update(delta);
-	if (Scene::key_states[GLFW_KEY_D] || Scene::key_states[GLFW_KEY_RIGHT]) {
-		player->move(move_sensibility, 0.0f, 0.0f);
+	if (Scene::key_states[GLFW_KEY_D] || Scene::key_states[GLFW_KEY_L]) {
+		player->move(delta * move_sensibility, 0.0f, 0.0f);
 	}
 
-	if (Scene::key_states[GLFW_KEY_A] || Scene::key_states[GLFW_KEY_LEFT]) {
-		player->move(-move_sensibility, 0.0f, 0.0f);
+	if (Scene::key_states[GLFW_KEY_A] || Scene::key_states[GLFW_KEY_J]) {
+		player->move(-delta * move_sensibility, 0.0f, 0.0f);
 	}
 
-	if (Scene::key_states[GLFW_KEY_W] || Scene::key_states[GLFW_KEY_UP]) {
-		player->move(0.0f, 0.0f, move_sensibility);
+	if (Scene::key_states[GLFW_KEY_W] || Scene::key_states[GLFW_KEY_I]) {
+		player->move(0.0f, 0.0f, delta * move_sensibility);
 	}
 
-	if (Scene::key_states[GLFW_KEY_S] || Scene::key_states[GLFW_KEY_DOWN]) {
-		player->move(0.0f, 0.0f, -move_sensibility);
+	if (Scene::key_states[GLFW_KEY_S] || Scene::key_states[GLFW_KEY_K]) {
+		player->move(0.0f, 0.0f, -delta * move_sensibility);
 	}
 
 	while (Scene::events.size() > 0) {
@@ -89,6 +106,26 @@ void Test::update(float delta)
 				case GLFW_KEY_ESCAPE:
 					close();
 					break;
+				case GLFW_KEY_LEFT:
+					attLinear -= 0.1f;
+					pointLights[0].setAttenuation(attConst, attLinear, attQuad);
+					Log::print(glm::vec3(attConst, attLinear, attQuad));
+					break;
+				case GLFW_KEY_RIGHT:
+					attLinear += 0.1f;
+					pointLights[0].setAttenuation(attConst, attLinear, attQuad);
+					Log::print(glm::vec3(attConst, attLinear, attQuad));
+					break;
+				case GLFW_KEY_DOWN:
+					attQuad -= 0.1f;
+					pointLights[0].setAttenuation(attConst, attLinear, attQuad);
+					Log::print(glm::vec3(attConst, attLinear, attQuad));
+					break;
+				case GLFW_KEY_UP:
+					attQuad += 0.1f;
+					pointLights[0].setAttenuation(attConst, attLinear, attQuad);
+					Log::print(glm::vec3(attConst, attLinear, attQuad));
+					break;
 				}
 			}
 		}
@@ -105,11 +142,42 @@ void Test::draw(float delta)
 	camera->bind(program);
 
 	material->bind(program);
-	lights->bind(program);
 	directional->bind(program);
 
 	//cube->loadIdentity();
-	cube->rotate(1.0f, 1, 1, 0);
-	cube->bind(program);
-	cube->draw();
+	//cube->translate(0.0f, 0.0f, 5.0f);
+	//cube->rotate(angle, 0, 1, 0);
+	//cube->translate(-size * 0.5f, -size * 0.5f, -size * 0.5f);
+	//cube->scale(size, size, size);
+	//cube->bind(program);
+	//cube->draw();
+	//angle += delta * 20.0f;
+	lights->clear();
+
+	for (int i = -10; i < 10; i++)
+	{
+		if (i == -2)
+			lights->addLight(&pointLights[0]);
+		else if (i == 1)
+			lights->clear();
+
+		lights->bind(program);
+		cube->loadIdentity();
+		cube->translate(i * (size + 0.0f) + size * 0.5f, 0.0f, size);
+		cube->scale(size, size, size);
+		cube->bind(program);
+		cube->draw();
+
+		cube->loadIdentity();
+		cube->translate(i * (size + 0.0f) + size * 0.5f, -size, 0.0f);
+		cube->scale(size, size, size);
+		cube->bind(program);
+		cube->draw();
+
+		cube->loadIdentity();
+		cube->translate(i * (size + 0.0f) + size * 0.5f, 0.0f, -size);
+		cube->scale(size, size, size);
+		cube->bind(program);
+		cube->draw();
+	}
 }

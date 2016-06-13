@@ -15,6 +15,7 @@
 #define MATERIAL_SPECULAR_TEXTURE "specular2D"
 #define MATERIAL_NORMAL_TEXTURE "normal2D"
 #define MATERIAL_DEPTH_TEXTURE "depth2D"
+#define MATERIAL_AO_TEXTURE "occlusion2D"
 
 #define MATERIAL_SHININESS "shininess"
 
@@ -30,8 +31,8 @@ private:
 
 	float shininess;
 
-	GLuint diffuseTex, specularTex, normalTex, depthTex;
-	bool hasDiffuse = false, hasSpecular = false, hasNormal = false, hasDepth = false;
+	GLuint diffuseTex, specularTex, normalTex, depthTex, occlusionTex;
+	bool hasDiffuse, hasSpecular, hasNormal, hasDepth, hasOcclusion;
 	void initImage(GLuint location, Program* program, const char* file_name);
 	void bindTexture(Program* program, const char* textureAttribute, GLint& index, GLuint textureId);
 
@@ -42,7 +43,8 @@ public:
 		Diffuse,
 		Specular,
 		Normal,
-		Depth
+		Depth,
+		AmbientOcclusion
 	};
 
 	Material(int index = -1, const char* name = MATERIAL_NAME);

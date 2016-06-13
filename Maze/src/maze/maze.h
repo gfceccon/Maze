@@ -11,16 +11,16 @@
 #include "../framework/graphics/model/primitive/advanced_cube.h"
 
 #define PLAYER_OFFSET 0.15f
-#define PLAYER_HEIGHT 0.5f
+#define PLAYER_HEIGHT 0.6f // 1.8m divided by 3m of wall
 
 #define RESPONSE 1.0f
 #define MIN_DST 1.0f
 #define MIN_RESPONSE 0.01f
 #define MIN_COLLISION 7e-5
 
-#define LIGHT_HEIGHT 0.5f
+#define LIGHT_HEIGHT 0.67f // 2m divided by 3m of wall
 #define LIGHT_OFFSET 0.1f
-#define MAX_MAZE_LIGHTS 4
+#define MAX_MAZE_LIGHTS 9
 
 enum Tile
 {

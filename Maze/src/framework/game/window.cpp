@@ -15,6 +15,9 @@ void errorCallback(int error, const char* description)
 	Log::error(description);
 }
 
+#define WINDOW_X_OFFSET 0
+#define WINDOW_Y_OFFSET 0
+
 Window::Window(const char* title) : scene(nullptr), window(nullptr)
 {
 	glfwSetErrorCallback(errorCallback);
@@ -29,7 +32,7 @@ Window::Window(const char* title) : scene(nullptr), window(nullptr)
 	GLFWmonitor* pmonitor = glfwGetPrimaryMonitor();
 	const GLFWvidmode* vidmode = glfwGetVideoMode(pmonitor);
 	window = glfwCreateWindow(width, height, title, NULL, NULL);
-	glfwSetWindowPos(window, (vidmode->width - width) / 2, (vidmode->height - height) / 2);
+	glfwSetWindowPos(window, (vidmode->width - width) / 2 + WINDOW_X_OFFSET, (vidmode->height - height) / 2 + WINDOW_Y_OFFSET);
 
 	if (!window)
 	{

@@ -12,15 +12,40 @@ struct Material {
     float shininess;
 };
 
-struct DirLight {
+//struct DirLight {
+//    vec3 direction;
+//	
+//    vec3 ambient;
+//    vec3 diffuse;
+//    vec3 specular;
+//};
+
+//struct PointLight {
+//    vec3 position;
+//	
+//    vec3 ambient;
+//    vec3 diffuse;
+//    vec3 specular;
+//	
+//    float constant;
+//    float linear;
+//    float quadratic;
+//};
+
+#define NR_POINT_LIGHTS 9
+
+in vec2 TexCoord;
+in vec3 fPos;
+in vec3 vDir;
+in vec3 vPos;
+in DL {
     vec3 direction;
 	
     vec3 ambient;
     vec3 diffuse;
     vec3 specular;
-};
-
-struct PointLight {
+} Directional;
+in PL {
     vec3 position;
 	
     vec3 ambient;
@@ -30,47 +55,33 @@ struct PointLight {
     float constant;
     float linear;
     float quadratic;
-};
-
-#define NR_POINT_LIGHTS 9
-
-in vec3 FragPosition;
-in vec2 TexCoord;
-in mat3 TBN;
+} Lights[NR_POINT_LIGHTS];
 
 out vec4 color;
 
-uniform vec3 ViewPosition;
 uniform int NumberOfLights;
-uniform DirLight directional;
-uniform PointLight lights[NR_POINT_LIGHTS];
 uniform Material material;
 
-vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir, vec2 texCoord);
-vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir, vec2 texCoord);
+vec3 CalcDirLight(vec3 normal, vec2 texCoord);
+vec3 CalcPointLight(int index, vec3 normal, vec2 texCoord);
 vec2 ParallaxMapping(vec2 texCoords, vec3 vDir);
 
 void main()
 {
 	vec3 result = vec3(0);
-	
-	vec3 fPos = TBN * FragPosition;
-	vec3 vPos = TBN * ViewPosition;
-
-    vec3 vDir = normalize(vPos - fPos);
 
 	vec2 texCoord = TexCoord;
-	//texCoord = ParallaxMapping(texCoord, vDir);
+	texCoord = ParallaxMapping(texCoord, vDir);
 	//if(texCoord.x > 1.0 || texCoord.y > 1.0 || texCoord.x < 0.0 || texCoord.y < 0.0)
     //    discard;
 
 	vec3 normal = vec3(texture(material.normal2D, texCoord));
 	normal = normalize(normal * 2.0 - 1.0);
     
-    result = CalcDirLight(directional, normal, vDir, texCoord);
+    result = CalcDirLight(normal, texCoord);
 	
     for(int i = 0; i < NumberOfLights; i++)
-        result += CalcPointLight(lights[i], normal, fPos, vDir, texCoord);
+        result += CalcPointLight(i, normal, texCoord);
     
 	vec3 occlusion = vec3(texture(material.occlusion2D, texCoord));
 
@@ -78,40 +89,39 @@ void main()
 }
 
 // Calculate directional light pixel color
-vec3 CalcDirLight(DirLight light, vec3 normal, vec3 vDir, vec2 texCoord)
+vec3 CalcDirLight(vec3 normal, vec2 texCoord)
 {
-	vec3 lDir = normalize(TBN * (-light.direction));
+	vec3 lDir = normalize(-Directional.direction);
 
     float diff = max(dot(normal, lDir), 0.0);
     
     vec3 reflectDir = reflect(-lDir, normal);
     float spec = pow(max(dot(vDir, reflectDir), 0.0), material.shininess);
 	
-	vec3 ambient = light.ambient * vec3(texture(material.diffuse2D, texCoord));
-	vec3 diffuse = light.diffuse * diff * vec3(texture(material.diffuse2D, texCoord));
-	vec3 specular = light.specular * spec * vec3(texture(material.specular2D, texCoord));
+	vec3 ambient = Directional.ambient * vec3(texture(material.diffuse2D, texCoord));
+	vec3 diffuse = Directional.diffuse * diff * vec3(texture(material.diffuse2D, texCoord));
+	vec3 specular = Directional.specular * spec * vec3(texture(material.specular2D, texCoord));
     
 	return (ambient + diffuse + specular);
 }
 
 // Calculate point light pixel color
-vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fPos, vec3 vDir, vec2 texCoord)
+vec3 CalcPointLight(int i, vec3 normal, vec2 texCoord)
 {
-	vec3 lPos = TBN * light.position;
-	vec3 lDir = normalize(lPos - fPos);
+	vec3 lDir = normalize(Lights[i].position - fPos);
 
 	float diff = max(dot(normal, lDir), 0.0);
     
     vec3 reflectDir = reflect(-lDir, normal);
     float spec = pow(max(dot(vDir, reflectDir), 0.0), material.shininess);
 	
-    float dst = length(lPos - fPos);
+    float dst = length(Lights[i].position - fPos);
 
-    float attenuation = 1.0f / (light.constant + light.linear * dst + light.quadratic * (dst * dst));
+    float attenuation = 1.0f / (Lights[i].constant + Lights[i].linear * dst + Lights[i].quadratic * (dst * dst));
 	
-	vec3 ambient = light.ambient * vec3(texture(material.diffuse2D, texCoord));
-	vec3 diffuse = light.diffuse * diff * vec3(texture(material.diffuse2D, texCoord));
-	vec3 specular = light.specular * spec * vec3(texture(material.specular2D, texCoord));
+	vec3 ambient = Lights[i].ambient * vec3(texture(material.diffuse2D, texCoord));
+	vec3 diffuse = Lights[i].diffuse * diff * vec3(texture(material.diffuse2D, texCoord));
+	vec3 specular = Lights[i].specular * spec * vec3(texture(material.specular2D, texCoord));
     
 	ambient *= attenuation;
     diffuse *= attenuation;
@@ -123,8 +133,8 @@ vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fPos, vec3 vDir, vec2 te
 
 vec2 ParallaxMapping(vec2 texCoords, vec3 vDir)
 { 
-    const float minLayers = 8;
-    const float maxLayers = 16;
+    const float minLayers = 2;
+    const float maxLayers = 4;
 	const float heightScale = 0.05;
 
     float numLayers = mix(maxLayers, minLayers, abs(dot(vec3(0.0, 0.0, 1.0), vDir)));
